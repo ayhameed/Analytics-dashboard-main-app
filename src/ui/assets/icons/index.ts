@@ -1,0 +1,1 @@
+// This ensures the folder is added to the repository when it is empty
