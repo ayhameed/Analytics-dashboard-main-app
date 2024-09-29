@@ -3,20 +3,27 @@
 import { Stack } from "@mui/system";
 import { Box, Typography } from "@mui/material";
 import * as Yup from "yup";
-import { AppButton, FormikAppTextField, pxToRem } from "@web-insight/component-library";
+import {
+  AppButton,
+  FormikAppPasswordField,
+  FormikAppTextField,
+  pxToRem,
+  StyledLink,
+} from "@web-insight/component-library";
 import { Form, Formik, FormikHelpers, useFormikContext } from "formik";
 import { useUserApi } from "@/common";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const authSchema = Yup.object().shape({
   email: Yup.string()
     .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please enter a valid email")
     .required("Email is required"),
+  password: Yup.string().required("Password is required"),
 });
 
-interface FormValues {
+interface LoginFormValues {
   email: string;
+  password: string;
 }
 
 export const SubmitButton = () => {
@@ -28,33 +35,28 @@ export const SubmitButton = () => {
   );
 };
 
-export const AuthForm = () => {
-  const { checkEmail } = useUserApi();
-  const [emailCheckResult, setEmailCheckResult] = useState<boolean | null>(null);
+export const LoginForm = () => {
+  const { login } = useUserApi();
+
   const router = useRouter();
 
-  const handleCheckEmail = async (email: string) => {
-    const emailChecked = await checkEmail(email);
-    setEmailCheckResult(emailChecked);
-    console.log(emailChecked);
-    return emailChecked;
-  };
-
-  const initialValues: FormValues = {
+  const initialValues: LoginFormValues = {
     email: "",
+    password: "",
   };
 
-  const onSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
+  const onSubmit = async (
+    values: LoginFormValues,
+    { setSubmitting }: FormikHelpers<LoginFormValues>,
+  ) => {
     setSubmitting(true);
-    const result = await handleCheckEmail(values.email);
+    const result = await login(values.email, values.password);
 
     if (result) {
-      router.push("/login");
+      router.push("/");
     } else {
-      router.push("/sign-up");
+      setSubmitting(false);
     }
-
-    setSubmitting(false);
   };
 
   return (
@@ -83,7 +85,7 @@ export const AuthForm = () => {
       <Box width={"100%"}>
         <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={authSchema}>
           <Form>
-            <Stack spacing={"40px"}>
+            <Stack spacing={"20px"}>
               <Box>
                 <Typography
                   sx={{
@@ -117,6 +119,42 @@ export const AuthForm = () => {
                 >
                   Example: yemi.fig@gmail.com
                 </Typography>
+              </Box>
+
+              <Box>
+                <Typography
+                  sx={{
+                    color: "#101928",
+                    fontSize: pxToRem(16),
+                    fontWeight: 500,
+                    lineHeight: "150%",
+                    mb: "8px",
+                  }}
+                >
+                  Input Password
+                </Typography>
+
+                <FormikAppPasswordField
+                  name={"password"}
+                  size={"small"}
+                  variant={"outlined"}
+                  placeholder={"Enter your password"}
+                />
+
+                <StyledLink href={"#"}>
+                  <Typography
+                    sx={{
+                      color: "#7A7A7A",
+                      fontSize: pxToRem(14),
+                      fontWeight: 400,
+                      lineHeight: "150%",
+                      textDecoration: "underline",
+                      mt: "8px",
+                    }}
+                  >
+                    Forgot Password?
+                  </Typography>
+                </StyledLink>
               </Box>
 
               <SubmitButton />

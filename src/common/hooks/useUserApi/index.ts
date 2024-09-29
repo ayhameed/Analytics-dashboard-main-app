@@ -4,6 +4,7 @@ import {
   ApiLoginData,
   ApiLoginPayload,
   ApiResponse,
+  ApiSignUpPayload,
   ApiValidateOtpData,
   ApiValidateOtpPayload,
   ApiVerifyEmailPayload,
@@ -125,9 +126,39 @@ export const useUserApi = () => {
   const login = async (email: string, password: string): Promise<boolean> => {
     let loginSuccess = false;
 
+    const data = new URLSearchParams();
+    data.append("username", email);
+    data.append("password", password);
+
     await tryExecute(
       () =>
-        api.post<ApiResponse<ApiLoginData>, ApiLoginPayload>("v1/auth/login", {
+        api.post<ApiResponse<ApiLoginData>, ApiLoginPayload>("/auth/login", data.toString(), {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }),
+      async (response) => {
+        if (response.status === 200) {
+          loginSuccess = true;
+        } else {
+          toast.error("Invalid Email or password");
+        }
+      },
+      async () => {
+        toast.error("An error occurred");
+      },
+    );
+
+    return loginSuccess;
+  };
+
+  const signUp = async (email: string, password: string): Promise<boolean> => {
+    let loginSuccess = false;
+
+    await tryExecute(
+      () =>
+        api.post<ApiResponse<ApiLoginData>, ApiSignUpPayload>("/auth/register", {
           email,
           password,
         }),
@@ -135,7 +166,7 @@ export const useUserApi = () => {
         if (response.status === 200) {
           loginSuccess = true;
         } else {
-          toast.error("Invalid password");
+          toast.error("Failed to create new user");
         }
       },
       async () => {
@@ -151,5 +182,6 @@ export const useUserApi = () => {
     validateOtp,
     checkEmailAvailability,
     login,
+    signUp,
   };
 };

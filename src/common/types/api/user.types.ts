@@ -16,9 +16,15 @@ export type ApiValidateOtpData = {
 };
 
 export type ApiLoginPayload = {
-  email: string;
+  username: string;
   password: string;
 };
+
+export type ApiSignUpPayload = {
+  username: string;
+  password: string;
+};
+
 export type ApiLoginData = {
   accessToken: string;
 };

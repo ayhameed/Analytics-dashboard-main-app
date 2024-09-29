@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "auth-install": "dotenv -e .env.local npm install",
+    "auth-install": "dotenv -e .env npm install",
     "dev": "next dev",
     "dev:secure": "next dev --experimental-https",
     "build": "next build",
