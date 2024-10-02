@@ -1,8 +1,10 @@
 import { Layout } from "@/ui/modules/partials";
-import { Box } from "@mui/material";
+import { BlockchainSearch } from "./ui/components";
+import { BlockchainCurrencies } from "./ui/components";
 
 export const Blockchain = () => {
   return <Layout>
-    <Box>Blockchain</Box>
+    <BlockchainSearch/>
+    <BlockchainCurrencies/>
   </Layout>;
 };

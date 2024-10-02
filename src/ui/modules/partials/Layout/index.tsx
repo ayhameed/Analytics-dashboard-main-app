@@ -21,7 +21,7 @@ export const Layout = ({ children }: LayoutProps) => {
       <Box
         sx={{
           width: {
-            xs: "286px",
+            xs: "250px",
           },
           height: "100%",
           overflowY: "auto",
@@ -32,6 +32,7 @@ export const Layout = ({ children }: LayoutProps) => {
           },
           overflowX: "hidden",
           transition: "transform 0.3s ease-in-out, width 0.3s ease-in-out",
+          backgroundColor:'#F9FAFB '
         }}
       >
         <SideBar />
@@ -48,7 +49,8 @@ export const Layout = ({ children }: LayoutProps) => {
           transition: "width 0.3s ease-in-out",
         }}
       >
-        <Box sx={{ flexShrink: 0 }}>
+        <Box 
+          sx={{ flexShrink: 0}}>
           <Header />
         </Box>
 
@@ -59,7 +61,8 @@ export const Layout = ({ children }: LayoutProps) => {
             "::-webkit-scrollbar": { display: "none" },
             scrollbarWidth: "none",
             padding: {
-              sm: "0 10px",
+             // sm: "0 10px",
+              md: "28px 17px 0 25px",
               xl: "0 30.5px",
             },
           }}
