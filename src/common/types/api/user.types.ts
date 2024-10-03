@@ -35,3 +35,14 @@ export type ApiCheckEmailAvailabilityPayload = {
 export type ApiCheckEmailAvailabilityData = {
   userExists: boolean;
 };
+export interface blockChainExchanges{
+  id: number,
+  image: string;
+  exchange: string;
+}
+export interface blockChainImgs{
+  "Scroll": string,
+  "Ethereum": string,
+  "BNB COIN": string,
+  "Fanthom": string
+}

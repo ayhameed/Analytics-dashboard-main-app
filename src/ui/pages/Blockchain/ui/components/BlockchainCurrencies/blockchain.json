@@ -1,0 +1,49 @@
+{
+    "blockchainDatas" : [
+        {
+            "id": 1,
+            "image": "Scroll",
+            "exchange": "Scroll"
+        },
+        {
+            "id": 2,
+            "image": "Ethereum",
+            "exchange": "Ethereum"
+        },
+        {
+            "id": 3,
+            "image": "BNB COIN",
+            "exchange": "BNB COIN"
+        },
+        {
+            "id": 4,
+            "image": "Fanthom",
+            "exchange": "Fanthom"
+        },
+        {
+            "id": 5,
+            "image": "BNB COIN",
+            "exchange": "BNB COIN"
+        },
+        {
+            "id": 6,
+            "image": "Ethereum",
+            "exchange": "Ethereum"
+        },
+        {
+            "id": 7,
+            "image": "Ethereum",
+            "exchange": "Ethereum"
+        },
+        {
+            "id": 8,
+            "image": "Fanthom",
+            "exchange": "Fanthom"
+        },
+        {
+            "id": 9,
+            "image": "Scroll",
+            "exchange": "Scroll"
+        }
+    ]
+}
