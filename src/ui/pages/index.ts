@@ -5,4 +5,6 @@ export * from "./Login";
 export * from "./SignUp";
 export * from "./ForgetPassword";
 export * from "./ResetPassword";
-export * from "./ResetSuccess"
+export * from "./ResetSuccess";
+export * from "./BlockChainFailure";
+export * from "./BlockchainSuccess";
