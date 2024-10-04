@@ -1,13 +1,13 @@
 "use client"
 import { Box, Typography,Stack} from "@mui/material";
 import { StyledImage, RowStack, pxToRem } from "@web-insight/component-library";
-import Data from './blockchain.json';
-import starIcon from "./assets/icon/star.svg";
-import supplyIcon from "./assets/icon/shellfish.svg"
-import ScrollImg from "./assets/icon/image 12.svg"
-import EthereumImg from "./assets/icon/image 14.svg"
-import BNBImg from "./assets/icon/image 16.svg"
-import fanthonImg from "./assets/icon/image 17.svg"
+import Data from "@/ui/blockchain.json";
+import starIcon from "@/ui/assets/icons/star.svg";
+import supplyIcon from "@/ui/assets/icons/shellfish.svg"
+import ScrollImg from "@/ui/assets/icons/image 12.svg"
+import EthereumImg from "@/ui/assets/icons/image 14.svg"
+import BNBImg from "@/ui/assets/icons/image 16.svg"
+import fanthonImg from "@/ui/assets/icons/image 17.svg"
 import { blockChainImgs } from "@/common";
 
 export const BlockchainCurrencies = () => {
