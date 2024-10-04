@@ -13,6 +13,7 @@ export const ExchangeChart = () => {
                 minWidth: "662px",
                 borderRadius: "10px",
                 border: "0.8px solid var(--Light-Divider-2, #D7D8DC)",
+                overflow: "hidden"
             }}
         >
             <RowStack sx={{ justifyContent: "space-between" }}>
@@ -38,7 +39,7 @@ export const ExchangeChart = () => {
             </RowStack>
 
             <Box>
-                <StyledImage src={chartImage} alt="" />
+                <StyledImage src={chartImage} alt="" sx={{width:"100%"}}/>
             </Box>
         </Stack>
     );

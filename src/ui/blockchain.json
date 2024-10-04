@@ -88,5 +88,47 @@
             "AnnualYeid" : "89%",
             "ToTalStakedValue" : "$90 billion"
         }
+    ],
+    "scrollTokenHolder": [
+        {
+            "TokenAddress": "HRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV7J",
+            "TokenAmount": "460,656,7301",
+            "SupplyPercentages": "23%"
+        },
+        {
+            "TokenAddress": "ZRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVRE",
+            "TokenAmount": "427,237,2483",
+            "SupplyPercentages": "42%"
+        },
+        {
+            "TokenAddress": "ERr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVP9",
+            "TokenAmount": "363,857,7087",
+            "SupplyPercentages": "12%"
+        },
+        {
+            "TokenAddress": "KRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV90",
+            "TokenAmount": "682,284-,6046",
+            "SupplyPercentages": "56%"
+        },
+        {
+            "TokenAddress": "FFr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVY5",
+            "TokenAmount": "653,866,1532",
+            "SupplyPercentages": "10%"
+        },
+        {
+            "TokenAddress": "TRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV2E",
+            "TokenAmount": "590,561,9759",
+            "SupplyPercentages": "35%"
+        },
+        {
+            "TokenAddress": "MRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVWS",
+            "TokenAmount": "474,426,8116",
+            "SupplyPercentages": "11%"
+        },
+        {
+            "TokenAddress": "EWr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVER",
+            "TokenAmount": "819,480,4353",
+            "SupplyPercentages": "89%"
+        }
     ]
 }
