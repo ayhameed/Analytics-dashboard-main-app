@@ -1,25 +1,41 @@
 "use client";
 
-import { PropsWithChildren } from "react";
+import React, { ReactNode } from "react";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ServicesProvider } from "@/common/services";
 import { EnvironmentProvider } from "@/common/config";
 import { AppThemeProvider } from "@web-insight/component-library";
-import { defaultTheme } from "@/ui/assets/styles";
+import { useDefaultTheme } from "@/ui/assets/styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "@web-insight/component-library/dist/style.css";
 import "swiper/css";
+import { ApplicationThemeProvider } from "@/ui/modules/partials";
 
-export const Providers = ({ children }: PropsWithChildren) => {
+type ProvidersProps = {
+  children: ReactNode;
+};
+
+export const Providers: React.FC<ProvidersProps> = ({ children }) => {
   return (
     <AppRouterCacheProvider>
-      <AppThemeProvider theme={defaultTheme}>
-        <EnvironmentProvider>
-          <ServicesProvider>{children}</ServicesProvider>
-        </EnvironmentProvider>
-      </AppThemeProvider>
-      <ToastContainer position={"top-center"} />
+      <ApplicationThemeProvider>
+        <ThemeProvider>
+          <EnvironmentProvider>
+            <ServicesProvider>{children}</ServicesProvider>
+          </EnvironmentProvider>
+        </ThemeProvider>
+      </ApplicationThemeProvider>
+      <ToastContainer position="top-center" />
     </AppRouterCacheProvider>
   );
+};
+
+type ThemeProviderProps = {
+  children: ReactNode;
+};
+
+const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  const defaultTheme = useDefaultTheme();
+  return <AppThemeProvider theme={defaultTheme}>{children}</AppThemeProvider>;
 };

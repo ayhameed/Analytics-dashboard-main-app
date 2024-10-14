@@ -15,7 +15,7 @@
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@web-insight/component-library": "1.0.2",
+    "@web-insight/component-library": "1.0.4",
     "@mui/icons-material": "^6.0.1",
     "@mui/material": "^6.0.1",
     "@mui/material-nextjs": "^6.0.1",

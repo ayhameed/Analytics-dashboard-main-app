@@ -1,9 +1,19 @@
-"use client";
-
+import { useMemo } from "react";
 import { createAppTheme } from "@web-insight/component-library";
+import { useApplicationTheme } from "@/common";
 
-// Customize the default theme here
-export const defaultTheme = createAppTheme({
-  dashboard: {},
-  userPage: {},
-});
+export const useDefaultTheme = () => {
+  const { isDarkMode } = useApplicationTheme();
+
+  return useMemo(
+    () =>
+      createAppTheme(
+        {
+          dashboard: {},
+          userPage: {},
+        },
+        isDarkMode,
+      ),
+    [isDarkMode],
+  );
+};

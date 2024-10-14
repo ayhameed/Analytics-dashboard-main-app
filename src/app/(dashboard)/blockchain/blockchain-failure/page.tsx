@@ -1,7 +1,7 @@
-import { BlockchainFailure } from "@/ui/pages"
+"use client";
 
-export default function blockchainFailurePage (){
-    return(
-        <BlockchainFailure/>
-    )
+import { BlockchainFailure } from "@/ui/pages";
+
+export default function blockchainFailurePage() {
+  return <BlockchainFailure />;
 }

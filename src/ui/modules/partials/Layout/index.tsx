@@ -1,14 +1,20 @@
 "use client";
 
 import { ReactNode } from "react";
-import { Box } from "@mui/material";
+import { Box, SxProps, Theme } from "@mui/material";
 import { Header, SideBar } from "@/ui/modules/partials";
 
-export type LayoutProps = {
+export interface LayoutProps {
   children: ReactNode;
-};
+}
 
-export const Layout = ({ children }: LayoutProps) => {
+export const Layout: React.FC<LayoutProps> = ({ children }) => {
+  // Common styles for hiding scrollbars
+  const hideScrollbar: SxProps<Theme> = {
+    "::-webkit-scrollbar": { display: "none" },
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+  };
 
   return (
     <Box
@@ -18,50 +24,48 @@ export const Layout = ({ children }: LayoutProps) => {
         overflow: "hidden",
       }}
     >
+      {/* Sidebar */}
       <Box
+        component="aside"
         sx={{
           width: {
             xs: "250px",
           },
           height: "100%",
           overflowY: "auto",
-          "::-webkit-scrollbar": { display: "none" },
-          scrollbarWidth: "none",
-          borderRight: {
-            xs: "1px solid #e0e0e0",
-          },
+          ...hideScrollbar,
+          borderRight: (theme) => `1px solid ${theme.palette.divider}`,
           overflowX: "hidden",
           transition: "transform 0.3s ease-in-out, width 0.3s ease-in-out",
-          backgroundColor:'#F9FAFB '
+          backgroundColor: (theme) => theme.palette.background.default,
         }}
       >
         <SideBar />
       </Box>
 
+      {/* Main content area */}
       <Box
+        component="main"
         sx={{
           flex: 1,
           display: "flex",
           flexDirection: "column",
           height: "100%",
           overflowY: "hidden",
-          flexGrow: 1,
-          transition: "width 0.3s ease-in-out",
         }}
       >
-        <Box 
-          sx={{ flexShrink: 0}}>
+        {/* Header */}
+        <Box component="header" sx={{ flexShrink: 0 }}>
           <Header />
         </Box>
 
+        {/* Content */}
         <Box
           sx={{
             flex: 1,
             overflowY: "auto",
-            "::-webkit-scrollbar": { display: "none" },
-            scrollbarWidth: "none",
+            ...hideScrollbar,
             padding: {
-             // sm: "0 10px",
               md: "28px 17px 0 25px",
               xl: "0 30.5px",
             },
