@@ -3,14 +3,10 @@
 import { Stack } from "@mui/system";
 import { Box, Typography } from "@mui/material";
 import * as Yup from "yup";
-import {
-  AppButton,
-  FormikAppPasswordField,
-  pxToRem,
-} from "@web-insight/component-library";
+import { AppButton, FormikAppPasswordField, pxToRem } from "@web-insight/component-library";
 import { Form, Formik, FormikHelpers, useFormikContext } from "formik";
 import { useUserApi } from "@/common";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // @ts-ignore
 const authSchema = Yup.object().shape({
@@ -35,9 +31,11 @@ export const SubmitButton = () => {
 };
 
 export const ResetPasswordForm = () => {
-  const { signUp } = useUserApi();
+  const { resetPassword } = useUserApi();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("tok") || "";
 
   const initialValues: SignUpFormValues = {
     password: "",
@@ -49,10 +47,10 @@ export const ResetPasswordForm = () => {
     { setSubmitting }: FormikHelpers<SignUpFormValues>,
   ) => {
     setSubmitting(true);
-    const result = await signUp(values.email, values.password);
+    const result = await resetPassword(token, values.password);
 
     if (result) {
-      router.push("/");
+      router.push("/reset-success");
     } else {
       setSubmitting(false);
     }
@@ -64,7 +62,7 @@ export const ResetPasswordForm = () => {
       sx={{
         p: "20px",
         alignItems: "flex-start",
-        background: "#F7F7F7",
+        background: (theme) => theme.authPage.authLeft.background,
         minHeight: { xs: "401px", md: "501px" },
         width: { xs: "100%", md: "80%", lg: "50%" },
         borderRadius: "20px",
@@ -72,7 +70,7 @@ export const ResetPasswordForm = () => {
     >
       <Typography
         sx={{
-          color: "#101928",
+          color: (theme) => theme.authPage.authLeft.header,
           fontSize: pxToRem(24),
           fontWeight: 500,
           lineHeight: "150%",
@@ -88,7 +86,7 @@ export const ResetPasswordForm = () => {
               <Box>
                 <Typography
                   sx={{
-                    color: "#101928",
+                    color: (theme) => theme.authPage.authLeft.input,
                     fontSize: pxToRem(16),
                     fontWeight: 500,
                     lineHeight: "150%",
@@ -109,7 +107,7 @@ export const ResetPasswordForm = () => {
               <Box>
                 <Typography
                   sx={{
-                    color: "#101928",
+                    color: (theme) => theme.authPage.authLeft.input,
                     fontSize: pxToRem(16),
                     fontWeight: 500,
                     lineHeight: "150%",

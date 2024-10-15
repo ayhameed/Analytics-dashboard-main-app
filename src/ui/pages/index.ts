@@ -8,4 +8,5 @@ export * from "./ResetPassword";
 export * from "./ResetSuccess";
 export * from "./BlockChainFailure";
 export * from "./BlockchainSuccess";
-export * from "./BlockchainExchanges"
+export * from "./BlockchainExchanges";
+export * from "./EmailSuccess";

@@ -1,12 +1,9 @@
 import {
-  ApiCheckEmailAvailabilityData,
-  ApiCheckEmailAvailabilityPayload,
   ApiLoginData,
   ApiLoginPayload,
+  ApiResetPasswordPayload,
   ApiResponse,
   ApiSignUpPayload,
-  ApiValidateOtpData,
-  ApiValidateOtpPayload,
   ApiVerifyEmailPayload,
   tryExecute,
   useApi,
@@ -34,6 +31,7 @@ export const useUserApi = () => {
         ),
       async (response) => {
         const responseData = response.data;
+
         if (
           responseData.data &&
           typeof responseData.data === "object" &&
@@ -54,60 +52,24 @@ export const useUserApi = () => {
   };
 
   /**
-   * Validates an OTP sent to an email address. Returns true if the OTP is valid.
-   * @param email the email address to validate
-   * @param otp the OTP to validate
+   * Sends a forgot password email to the user
+   * @param email the email address to send the email to
    */
-  const validateOtp = async (email: string, otp: string): Promise<boolean> => {
-    let isValid = false;
+  const forgotPassword = async (email: string): Promise<boolean> => {
+    let success = false;
 
     await tryExecute(
       () =>
-        api.post<ApiResponse<ApiValidateOtpData>, ApiValidateOtpPayload>("v1/user/validate-otp", {
-          email,
-          otp,
-        }),
-      async (response) => {
-        const responseData = response.data;
-
-        if (responseData.success) {
-          isValid = responseData.data.isValid;
-
-          if (!isValid) {
-            toast.error("Invalid Code");
-          }
-        }
-      },
-      async () => {
-        toast.error("An error occurred");
-      },
-    );
-
-    return isValid;
-  };
-
-  /**
-   * Checks if an email address is available for registration.
-   * @param email the email address to check
-   */
-  const checkEmailAvailability = async (email: string): Promise<boolean> => {
-    let emailAvailable = false;
-
-    await tryExecute(
-      () =>
-        api.post<ApiResponse<ApiCheckEmailAvailabilityData>, ApiCheckEmailAvailabilityPayload>(
-          "v1/user/email-availability",
-          { email },
+        api.post<ApiResponse<EmailCheckResponse>, ApiVerifyEmailPayload>(
+          `/auth/forgot-password?email=${encodeURIComponent(email)}`,
         ),
       async (response) => {
         const responseData = response.data;
 
-        if (responseData.success) {
-          emailAvailable = !responseData.data.userExists;
-
-          if (!emailAvailable) {
-            toast.error("This email is already registered");
-          }
+        if (responseData.status_code && responseData.status_code === 200) {
+          success = true;
+        } else {
+          toast.error("User not Found");
         }
       },
       async () => {
@@ -115,7 +77,7 @@ export const useUserApi = () => {
       },
     );
 
-    return emailAvailable;
+    return success;
   };
 
   /**
@@ -177,11 +139,35 @@ export const useUserApi = () => {
     return loginSuccess;
   };
 
+  const resetPassword = async (token: string, password: string): Promise<boolean> => {
+    let loginSuccess = false;
+
+    await tryExecute(
+      () =>
+        api.post<ApiResponse<ApiLoginData>, ApiResetPasswordPayload>("/auth/reset-password", {
+          token,
+          password,
+        }),
+      async (response) => {
+        if (response.status === 200) {
+          loginSuccess = true;
+        } else {
+          toast.error("Failed to change password");
+        }
+      },
+      async () => {
+        toast.error("An error occurred");
+      },
+    );
+
+    return loginSuccess;
+  };
+
   return {
     checkEmail,
-    validateOtp,
-    checkEmailAvailability,
     login,
     signUp,
+    forgotPassword,
+    resetPassword,
   };
 };

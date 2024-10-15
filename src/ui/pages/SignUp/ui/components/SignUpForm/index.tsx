@@ -11,7 +11,7 @@ import {
 } from "@web-insight/component-library";
 import { Form, Formik, FormikHelpers, useFormikContext } from "formik";
 import { useUserApi } from "@/common";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // @ts-ignore
 const authSchema = Yup.object().shape({
@@ -43,9 +43,12 @@ export const SignUpForm = () => {
   const { signUp } = useUserApi();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const initialEmail = searchParams.get("email") || "";
 
   const initialValues: SignUpFormValues = {
-    email: "",
+    email: initialEmail,
     password: "",
     newPassword: "",
   };
@@ -70,7 +73,7 @@ export const SignUpForm = () => {
       sx={{
         p: "20px",
         alignItems: "flex-start",
-        background: "#F7F7F7",
+        background: (theme) => theme.authPage.authLeft.background,
         minHeight: { xs: "401px", md: "501px" },
         width: { xs: "100%", md: "80%", lg: "50%" },
         borderRadius: "20px",
@@ -78,7 +81,7 @@ export const SignUpForm = () => {
     >
       <Typography
         sx={{
-          color: "#101928",
+          color: (theme) => theme.authPage.authLeft.header,
           fontSize: pxToRem(24),
           fontWeight: 500,
           lineHeight: "150%",
@@ -94,7 +97,7 @@ export const SignUpForm = () => {
               <Box>
                 <Typography
                   sx={{
-                    color: "#101928",
+                    color: (theme) => theme.authPage.authLeft.input,
                     fontSize: pxToRem(16),
                     fontWeight: 500,
                     lineHeight: "150%",
@@ -115,7 +118,7 @@ export const SignUpForm = () => {
 
                 <Typography
                   sx={{
-                    color: "#7A7A7A",
+                    color: (theme) => theme.authPage.authLeft.placeholder,
                     fontSize: pxToRem(14),
                     fontWeight: 400,
                     lineHeight: "150%",
@@ -129,7 +132,7 @@ export const SignUpForm = () => {
               <Box>
                 <Typography
                   sx={{
-                    color: "#101928",
+                    color: (theme) => theme.authPage.authLeft.input,
                     fontSize: pxToRem(16),
                     fontWeight: 500,
                     lineHeight: "150%",
@@ -150,7 +153,7 @@ export const SignUpForm = () => {
               <Box>
                 <Typography
                   sx={{
-                    color: "#101928",
+                    color: (theme) => theme.authPage.authLeft.input,
                     fontSize: pxToRem(16),
                     fontWeight: 500,
                     lineHeight: "150%",

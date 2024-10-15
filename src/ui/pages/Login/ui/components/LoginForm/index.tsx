@@ -12,7 +12,7 @@ import {
 } from "@web-insight/component-library";
 import { Form, Formik, FormikHelpers, useFormikContext } from "formik";
 import { useUserApi } from "@/common";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const authSchema = Yup.object().shape({
   email: Yup.string()
@@ -27,7 +27,7 @@ interface LoginFormValues {
 }
 
 export const SubmitButton = () => {
-  const { isValid, dirty, isSubmitting } = useFormikContext();
+  const { isValid, dirty, isSubmitting } = useFormikContext<LoginFormValues>();
   return (
     <AppButton type="submit" disabled={!isValid || !dirty || isSubmitting} isLoading={isSubmitting}>
       Continue
@@ -35,13 +35,34 @@ export const SubmitButton = () => {
   );
 };
 
+export const ForgotPasswordLink = () => {
+  const { values } = useFormikContext<LoginFormValues>(); // Access Formik values
+  return (
+    <StyledLink href={`/forget-password?email=${encodeURIComponent(values.email)}`}>
+      <Typography
+        sx={{
+          color: (theme) => theme.authPage.authLeft.placeholder,
+          fontSize: pxToRem(14),
+          fontWeight: 400,
+          lineHeight: "150%",
+          textDecoration: "underline",
+          mt: "8px",
+        }}
+      >
+        Forgot Password?
+      </Typography>
+    </StyledLink>
+  );
+};
+
 export const LoginForm = () => {
   const { login } = useUserApi();
-
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialEmail = searchParams.get("email") || "";
 
   const initialValues: LoginFormValues = {
-    email: "",
+    email: initialEmail,
     password: "",
   };
 
@@ -65,7 +86,7 @@ export const LoginForm = () => {
       sx={{
         p: "20px",
         alignItems: "flex-start",
-        background: "#F7F7F7",
+        background: (theme) => theme.authPage.authLeft.background,
         minHeight: { xs: "401px", md: "501px" },
         width: { xs: "100%", md: "80%", lg: "50%" },
         borderRadius: "20px",
@@ -73,7 +94,7 @@ export const LoginForm = () => {
     >
       <Typography
         sx={{
-          color: "#101928",
+          color: (theme) => theme.authPage.authLeft.header,
           fontSize: pxToRem(24),
           fontWeight: 500,
           lineHeight: "150%",
@@ -89,7 +110,7 @@ export const LoginForm = () => {
               <Box>
                 <Typography
                   sx={{
-                    color: "#101928",
+                    color: (theme) => theme.authPage.authLeft.input,
                     fontSize: pxToRem(16),
                     fontWeight: 500,
                     lineHeight: "150%",
@@ -105,12 +126,11 @@ export const LoginForm = () => {
                   size="small"
                   variant="outlined"
                   placeholder={"Input your email address"}
-                  sx={{}}
                 />
 
                 <Typography
                   sx={{
-                    color: "#7A7A7A",
+                    color: (theme) => theme.authPage.authLeft.placeholder,
                     fontSize: pxToRem(14),
                     fontWeight: 400,
                     lineHeight: "150%",
@@ -124,7 +144,7 @@ export const LoginForm = () => {
               <Box>
                 <Typography
                   sx={{
-                    color: "#101928",
+                    color: (theme) => theme.authPage.authLeft.input,
                     fontSize: pxToRem(16),
                     fontWeight: 500,
                     lineHeight: "150%",
@@ -141,20 +161,7 @@ export const LoginForm = () => {
                   placeholder={"Enter your password"}
                 />
 
-                <StyledLink href={"#"}>
-                  <Typography
-                    sx={{
-                      color: "#7A7A7A",
-                      fontSize: pxToRem(14),
-                      fontWeight: 400,
-                      lineHeight: "150%",
-                      textDecoration: "underline",
-                      mt: "8px",
-                    }}
-                  >
-                    Forgot Password?
-                  </Typography>
-                </StyledLink>
+                <ForgotPasswordLink />
               </Box>
 
               <SubmitButton />
@@ -165,4 +172,3 @@ export const LoginForm = () => {
     </Stack>
   );
 };
-

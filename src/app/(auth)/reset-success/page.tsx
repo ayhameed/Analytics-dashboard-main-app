@@ -1,7 +1,5 @@
-import { ResetSuccess } from "@/ui/pages"
+import { ResetSuccess } from "@/ui/pages";
 
-export default function SuccessFormAlert(){
-    return(
-        <ResetSuccess/>
-    )
+export default function SuccessFormAlert() {
+  return <ResetSuccess />;
 }

@@ -6,7 +6,6 @@ import * as Yup from "yup";
 import { AppButton, FormikAppTextField, pxToRem } from "@web-insight/component-library";
 import { Form, Formik, FormikHelpers, useFormikContext } from "formik";
 import { useUserApi } from "@/common";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const authSchema = Yup.object().shape({
@@ -30,14 +29,10 @@ export const SubmitButton = () => {
 
 export const AuthForm = () => {
   const { checkEmail } = useUserApi();
-  const [emailCheckResult, setEmailCheckResult] = useState<boolean | null>(null);
   const router = useRouter();
 
   const handleCheckEmail = async (email: string) => {
-    const emailChecked = await checkEmail(email);
-    setEmailCheckResult(emailChecked);
-    console.log(emailChecked);
-    return emailChecked;
+    return await checkEmail(email);
   };
 
   const initialValues: FormValues = {
@@ -49,9 +44,9 @@ export const AuthForm = () => {
     const result = await handleCheckEmail(values.email);
 
     if (result) {
-      router.push("/login");
+      router.push(`/login?email=${encodeURIComponent(values.email)}`);
     } else {
-      router.push("/sign-up");
+      router.push("/sign-up?email=" + encodeURIComponent(values.email));
     }
 
     setSubmitting(false);
@@ -63,15 +58,15 @@ export const AuthForm = () => {
       sx={{
         p: "20px",
         alignItems: "flex-start",
-        background: "#F7F7F7",
-        minHeight: { xs: "401px", md: "501px" },
+        background: (theme) => theme.authPage.authLeft.background,
+        minHeight: { xs: "401px", md: "450px" },
         width: { xs: "100%", md: "80%", lg: "50%" },
         borderRadius: "20px",
       }}
     >
       <Typography
         sx={{
-          color: "#101928",
+          color: (theme) => theme.authPage.authLeft.header,
           fontSize: pxToRem(24),
           fontWeight: 500,
           lineHeight: "150%",
@@ -87,7 +82,7 @@ export const AuthForm = () => {
               <Box>
                 <Typography
                   sx={{
-                    color: "#101928",
+                    color: (theme) => theme.authPage.authLeft.input,
                     fontSize: pxToRem(16),
                     fontWeight: 500,
                     lineHeight: "150%",
@@ -108,7 +103,7 @@ export const AuthForm = () => {
 
                 <Typography
                   sx={{
-                    color: "#7A7A7A",
+                    color: (theme) => theme.authPage.authLeft.placeholder,
                     fontSize: pxToRem(14),
                     fontWeight: 400,
                     lineHeight: "150%",

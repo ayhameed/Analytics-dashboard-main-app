@@ -2,7 +2,6 @@
 
 import { Box, Stack, Typography } from "@mui/material";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
-import logo from "../../../assets/icons/Web3-Insights-Final-Png-02 1.svg";
 import homeIcon from "./assets/icon/Component 6.svg";
 import chartIcon from "./assets/icon/chart-histogram.svg";
 import docPlugIcon from "./assets/icon/plug-socket.svg";
@@ -11,6 +10,7 @@ import reportBugIcon from "./assets/icon/bug-01.svg";
 import sunIcon from "./assets/icon/sun-01.svg";
 import moonIcon from "./assets/icon/moon-02.svg";
 import { useApplicationTheme } from "@/common";
+import { ApplicationLogo } from "@/ui/modules/components";
 
 export const SideBar = () => {
   const { isDarkMode, setDarkMode } = useApplicationTheme();
@@ -22,15 +22,16 @@ export const SideBar = () => {
   return (
     <Stack sx={{ justifyContent: "space-between", height: "100%" }}>
       <Box>
-        <StyledImage
-          src={logo}
-          alt=""
-          sx={{
-            width: "164px",
-            height: "57px",
-            margin: "32px 70px 49px 16px",
-          }}
-        />
+        {/*<StyledImage*/}
+        {/*  src={logo}*/}
+        {/*  alt=""*/}
+        {/*  sx={{*/}
+        {/*    width: "164px",*/}
+        {/*    height: "57px",*/}
+        {/*    margin: "32px 70px 49px 16px",*/}
+        {/*  }}*/}
+        {/*/>*/}
+        <ApplicationLogo />
 
         <Stack
           sx={{

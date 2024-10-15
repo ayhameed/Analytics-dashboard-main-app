@@ -10,7 +10,7 @@ export class ApiService {
       headers: {
         "Content-Type": "application/json",
       },
-      withCredentials: true,
+      // withCredentials: true,
       validateStatus: (status) => status >= 200 && status < 500,
     });
 
