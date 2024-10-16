@@ -11,27 +11,25 @@ import sunIcon from "./assets/icon/sun-01.svg";
 import moonIcon from "./assets/icon/moon-02.svg";
 import { useApplicationTheme } from "@/common";
 import { ApplicationLogo } from "@/ui/modules/components";
+import { usePathname, useRouter } from "next/navigation"; // Import useRouter and usePathname
 
 export const SideBar = () => {
   const { isDarkMode, setDarkMode } = useApplicationTheme();
+  const router = useRouter();
+  const pathname = usePathname(); // Get current path
 
   const handleToggleTheme = () => {
     setDarkMode(!isDarkMode);
   };
 
+  const isActive = (path: string) => pathname === path; // Function to check if the route is active
+
   return (
     <Stack sx={{ justifyContent: "space-between", height: "100%" }}>
       <Box>
-        {/*<StyledImage*/}
-        {/*  src={logo}*/}
-        {/*  alt=""*/}
-        {/*  sx={{*/}
-        {/*    width: "164px",*/}
-        {/*    height: "57px",*/}
-        {/*    margin: "32px 70px 49px 16px",*/}
-        {/*  }}*/}
-        {/*/>*/}
-        <ApplicationLogo />
+        <Box margin={"32px 70px 49px 16px"}>
+          <ApplicationLogo />
+        </Box>
 
         <Stack
           sx={{
@@ -42,19 +40,22 @@ export const SideBar = () => {
           <RowStack
             sx={{
               borderRadius: "12px",
-              border: "1px solid #76A8ED",
-              background:
-                "linear-gradient(90deg, rgba(103, 180, 238, 0.30) 0%, rgba(172, 125, 234, 0.30) 100%)",
-              padding: "13px 12px 11px 12px; ",
+              border: (theme) => (isActive("/") ? `1px solid ${theme.sideBar.btn.border}` : "none"),
+              background: (theme) => (isActive("/") ? theme.sideBar.btn.background : "none"),
+              padding: "13px 12px 11px 12px",
               gap: "5px",
+              cursor: "pointer",
             }}
+            onClick={() => router.push("/")}
           >
             <StyledImage src={homeIcon} alt="" sx={{ width: "23px", height: "24px" }} />
+
             <Typography
               sx={{
                 fontSize: pxToRem(16),
                 fontWeight: 600,
-                color: "#134432",
+                color: (theme) =>
+                  isActive("/") ? theme.sideBar.btn.text.color : theme.sideBar.text.link,
               }}
             >
               Home
@@ -66,14 +67,23 @@ export const SideBar = () => {
               gap: "5px",
               padding: "12px 14px 12px 8px",
               alignItems: "center",
+              borderRadius: "12px",
+              border: (theme) =>
+                isActive("/blockchain") ? `1px solid ${theme.sideBar.btn.border}` : "none",
+              background: (theme) =>
+                isActive("/blockchain") ? theme.sideBar.btn.background : "none",
+              cursor: "pointer",
             }}
+            onClick={() => router.push("/blockchain")}
           >
             <StyledImage src={chartIcon} alt="" sx={{ width: "23px", height: "24px" }} />
+
             <Typography
               sx={{
                 fontSize: pxToRem(16),
                 fontWeight: 400,
-                color: "#475367",
+                color: (theme) =>
+                  isActive("/blockchain") ? theme.sideBar.btn.text.color : theme.sideBar.text.link,
               }}
             >
               Solana Performance
@@ -82,24 +92,34 @@ export const SideBar = () => {
         </Stack>
       </Box>
 
-      <Stack sx={{ padding: "0 16px 31px 23px", color: "#475367" }}>
+      <Stack sx={{ padding: "0 16px 31px 23px" }}>
         <Typography
           sx={{
             padding: "12px auto 8px 8px",
             fontSize: pxToRem(16),
             fontWeight: 500,
             letterSpacing: "1.82px",
-            color: "#66185",
+            mb: "22px",
+            color: (theme) => theme.sideBar.text.link,
           }}
         >
           Links
         </Typography>
 
-        <RowStack sx={{ padding: "12px 8px" }}>
+        <RowStack spacing={1} marginBottom={"27px"}>
           <StyledImage src={docPlugIcon} alt="" sx={{ width: "24px", height: "24px" }} />
-          <Typography sx={{ fontSize: pxToRem(16), fontWeight: "400", flexGrow: 1 }}>
+
+          <Typography
+            sx={{
+              fontSize: pxToRem(16),
+              fontWeight: "400",
+              color: (theme) => theme.sideBar.text.color,
+              flexGrow: 1,
+            }}
+          >
             Docs
           </Typography>
+
           <StyledImage
             src={docLinkIcon}
             alt=""
@@ -107,11 +127,20 @@ export const SideBar = () => {
           />
         </RowStack>
 
-        <RowStack sx={{ padding: "11px 8px", marginBottom: "50px" }}>
+        <RowStack spacing={1} marginBottom={"50px"}>
           <StyledImage src={reportBugIcon} alt="" sx={{ width: "24px", height: "24px" }} />
-          <Typography sx={{ fontSize: pxToRem(16), fontWeight: "400", flexGrow: 1 }}>
+
+          <Typography
+            sx={{
+              fontSize: pxToRem(16),
+              fontWeight: "400",
+              color: (theme) => theme.sideBar.text.color,
+              flexGrow: 1,
+            }}
+          >
             Report Bugs
           </Typography>
+
           <StyledImage
             src={docLinkIcon}
             alt=""
@@ -125,8 +154,9 @@ export const SideBar = () => {
             padding: "5px 14px 5px 5px",
             margin: "0 auto",
             borderRadius: "40px",
-            border: "5px solid #E4E7EC",
-            boxShadow: "0px 0px 0px 3px rgba(241, 241, 241, 0.37), -2px -2px 8px 0px #E9E9E9 inset",
+            background: (theme) => theme.sideBar.toggle.background,
+            border: (theme) => `5px solid ${theme.sideBar.toggle.border}`,
+            boxShadow: (theme) => theme.sideBar.toggle.boxShadow,
             cursor: "pointer",
           }}
           onClick={handleToggleTheme}
@@ -137,7 +167,7 @@ export const SideBar = () => {
             sx={{
               width: "20px",
               height: "20px",
-              display: isDarkMode ? "none" : "block", // Hide sun in dark mode
+              // display: isDarkMode ? "none" : "block",
             }}
           />
           <StyledImage
@@ -146,7 +176,7 @@ export const SideBar = () => {
             sx={{
               width: "24px",
               height: "24px",
-              display: isDarkMode ? "block" : "none", // Hide moon in light mode
+              // display: isDarkMode ? "block" : "none",
             }}
           />
         </RowStack>

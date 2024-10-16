@@ -31,11 +31,8 @@ export const Providers: React.FC<ProvidersProps> = ({ children }) => {
   );
 };
 
-type ThemeProviderProps = {
-  children: ReactNode;
-};
-
-const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const defaultTheme = useDefaultTheme();
+  // @ts-ignore
   return <AppThemeProvider theme={defaultTheme}>{children}</AppThemeProvider>;
 };

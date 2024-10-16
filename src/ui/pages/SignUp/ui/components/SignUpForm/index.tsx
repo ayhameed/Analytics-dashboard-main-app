@@ -20,7 +20,7 @@ const authSchema = Yup.object().shape({
     .required("Email is required"),
   password: Yup.string().required("Password is required"),
   newPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords do not match")
+    .oneOf([Yup.ref("password"), undefined], "Passwords do not match")
     .required("Please confirm your password"),
 });
 
@@ -73,6 +73,7 @@ export const SignUpForm = () => {
       sx={{
         p: "20px",
         alignItems: "flex-start",
+        // @ts-ignore
         background: (theme) => theme.authPage.authLeft.background,
         minHeight: { xs: "401px", md: "501px" },
         width: { xs: "100%", md: "80%", lg: "50%" },

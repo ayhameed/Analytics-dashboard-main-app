@@ -41,6 +41,7 @@ export const ForgotPasswordLink = () => {
     <StyledLink href={`/forget-password?email=${encodeURIComponent(values.email)}`}>
       <Typography
         sx={{
+          // @ts-ignore
           color: (theme) => theme.authPage.authLeft.placeholder,
           fontSize: pxToRem(14),
           fontWeight: 400,
@@ -86,6 +87,7 @@ export const LoginForm = () => {
       sx={{
         p: "20px",
         alignItems: "flex-start",
+        // @ts-ignore
         background: (theme) => theme.authPage.authLeft.background,
         minHeight: { xs: "401px", md: "501px" },
         width: { xs: "100%", md: "80%", lg: "50%" },

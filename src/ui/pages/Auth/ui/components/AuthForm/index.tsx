@@ -58,6 +58,7 @@ export const AuthForm = () => {
       sx={{
         p: "20px",
         alignItems: "flex-start",
+        // @ts-ignore
         background: (theme) => theme.authPage.authLeft.background,
         minHeight: { xs: "401px", md: "450px" },
         width: { xs: "100%", md: "80%", lg: "50%" },

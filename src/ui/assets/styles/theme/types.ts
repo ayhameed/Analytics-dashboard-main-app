@@ -4,8 +4,7 @@ import "@mui/material/styles";
 // Define the structure for your custom styles
 type DashboardStyle = {};
 type UserPageStyle = {};
-
-interface AuthPageStyle {
+type AuthPageStyle = {
   authLeft: {
     background: string;
     header: string;
@@ -17,20 +16,45 @@ interface AuthPageStyle {
       color: string;
     };
   };
-}
+};
+type sideBarStyles = {
+  background: string;
+  borderRight: string;
+  text: {
+    link: string;
+    color: string;
+  };
+  btn: {
+    border: string;
+    background: string;
+    text: {
+      color: string;
+    };
+  };
+  toggle: {
+    border: string;
+    background: string;
+    boxShadow: string;
+  };
+};
+type navBarStyles = {
+  background: string;
+};
 
 // Extend the BaseThemeExtension with custom properties
 interface ThemeExtension extends BaseThemeExtension {
   dashboard: DashboardStyle;
   userPage: UserPageStyle;
   authPage: AuthPageStyle;
+  sideBar: sideBarStyles;
+  navBar: navBarStyles;
 }
 
 // Augment the existing MUI `Theme` and `ThemeOptions` interfaces
 declare module "@mui/material/styles" {
   interface Theme extends ThemeExtension {}
 
-  interface ThemeOptions extends Partial<ThemeExtension> {} // Make these optional for ThemeOptions
+  interface ThemeOptions extends ThemeExtension {}
 }
 
 export {};

@@ -12,7 +12,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 const authSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
   newPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords do not match")
+    .oneOf([Yup.ref("password"), undefined], "Passwords do not match")
     .required("Please confirm your password"),
 });
 
@@ -62,6 +62,7 @@ export const ResetPasswordForm = () => {
       sx={{
         p: "20px",
         alignItems: "flex-start",
+        // @ts-ignore
         background: (theme) => theme.authPage.authLeft.background,
         minHeight: { xs: "401px", md: "501px" },
         width: { xs: "100%", md: "80%", lg: "50%" },

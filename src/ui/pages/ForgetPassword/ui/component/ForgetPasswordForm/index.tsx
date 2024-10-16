@@ -111,6 +111,7 @@ export const ForgetPasswordForm = () => {
               <Box>
                 <Typography
                   sx={{
+                    // @ts-ignore
                     color: (theme) => theme.authPage.authLeft.input,
                     fontSize: pxToRem(16),
                     fontWeight: 500,

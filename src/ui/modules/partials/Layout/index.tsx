@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { Box, SxProps, Theme } from "@mui/material";
 import { Header, SideBar } from "@/ui/modules/partials";
 
@@ -34,10 +34,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           height: "100%",
           overflowY: "auto",
           ...hideScrollbar,
-          borderRight: (theme) => `1px solid ${theme.palette.divider}`,
+          borderRight: (theme) => `2px solid ${theme.sideBar.borderRight}`,
           overflowX: "hidden",
           transition: "transform 0.3s ease-in-out, width 0.3s ease-in-out",
-          backgroundColor: (theme) => theme.palette.background.default,
+          background: (theme) => theme.sideBar.background,
         }}
       >
         <SideBar />

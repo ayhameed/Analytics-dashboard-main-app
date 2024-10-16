@@ -1,3 +1,5 @@
+"use client";
+
 import { AuthLayout } from "@/ui/modules/blocks";
 import { AuthForm } from "@/ui/pages/Auth/ui/components";
 

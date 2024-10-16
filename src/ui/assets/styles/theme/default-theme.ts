@@ -19,6 +19,30 @@ const lightThemeStyles = {
       },
     },
   },
+  sideBar: {
+    background: "#F8F9FB",
+    borderRight: "#F0F2F5",
+    text: {
+      link: "#667185",
+      color: "#475367",
+    },
+    toggle: {
+      border: "#E4E7EC",
+      background: "#F9FAFB",
+      boxShadow: "0px 0px 0px 3px rgba(241, 241, 241, 0.37), -2px -2px 8px 0px #E9E9E9 inset",
+    },
+    btn: {
+      border: "#76A8ED",
+      background:
+        "linear-gradient(90deg, rgba(103, 180, 238, 0.30) 0%, rgba(172, 125, 234, 0.30) 100%)",
+      text: {
+        color: "#134432",
+      },
+    },
+  },
+  navBar: {
+    background: "linear-gradient(90deg, rgba(249, 250, 251, 0.00) 26.49%, #F9FAFB 45.45%)",
+  },
 };
 
 const darkThemeStyles = {
@@ -37,6 +61,30 @@ const darkThemeStyles = {
       },
     },
   },
+  sideBar: {
+    background: "#17191C",
+    borderRight: "#272A2F",
+    text: {
+      link: "#C5C5C5",
+      color: "#AEB4BD",
+    },
+    toggle: {
+      border: "#E4E7EC",
+      background: "#F9FAFB",
+      boxShadow: "0px 0px 0px 3px rgba(241, 241, 241, 0.37), -2px -2px 8px 0px #E9E9E9 inset",
+    },
+    btn: {
+      border: "#76A8ED",
+      background:
+        "linear-gradient(90deg, rgba(103, 180, 238, 0.30) 0%, rgba(172, 125, 234, 0.30) 100%)",
+      text: {
+        color: "#AC7DEA",
+      },
+    },
+  },
+  navBar: {
+    background: "linear-gradient(90deg, rgba(0, 0, 0, 0.00) 26.49%, #000 45.45%)",
+  },
 };
 
 export const useDefaultTheme = () => {
@@ -49,6 +97,8 @@ export const useDefaultTheme = () => {
           dashboard: isDarkMode ? darkThemeStyles.dashboard : lightThemeStyles.dashboard,
           userPage: isDarkMode ? darkThemeStyles.userPage : lightThemeStyles.userPage,
           authPage: isDarkMode ? darkThemeStyles.authPage : lightThemeStyles.authPage,
+          sideBar: isDarkMode ? darkThemeStyles.sideBar : lightThemeStyles.sideBar,
+          navBar: isDarkMode ? darkThemeStyles.navBar : lightThemeStyles.navBar,
         },
         isDarkMode,
       ),
