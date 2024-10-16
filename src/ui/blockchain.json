@@ -129,5 +129,37 @@
       "TokenAmount": "819,480,4353",
       "SupplyPercentages": "89%"
     }
+  ],
+  "SmartContracts": [
+    {
+      "Token": "Minds",
+      "Contract Address": "HRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV7J",
+      "Interactions": 2345
+    },
+    {
+      "Token": "Ghyu$",
+      "Contract Address": "ZRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVRE",
+      "Interactions": 1123
+    },
+    {
+      "Token": "rteDD",
+      "Contract Address": "ERr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVP9",
+      "Interactions": 1235
+    },
+    {
+      "Token": "Minjna  Token",
+      "Contract Address": "KRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV90",
+      "Interactions": 6554
+    },
+    {
+      "Token": "Dabaya",
+      "Contract Address": "FFr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVY5",
+      "Interactions": 3442
+    },
+    {
+      "Token": "JulliK",
+      "Contract Address": "TRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV2E",
+      "Interactions": 2311
+    }
   ]
 }
