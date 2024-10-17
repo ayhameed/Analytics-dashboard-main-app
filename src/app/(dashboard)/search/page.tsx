@@ -1,7 +1,7 @@
-import { SearchResults } from "@/ui/pages";
+import { SearchResult } from "@/ui/pages"
 
 export default function searchResult(){
     return(
-        <SearchResults/>
+        <SearchResult/>
     )
 }

@@ -1,10 +1,13 @@
+import { FilteredResult } from "./ui";
+import { SearchProvider } from "../SearchContext";
 import { Layout } from "@/ui/modules/partials";
-import { SearchResult } from "./ui/component";
 
-export const SearchResults = () => {
+export const SearchResult = () => {
     return(
         <Layout>
-            <SearchResult/>
+            <SearchProvider>
+                <FilteredResult/>
+            </SearchProvider>
         </Layout>
     )
 }

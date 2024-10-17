@@ -2,6 +2,7 @@ import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
 import { AppBar, Box, IconButton, Input, InputAdornment, Toolbar, Typography } from "@mui/material";
 import profileAvatar from "./assets/icon/Avatar.jpg";
 import profileIcon from "./assets/icon/arrow-circle-down.svg";
+import { SearchBar } from "./SearchBar/SearchBar";
 
 export const Header = () => {
   return (
@@ -51,52 +52,7 @@ export const Header = () => {
           </RowStack>
 
           <RowStack spacing={"24px"} sx={{ marginLeft: "auto" }}>
-            <Input
-              placeholder="Search web inside"
-              type="search"
-              fullWidth
-              size="small"
-              disableUnderline
-              sx={{
-                flex: "0 0 45%",
-                padding: "8px 12px 11px 16px",
-                borderRadius: "12px",
-                border: "1px solid #E4E7EC",
-                fontSize: pxToRem(16),
-                fontWeight: 500,
-                lineHeight: "24px",
-                color: "#667185",
-                backgroundColor: "#ffff",
-              }}
-              inputProps={{
-                style: { padding: 0 },
-                sx: { "::placeholder": { color: "inherit", opacity: 1 } },
-              }}
-              endAdornment={
-                <InputAdornment
-                  position="end"
-                  sx={{
-                    width: "32px",
-                    height: "29px",
-                    background: "#F7F9FC",
-                    padding: "9px 0",
-                    borderRadius: "6px",
-                  }}
-                >
-                  <IconButton
-                    edge="end"
-                    onClick={() => console.log("Slash clicked")}
-                    sx={{
-                      color: "#475367",
-                      width: "8px",
-                      margin: "0 auto",
-                    }}
-                  >
-                    /
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
+            <SearchBar/>
 
             <RowStack sx={{ flex: "0 0 55%" }}>
               <StyledImage

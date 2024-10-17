@@ -6,13 +6,17 @@ import {
     Typography,
     Input,
     InputAdornment,
-    IconButton 
+    IconButton, 
 } from "@mui/material";
 import searchIcon from '../../../../../assets/icons/search-01.svg'
 import sortIcon from '../../../../../assets/icons/sorting-05.svg'
 import arrowRightIcon from '../../../../../assets/icons/arrow-right-04.svg'
 
 export const BlockchainSearch = () => {
+
+    function handleChange(event:React.ChangeEvent<HTMLInputElement>){
+        console.log(event.target.value)
+    }
     return(
         <Stack spacing={"24px"}>
             <Box >
@@ -53,6 +57,7 @@ export const BlockchainSearch = () => {
                         fullWidth
                         size="small"
                         disableUnderline
+                        onChange={handleChange}
                         sx={{
                             flex: '0 0 50%',
                             padding: '8px 0 8px 12px',

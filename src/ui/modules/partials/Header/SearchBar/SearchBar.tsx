@@ -1,27 +1,25 @@
 "use client";
 
-import { useState } from "react";
 import { InputAdornment, Input, IconButton } from "@mui/material";
 import { pxToRem } from "@web-insight/component-library";
 import Link from "next/link";
-import { blockchainDatas } from "@/ui/blockchain.json"; 
+import { useSearch } from "@/ui/pages/SearchContext";
 
 export const SearchBar = () => {
-    const [searchTerm, setSearchTerm] = useState("");
-
-    // Filter the blockchain data based on the search term
-    const filteredData = blockchainDatas.filter(item =>
-        item.exchange.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
+    const {searchTerm, setSearchTerm} = useSearch()
+    console.log(searchTerm)
     return (
         <Input
+            value={searchTerm}
             placeholder="Search web inside"
             type="search"
             fullWidth
             size="small"
             disableUnderline
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+                setSearchTerm(e.target.value.trim());
+                console.log(e.target.value);  // Print the input value
+            }}
             sx={{
                 flex: '0 0 45%',
                 padding: '8px 12px 11px 16px',
@@ -50,7 +48,7 @@ export const SearchBar = () => {
                     <Link href={`/search`} passHref>
                         <IconButton
                             edge="end"
-                            onClick={() => console.log("Slash clicked")}
+                            onClick={() => console.log('slash clicked')}
                             sx={{
                                 color: '#475367',
                                 width: '8px',

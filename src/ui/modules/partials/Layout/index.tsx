@@ -3,6 +3,7 @@
 import React, { ReactNode } from "react";
 import { Box, SxProps, Theme } from "@mui/material";
 import { Header, SideBar } from "@/ui/modules/partials";
+import { SearchProvider } from "@/ui/pages/SearchContext";
 
 export interface LayoutProps {
   children: ReactNode;
@@ -56,7 +57,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       >
         {/* Header */}
         <Box component="header" sx={{ flexShrink: 0 }}>
-          <Header />
+          <SearchProvider>
+            <Header />
+          </SearchProvider>
         </Box>
 
         {/* Content */}

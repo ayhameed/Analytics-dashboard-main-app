@@ -10,3 +10,4 @@ export * from "./BlockChainFailure";
 export * from "./BlockchainSuccess";
 export * from "./BlockchainExchanges";
 export * from "./EmailSuccess";
+export * from "./SearchResult"
