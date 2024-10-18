@@ -2,23 +2,35 @@
 
 import { InputAdornment, Input, IconButton } from "@mui/material";
 import { pxToRem } from "@web-insight/component-library";
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import { useSearch } from "@/ui/pages/SearchContext";
+import { useState } from 'react';
 
 export const SearchBar = () => {
-    const {searchTerm, setSearchTerm} = useSearch()
-    console.log(searchTerm)
+    const { searchTerm, setSearchTerm } = useSearch();
+    const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+    const router = useRouter();
+
+    const handleSearch = () => {
+        setSearchTerm(localSearchTerm);
+        router.push(`/search?q=${encodeURIComponent(localSearchTerm)}`);
+    };
+
     return (
         <Input
-            value={searchTerm}
+            value={localSearchTerm}
             placeholder="Search web inside"
             type="search"
             fullWidth
             size="small"
             disableUnderline
             onChange={(e) => {
-                setSearchTerm(e.target.value.trim());
-                console.log(e.target.value);  // Print the input value
+                setLocalSearchTerm(e.target.value);
+            }}
+            onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
             }}
             sx={{
                 flex: '0 0 45%',
@@ -45,19 +57,17 @@ export const SearchBar = () => {
                         borderRadius: '6px'
                     }}
                 >
-                    <Link href={`/search`} passHref>
-                        <IconButton
-                            edge="end"
-                            onClick={() => console.log('slash clicked')}
-                            sx={{
-                                color: '#475367',
-                                width: '8px',
-                                margin: '0 auto'
-                            }}
-                        >
-                            /
-                        </IconButton>
-                    </Link>
+                    <IconButton
+                        edge="end"
+                        onClick={handleSearch}
+                        sx={{
+                            color: '#475367',
+                            width: '8px',
+                            margin: '0 auto'
+                        }}
+                    >
+                        /
+                    </IconButton>
                 </InputAdornment>
             }
         />

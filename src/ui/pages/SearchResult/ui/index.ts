@@ -1,1 +1,1 @@
-export * from "./FilteredResult"
+export * from "./components/FilteredResult"
