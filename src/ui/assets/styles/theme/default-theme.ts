@@ -4,7 +4,26 @@ import { useApplicationTheme } from "@/common";
 
 // Define light and dark theme styles for different components
 const lightThemeStyles = {
-  dashboard: {},
+  dashboard: {
+    text: {
+      header: "#101928",
+      subHeader: "#667185",
+      filter: "#475367",
+    },
+    search: {
+      border: "#E4E7EC",
+      background: "#FFF",
+      color: "#667185",
+    },
+    blockchain: {
+      background: "#FFF",
+      border: "rgba(228, 231, 236, 0.50)",
+      text: {
+        primary: "#101928",
+        secondary: "#344054",
+      },
+    },
+  },
   userPage: {},
   authPage: {
     authLeft: {
@@ -42,11 +61,38 @@ const lightThemeStyles = {
   },
   navBar: {
     background: "linear-gradient(90deg, rgba(249, 250, 251, 0.00) 26.49%, #F9FAFB 45.45%)",
+    search: {
+      border: "#E4E7EC",
+      background: "#FFF",
+      color: "#667185",
+      endAdornment: {
+        background: "#F7F9FC",
+      },
+    },
   },
 };
 
 const darkThemeStyles = {
-  dashboard: {},
+  dashboard: {
+    text: {
+      header: "#C5C5C5",
+      subHeader: "#C5C5C5",
+      filter: "#C5C5C5",
+    },
+    search: {
+      border: "#353A41",
+      background: "#101114",
+      color: "#C5C5C5",
+    },
+    blockchain: {
+      background: "#101114",
+      border: "rgba(88, 88, 88, 0.50)",
+      text: {
+        primary: "#C5C5C5",
+        secondary: "#C5C5C5",
+      },
+    },
+  },
   userPage: {},
   authPage: {
     authLeft: {
@@ -84,6 +130,14 @@ const darkThemeStyles = {
   },
   navBar: {
     background: "linear-gradient(90deg, rgba(0, 0, 0, 0.00) 26.49%, #000 45.45%)",
+    search: {
+      border: "#353A41",
+      background: "#101114",
+      color: "#AEB4BD",
+      endAdornment: {
+        background: "#17191C",
+      },
+    },
   },
 };
 

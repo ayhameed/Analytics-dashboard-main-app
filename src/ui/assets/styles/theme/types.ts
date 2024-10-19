@@ -2,7 +2,26 @@ import { BaseThemeExtension } from "@web-insight/component-library";
 import "@mui/material/styles";
 
 // Define the structure for your custom styles
-type DashboardStyle = {};
+type DashboardStyle = {
+  text: {
+    header: string;
+    subHeader: string;
+    filter: string;
+  };
+  search: {
+    border: string;
+    background: string;
+    color: string;
+  };
+  blockchain: {
+    background: string;
+    border: string;
+    text: {
+      primary: string;
+      secondary: string;
+    };
+  };
+};
 type UserPageStyle = {};
 type AuthPageStyle = {
   authLeft: {
@@ -39,6 +58,14 @@ type sideBarStyles = {
 };
 type navBarStyles = {
   background: string;
+  search: {
+    border: string;
+    background: string;
+    color: string;
+    endAdornment: {
+      background: string;
+    };
+  };
 };
 
 // Extend the BaseThemeExtension with custom properties

@@ -1,8 +1,8 @@
 // import { redirect } from "next/navigation";
 "use client";
-import { DashBoard } from "@/ui/pages";
+import { Blockchain } from "@/ui/pages";
+import React from "react";
 
 export default function HomePage() {
-  // return redirect('/dashboard');
-  return <DashBoard />;
+  return <Blockchain />;
 }

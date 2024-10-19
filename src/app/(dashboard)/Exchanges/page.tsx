@@ -1,6 +1,5 @@
 import { BlockchainExchange } from "@/ui/pages";
-export default function BlockchainExchanges(){
-    return (
-        <BlockchainExchange/>
-    )
+
+export default function BlockchainExchanges() {
+  return <BlockchainExchange />;
 }

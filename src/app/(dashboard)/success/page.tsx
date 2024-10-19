@@ -1,7 +1,5 @@
 import { BlockchainSucess } from "@/ui/pages";
 
-export default function BlockchainSearchSuccess(){
-    return(
-        <BlockchainSucess/>
-    )
+export default function BlockchainSearchSuccess() {
+  return <BlockchainSucess />;
 }

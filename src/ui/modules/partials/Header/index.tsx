@@ -1,10 +1,35 @@
-import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
-import { AppBar, Box, IconButton, Input, InputAdornment, Toolbar, Typography } from "@mui/material";
-import profileAvatar from "./assets/icon/Avatar.jpg";
-import profileIcon from "./assets/icon/arrow-circle-down.svg";
-import { SearchBar } from "./SearchBar/SearchBar";
+"use client";
 
-export const Header = () => {
+import React from "react";
+import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import profileAvatar from "@/ui/modules/partials/Header/ui/assets/icon/Avatar.jpg";
+import profileIcon from "@/ui/modules/partials/Header/ui/assets/icon/arrow-circle-down.svg";
+import { useApplicationTheme } from "@/common";
+import { SearchBar } from "@/ui/modules/partials/Header/ui/components";
+
+const CoinGeckoWidget: React.FC = () => {
+  const { isDarkMode } = useApplicationTheme();
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "40px", // Adjust height as needed
+        overflow: "hidden", // Prevent overflow
+      }}
+    >
+      <gecko-coin-price-marquee-widget
+        coin-ids={""}
+        // coin-ids="bitcoin,ethereum,tether,binancecoin,ripple,usd-coin,solana,cardano,dogecoin,polkadot,matic-network,tron,litecoin,chainlink,avalanche-2,stellar,monero,cosmos,ethereum-classic"
+        initial-currency="usd"
+        dark-mode={isDarkMode ? "true" : "false"}
+      />
+    </Box>
+  );
+};
+
+export const Header: React.FC = () => {
   return (
     <AppBar
       elevation={0}
@@ -12,85 +37,107 @@ export const Header = () => {
       sx={{
         padding: "16px 39px 15px 5px",
         background: (theme) => theme.navBar.background,
+        overflow: "hidden",
       }}
     >
       <Toolbar disableGutters>
         <Box
           sx={{
-            display: "grid",
-            gridTemplateColumns: "45% 55%",
+            display: "flex",
             alignItems: "center",
             width: "100%",
             justifyContent: "space-between",
+            gap: "24px",
           }}
         >
-          <RowStack spacing={"40px"}>
-            <Typography sx={{ fontSize: pxToRem(16), fontWeight: 500 }}>
-              CRYING $0.0011923
-              <Typography
-                component={"span"}
-                sx={{
-                  color: "#DE5151",
-                  marginLeft: "5px",
-                }}
-              >
-                -49.36%
-              </Typography>
-            </Typography>
+          {/* CoinGecko Widget */}
+          <Box
+            sx={{
+              flexGrow: 1,
+              maxWidth: "70%",
+              minWidth: "200px",
+              overflow: "hidden",
+            }}
+          >
+            <CoinGeckoWidget />
+          </Box>
 
-            <Typography
+          {/* SearchBar and Profile Section */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "24px",
+              flexShrink: 0,
+              maxWidth: "500px",
+            }}
+          >
+            <SearchBar />
+
+            <RowStack
               sx={{
-                background: "linear-gradient(to right, black, rgba(0, 0, 0, 0))",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                fontSize: pxToRem(16),
-                fontWeight: 500,
+                alignItems: "center",
+                gap: "15px",
+                flexShrink: 0,
               }}
             >
-              MOOWAAN $0.0012944
-            </Typography>
-          </RowStack>
-
-          <RowStack spacing={"24px"} sx={{ marginLeft: "auto" }}>
-            <SearchBar/>
-
-            <RowStack sx={{ flex: "0 0 55%" }}>
               <StyledImage
                 src={profileAvatar}
-                alt=""
-                sx={{ width: "48px", height: "48px", marginRight: "15px" }}
+                alt="Profile Avatar"
+                sx={{
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
               />
-
-              <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  overflow: "hidden",
+                }}
+              >
                 <Typography
                   sx={{
                     fontSize: pxToRem(16),
                     fontWeight: 700,
                     lineHeight: "150%",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
+                  title="Opeyemi Adeboye"
                 >
                   Opeyemi Adeboye
                 </Typography>
-
                 <Typography
                   sx={{
                     fontSize: pxToRem(16),
                     fontWeight: 400,
                     lineHeight: "150%",
                     color: "#5E646E",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
+                  title="Yemi@fig.com"
                 >
                   Yemi@fig.com
                 </Typography>
               </Box>
-
               <StyledImage
                 src={profileIcon}
-                alt=""
-                sx={{ width: "24px", height: "24px", marginLeft: "24px" }}
+                alt="Profile Dropdown"
+                sx={{
+                  width: "24px",
+                  height: "24px",
+                  marginLeft: "24px",
+                  flexShrink: 0,
+                }}
               />
             </RowStack>
-          </RowStack>
+          </Box>
         </Box>
       </Toolbar>
     </AppBar>
