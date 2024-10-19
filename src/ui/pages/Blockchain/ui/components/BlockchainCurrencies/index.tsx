@@ -3,15 +3,21 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
 import Data from "@/ui/blockchain.json";
-import starIcon from "@/ui/assets/icons/star.svg";
-import supplyIcon from "@/ui/assets/icons/shellfish.svg";
 import ScrollImg from "@/ui/assets/icons/image 12.svg";
+
 import EthereumImg from "@/ui/assets/icons/image 14.svg";
 import BNBImg from "@/ui/assets/icons/image 16.svg";
 import fanthonImg from "@/ui/assets/icons/image 17.svg";
-import { blockChainImgs } from "@/common";
+import { blockChainImgs, useApplicationTheme } from "@/common";
+
+import starDarkIcon from "./ui/assets/icons/star_dark.svg";
+import starIcon from "./ui/assets/icons/star.svg";
+import supplyDarkIcon from "./ui/assets/icons/shell_fish_dark.svg";
+import supplyIcon from "./ui/assets/icons/shell_fish.svg";
 
 export const BlockchainCurrencies = () => {
+  const { isDarkMode } = useApplicationTheme();
+
   const blockchainImages: blockChainImgs = {
     Scroll: ScrollImg,
     Ethereum: EthereumImg,
@@ -38,11 +44,11 @@ export const BlockchainCurrencies = () => {
               flexDirection: "column",
               gap: "61px",
               borderRadius: "12px",
-              border: "1px solid rgba(228, 231, 236, 0.50)",
+              border: (theme) => `1px solid ${theme.dashboard.blockchain.border}`,
             }}
           >
             <Stack>
-              <RowStack>
+              <RowStack marginBottom={1}>
                 <StyledImage
                   src={blockchainImages[data.exchange as keyof blockChainImgs]}
                   alt=""
@@ -58,7 +64,7 @@ export const BlockchainCurrencies = () => {
                     fontSize: pxToRem(20),
                     fontWeight: 500,
                     lineHeight: "32px",
-                    color: "#101928",
+                    color: (theme) => theme.dashboard.blockchain.text.primary,
                   }}
                 >
                   {data.exchange}
@@ -67,11 +73,12 @@ export const BlockchainCurrencies = () => {
 
               <Typography
                 sx={{
-                  color: "#344054",
+                  color: (theme) => theme.dashboard.blockchain.text.secondary,
                   fontSize: pxToRem(16),
                   fontWeight: 500,
                   lineHeight: "26px",
                   letterSpacing: "-0.08px",
+                  fontFeatureSettings: "cv03 on, cv04 on",
                 }}
               >
                 $11,206,723,561.82 Tvl
@@ -80,36 +87,38 @@ export const BlockchainCurrencies = () => {
 
             <RowStack>
               <StyledImage
-                src={starIcon}
+                src={!isDarkMode ? starIcon : starDarkIcon}
                 alt=""
                 sx={{ width: "24px", height: "24px", marginRight: "8px" }}
               />
 
               <Typography
                 sx={{
-                  color: "#344054",
+                  color: (theme) => theme.dashboard.blockchain.text.secondary,
                   fontSize: pxToRem(16),
                   fontWeight: 500,
                   lineHeight: "26px",
                   letterSpacing: "-0.08px",
+                  fontFeatureSettings: "cv03 on, cv04 on",
                 }}
               >
                 1,206
               </Typography>
 
               <StyledImage
-                src={supplyIcon}
+                src={isDarkMode ? supplyDarkIcon : supplyIcon}
                 alt=""
                 sx={{ width: "24px", height: "24px", margin: "0 8px" }}
               />
 
               <Typography
                 sx={{
-                  color: "#344054",
+                  color: (theme) => theme.dashboard.blockchain.text.secondary,
                   fontSize: pxToRem(16),
                   fontWeight: 500,
                   lineHeight: "26px",
                   letterSpacing: "-0.08px",
+                  fontFeatureSettings: "cv03 on, cv04 on",
                 }}
               >
                 $11,206,723,561.82

@@ -3,8 +3,8 @@
 import { IconButton, Input, InputAdornment } from "@mui/material";
 import { pxToRem } from "@web-insight/component-library";
 import { useRouter } from "next/navigation";
-import { useSearch } from "@/ui/pages/SearchContext";
 import { useState } from "react";
+import { useSearch } from "@/common";
 
 export const SearchBar = () => {
   const { searchTerm, setSearchTerm } = useSearch();
