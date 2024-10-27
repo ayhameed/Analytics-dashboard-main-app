@@ -15,7 +15,18 @@ export type ApiResetPasswordPayload = {
 };
 
 export type ApiLoginData = {
-  accessToken: string;
+  user: {
+    email: string;
+    id: number;
+    is_active: boolean;
+    is_admin: boolean;
+    name: string | null;
+    avatar_url: string | null;
+  };
+  tokens: {
+    access_token: string;
+    refresh_token: string;
+  };
 };
 
 export interface blockChainImgs {

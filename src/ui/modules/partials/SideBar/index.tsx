@@ -11,18 +11,18 @@ import sunIcon from "./assets/icon/sun-01.svg";
 import moonIcon from "./assets/icon/moon-02.svg";
 import { useApplicationTheme } from "@/common";
 import { ApplicationLogo } from "@/ui/modules/components";
-import { usePathname, useRouter } from "next/navigation"; // Import useRouter and usePathname
+import { usePathname, useRouter } from "next/navigation";
 
 export const SideBar = () => {
   const { isDarkMode, setDarkMode } = useApplicationTheme();
   const router = useRouter();
-  const pathname = usePathname(); // Get current path
+  const pathname = usePathname();
 
   const handleToggleTheme = () => {
     setDarkMode(!isDarkMode);
   };
 
-  const isActive = (path: string) => pathname === path; // Function to check if the route is active
+  const isActive = (path: string) => pathname === path;
 
   return (
     <Stack sx={{ justifyContent: "space-between", height: "100%" }}>
@@ -40,8 +40,12 @@ export const SideBar = () => {
           <RowStack
             sx={{
               borderRadius: "12px",
-              border: (theme) => (isActive("/") ? `1px solid ${theme.sideBar.btn.border}` : "none"),
-              background: (theme) => (isActive("/") ? theme.sideBar.btn.background : "none"),
+              border: (theme) =>
+                isActive("/") || isActive("/search")
+                  ? `1px solid ${theme.sideBar.btn.border}`
+                  : "none",
+              background: (theme) =>
+                isActive("/") || isActive("/search") ? theme.sideBar.btn.background : "none",
               padding: "13px 12px 11px 12px",
               gap: "5px",
               cursor: "pointer",

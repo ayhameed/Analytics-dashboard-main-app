@@ -1,4 +1,3 @@
-// Custom hook to use the ApplicationThemeContext
 import { useContext } from "react";
 import { SearchContext, SearchContextProps } from "@/ui/modules/partials";
 

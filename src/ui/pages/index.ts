@@ -1,4 +1,3 @@
-export * from "./DashBoard";
 export * from "./Blockchain";
 export * from "./Auth";
 export * from "./Login";
@@ -10,4 +9,4 @@ export * from "./BlockChainFailure";
 export * from "./BlockchainSuccess";
 export * from "./BlockchainExchanges";
 export * from "./EmailSuccess";
-export * from "./SearchResult"
+export * from "./SearchResult";

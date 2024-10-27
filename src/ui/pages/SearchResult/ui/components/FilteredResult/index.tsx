@@ -2,56 +2,54 @@
 import React, { useEffect, useState } from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
-import Data from "@/ui/blockchain.json";
 import starIcon from "@/ui/assets/icons/star.svg";
 import supplyIcon from "@/ui/assets/icons/shellfish.svg";
-import ScrollImg from "@/ui/assets/icons/image 12.svg";
-import EthereumImg from "@/ui/assets/icons/image 14.svg";
-import BNBImg from "@/ui/assets/icons/image 16.svg";
-import fanthomImg from "@/ui/assets/icons/image 17.svg";
-import { blockChainImgs, useSearch } from "@/common";
+import { ApiBlockchainData, useApplicationTheme, useAuth, useCryptoApi, useSearch } from "@/common";
 import { useSearchParams } from "next/navigation";
 import { LinkSignIn } from "../LinkSignIn";
-
-interface BlockchainData {
-  id: number;
-  exchange: string;
-  image: string;
-}
-
-const blockchainImages: blockChainImgs = {
-  Scroll: ScrollImg,
-  Ethereum: EthereumImg,
-  "BNB COIN": BNBImg,
-  Fanthom: fanthomImg,
-};
+import supplyDarkIcon from "@/ui/pages/Blockchain/ui/components/BlockchainCurrencies/ui/assets/icons/shell_fish_dark.svg";
+import starDarkIcon from "@/ui/pages/Blockchain/ui/components/BlockchainCurrencies/ui/assets/icons/star_dark.svg";
 
 export const FilteredResult: React.FC = () => {
+  const { searchToken } = useCryptoApi();
+  const { isSignedIn } = useAuth();
+  const { isDarkMode } = useApplicationTheme();
+
   const { searchTerm, setSearchTerm } = useSearch();
-  const [filteredData, setFilteredData] = useState<BlockchainData[]>([]);
+  const [filteredData, setFilteredData] = useState<ApiBlockchainData[]>([]);
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const searchFromParams = searchParams?.get("q");
-    searchFromParams && setSearchTerm(searchFromParams); // Set searchTerm if params exist
+    searchFromParams && setSearchTerm(searchFromParams);
   }, [searchParams, setSearchTerm]);
 
   useEffect(() => {
     if (!searchTerm) return setFilteredData([]);
 
     const lowerTerm = searchTerm.toLowerCase();
-    const startIndex = Data.blockchainDatas.findIndex((item) =>
-      item.exchange.toLowerCase().includes(lowerTerm),
-    );
 
-    setFilteredData(
-      startIndex !== -1 ? Data.blockchainDatas.slice(startIndex, startIndex + 3) : [],
-    );
-  }, [searchTerm]);
+    const fetchData = async () => {
+      const data = await searchToken(lowerTerm);
+      if (data) {
+        // If the user is signed in, show all data without opacity or limit
+        const adjustedData = isSignedIn
+          ? data // @ts-ignore
+          : data.slice(0, 2).length < 2
+            ? // @ts-ignore
+              [...data, ...data]
+            : // @ts-ignore
+              data.slice(0, 2);
+        setFilteredData(adjustedData);
+      }
+    };
+
+    fetchData();
+  }, [searchTerm, isSignedIn, searchToken]);
 
   //to capitalize the first letter
   const capitalizeFirstLetter = (string: string) => {
-    if (!string) return ""; // Handle empty strings
+    if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
@@ -77,16 +75,7 @@ export const FilteredResult: React.FC = () => {
         }}
       >
         {filteredData.length > 0 ? (
-          filteredData.map((data: BlockchainData, index: number) => {
-            let opacity = 1; // Default opacity
-
-            // Set opacity based on the index
-            if (index === 1) {
-              opacity = 0.3; // Half visible for the second item
-            } else if (index === 2) {
-              opacity = 0.1; // Faded for the third item
-            }
-
+          filteredData.map((data: ApiBlockchainData, index: number) => {
             return (
               <Box
                 key={data.id}
@@ -96,17 +85,17 @@ export const FilteredResult: React.FC = () => {
                   flexDirection: "column",
                   gap: "61px",
                   borderRadius: "12px",
-                  border: "1px solid rgba(228, 231, 236, 0.50)",
+                  border: (theme) => `1px solid ${theme.dashboard.blockchain.border}`,
                   marginBottom: "20px",
-                  opacity: opacity, // Set calculated opacity
-                  transition: "opacity 0.3s ease", // Smooth transition effect
+                  opacity: isSignedIn ? 1 : index === 1 ? 0.3 : index === 2 ? 0.1 : 1,
+                  transition: "opacity 0.3s ease",
                 }}
               >
                 <Stack>
                   <RowStack>
                     <StyledImage
-                      src={blockchainImages[data.image as keyof blockChainImgs]}
-                      alt={data.exchange}
+                      src={data.logo}
+                      alt={data.name}
                       sx={{
                         width: "25.794px",
                         height: "25.304px",
@@ -118,60 +107,64 @@ export const FilteredResult: React.FC = () => {
                         fontSize: pxToRem(20),
                         fontWeight: 500,
                         lineHeight: "32px",
-                        color: "#101928",
+                        color: (theme) => theme.dashboard.blockchain.text.primary,
                       }}
                     >
-                      {data.exchange}
+                      {data.name}
                     </Typography>
                   </RowStack>
 
                   <Typography
                     sx={{
-                      color: "#344054",
+                      color: (theme) => theme.dashboard.blockchain.text.secondary,
                       fontSize: pxToRem(16),
                       fontWeight: 500,
                       lineHeight: "26px",
                       letterSpacing: "-0.08px",
+                      fontFeatureSettings: "cv03 on, cv04 on",
                     }}
                   >
-                    $11,206,723,561.82 Tvl
+                    ${typeof data.tvl === "number" ? data.tvl.toLocaleString() : "N/A"} TVL
                   </Typography>
                 </Stack>
 
                 <RowStack>
                   <StyledImage
-                    src={starIcon}
+                    src={!isDarkMode ? starIcon : starDarkIcon}
                     alt="Star"
                     sx={{ width: "24px", height: "24px", marginRight: "8px" }}
                   />
+
                   <Typography
                     sx={{
-                      color: "#344054",
+                      color: (theme) => theme.dashboard.blockchain.text.secondary,
                       fontSize: pxToRem(16),
                       fontWeight: 500,
                       lineHeight: "26px",
                       letterSpacing: "-0.08px",
+                      fontFeatureSettings: "cv03 on, cv04 on",
                     }}
                   >
-                    1,206
+                    {data.circulating_supply.toLocaleString()}
                   </Typography>
 
                   <StyledImage
-                    src={supplyIcon}
+                    src={isDarkMode ? supplyDarkIcon : supplyIcon}
                     alt="Supply"
                     sx={{ width: "24px", height: "24px", margin: "0 8px" }}
                   />
 
                   <Typography
                     sx={{
-                      color: "#344054",
+                      color: (theme) => theme.dashboard.blockchain.text.secondary,
                       fontSize: pxToRem(16),
                       fontWeight: 500,
                       lineHeight: "26px",
                       letterSpacing: "-0.08px",
+                      fontFeatureSettings: "cv03 on, cv04 on",
                     }}
                   >
-                    $11,206,723,561.82
+                    ${data.market_cap.toLocaleString()}
                   </Typography>
                 </RowStack>
               </Box>
@@ -181,7 +174,8 @@ export const FilteredResult: React.FC = () => {
           <Typography variant="body1">No results found</Typography>
         )}
       </Box>
-      <LinkSignIn />
+
+      {!isSignedIn && filteredData.length > 0 && <LinkSignIn />}
     </Box>
   );
 };

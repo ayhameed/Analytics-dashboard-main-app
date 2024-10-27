@@ -10,7 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "@web-insight/component-library/dist/style.css";
 import "swiper/css";
-import { ApplicationThemeProvider, SearchProvider } from "@/ui/modules/partials";
+import { ApplicationThemeProvider, AuthProvider, SearchProvider } from "@/ui/modules/partials";
 
 type ProvidersProps = {
   children: ReactNode;
@@ -21,11 +21,13 @@ export const Providers: React.FC<ProvidersProps> = ({ children }) => {
     <AppRouterCacheProvider>
       <ApplicationThemeProvider>
         <SearchProvider>
-          <ThemeProvider>
-            <EnvironmentProvider>
-              <ServicesProvider>{children}</ServicesProvider>
-            </EnvironmentProvider>
-          </ThemeProvider>
+          <AuthProvider>
+            <ThemeProvider>
+              <EnvironmentProvider>
+                <ServicesProvider>{children}</ServicesProvider>
+              </EnvironmentProvider>
+            </ThemeProvider>
+          </AuthProvider>
         </SearchProvider>
       </ApplicationThemeProvider>
       <ToastContainer position="top-center" />

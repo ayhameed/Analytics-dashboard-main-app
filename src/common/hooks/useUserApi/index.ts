@@ -5,6 +5,7 @@ import {
   ApiResponse,
   ApiSignUpPayload,
   ApiVerifyEmailPayload,
+  setAccessToken,
   tryExecute,
   useApi,
 } from "@/common";
@@ -103,6 +104,9 @@ export const useUserApi = () => {
       async (response) => {
         if (response.status === 200) {
           loginSuccess = true;
+
+          // Set access token
+          setAccessToken(response.data.data.tokens.access_token);
         } else {
           toast.error("Invalid Email or password");
         }
@@ -127,6 +131,7 @@ export const useUserApi = () => {
       async (response) => {
         if (response.status === 200) {
           loginSuccess = true;
+          setAccessToken(response.data.data.tokens.access_token);
         } else {
           toast.error("Failed to create new user");
         }

@@ -1,12 +1,17 @@
 const nextConfig = {
-  transpilePackages: ['mui-one-time-password-input', 'mui-tel-input'],
+  transpilePackages: ["mui-one-time-password-input", "mui-tel-input"],
   reactStrictMode: true,
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "flagcdn.com",
-        port: '',
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "s2.coinmarketcap.com",
+        port: "",
       },
     ],
   },
@@ -14,14 +19,14 @@ const nextConfig = {
 
   webpack(config, { dev }) {
     if (dev) {
-      config.devtool = 'cheap-module-source-map';
+      config.devtool = "cheap-module-source-map";
     }
 
     config.module.rules.forEach(rule => {
-      if (rule.test && rule.test.toString().includes('css')) {
+      if (rule.test && rule.test.toString().includes("css")) {
         if (Array.isArray(rule.use)) {
           rule.use.forEach(use => {
-            if (use.loader && use.loader.includes('css-loader')) {
+            if (use.loader && use.loader.includes("css-loader")) {
               use.options.sourceMap = false;
             }
           });

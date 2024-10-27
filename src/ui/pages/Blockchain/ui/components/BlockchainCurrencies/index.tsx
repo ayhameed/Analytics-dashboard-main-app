@@ -1,14 +1,8 @@
-"use client";
-
-import { Box, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
-import Data from "@/ui/blockchain.json";
 import ScrollImg from "@/ui/assets/icons/image 12.svg";
-
-import EthereumImg from "@/ui/assets/icons/image 14.svg";
-import BNBImg from "@/ui/assets/icons/image 16.svg";
-import fanthonImg from "@/ui/assets/icons/image 17.svg";
-import { blockChainImgs, useApplicationTheme } from "@/common";
+import { ApiBlockchainData, useApplicationTheme, useCryptoApi } from "@/common";
 
 import starDarkIcon from "./ui/assets/icons/star_dark.svg";
 import starIcon from "./ui/assets/icons/star.svg";
@@ -17,13 +11,33 @@ import supplyIcon from "./ui/assets/icons/shell_fish.svg";
 
 export const BlockchainCurrencies = () => {
   const { isDarkMode } = useApplicationTheme();
+  const { getTopTokens } = useCryptoApi();
 
-  const blockchainImages: blockChainImgs = {
-    Scroll: ScrollImg,
-    Ethereum: EthereumImg,
-    "BNB COIN": BNBImg,
-    Fanthom: fanthonImg,
-  };
+  const [cryptoData, setCryptoData] = useState<ApiBlockchainData[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTopTokens = async () => {
+      const data = await getTopTokens();
+      console.log({ data });
+      if (data) {
+        // @ts-ignore
+        setCryptoData(data);
+      }
+      setLoading(false);
+    };
+
+    fetchTopTokens();
+  }, [getTopTokens]);
+
+  if (loading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
 
   return (
     <Box
@@ -34,8 +48,8 @@ export const BlockchainCurrencies = () => {
         gap: "20px",
       }}
     >
-      {Data.blockchainDatas.map((data) => {
-        return (
+      {cryptoData &&
+        cryptoData.map((data) => (
           <Box
             key={data.id}
             sx={{
@@ -50,15 +64,14 @@ export const BlockchainCurrencies = () => {
             <Stack>
               <RowStack marginBottom={1}>
                 <StyledImage
-                  src={blockchainImages[data.exchange as keyof blockChainImgs]}
-                  alt=""
+                  src={data.logo || ScrollImg}
+                  alt={data.name}
                   sx={{
                     width: "25.794px",
                     height: "25.304px",
                     marginRight: "5px",
                   }}
                 />
-
                 <Typography
                   sx={{
                     fontSize: pxToRem(20),
@@ -67,7 +80,7 @@ export const BlockchainCurrencies = () => {
                     color: (theme) => theme.dashboard.blockchain.text.primary,
                   }}
                 >
-                  {data.exchange}
+                  {data.name}
                 </Typography>
               </RowStack>
 
@@ -81,14 +94,14 @@ export const BlockchainCurrencies = () => {
                   fontFeatureSettings: "cv03 on, cv04 on",
                 }}
               >
-                $11,206,723,561.82 Tvl
+                ${typeof data.tvl === "number" ? data.tvl.toLocaleString() : "N/A"} TVL
               </Typography>
             </Stack>
 
             <RowStack>
               <StyledImage
                 src={!isDarkMode ? starIcon : starDarkIcon}
-                alt=""
+                alt="Star Icon"
                 sx={{ width: "24px", height: "24px", marginRight: "8px" }}
               />
 
@@ -102,12 +115,12 @@ export const BlockchainCurrencies = () => {
                   fontFeatureSettings: "cv03 on, cv04 on",
                 }}
               >
-                1,206
+                {data.circulating_supply.toLocaleString()}
               </Typography>
 
               <StyledImage
                 src={isDarkMode ? supplyDarkIcon : supplyIcon}
-                alt=""
+                alt="Supply Icon"
                 sx={{ width: "24px", height: "24px", margin: "0 8px" }}
               />
 
@@ -121,12 +134,11 @@ export const BlockchainCurrencies = () => {
                   fontFeatureSettings: "cv03 on, cv04 on",
                 }}
               >
-                $11,206,723,561.82
+                ${data.market_cap.toLocaleString()}
               </Typography>
             </RowStack>
           </Box>
-        );
-      })}
+        ))}
     </Box>
   );
 };
