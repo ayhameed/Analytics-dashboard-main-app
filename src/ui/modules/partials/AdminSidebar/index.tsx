@@ -13,7 +13,7 @@ import { useApplicationTheme } from "@/common";
 import { ApplicationLogo } from "@/ui/modules/components";
 import { usePathname, useRouter } from "next/navigation";
 
-export const SideBar = () => {
+export const AdminSideBar = () => {
   const { isDarkMode, setDarkMode } = useApplicationTheme();
   const router = useRouter();
   const pathname = usePathname();
@@ -41,16 +41,18 @@ export const SideBar = () => {
             sx={{
               borderRadius: "12px",
               border: (theme) =>
-                isActive("/") || isActive("/search")
+                isActive("/admin/dashboard") || isActive("/search")
                   ? `1px solid ${theme.sideBar.btn.border}`
                   : "none",
               background: (theme) =>
-                isActive("/") || isActive("/search") ? theme.sideBar.btn.background : "none",
+                isActive("/admin/dashboard") || isActive("/search")
+                  ? theme.sideBar.btn.background
+                  : "none",
               padding: "13px 12px 11px 12px",
               gap: "5px",
               cursor: "pointer",
             }}
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/admin/dashboard")}
           >
             <StyledImage src={homeIcon} alt="" sx={{ width: "23px", height: "24px" }} />
 
@@ -62,7 +64,7 @@ export const SideBar = () => {
                   isActive("/") ? theme.sideBar.btn.text.color : theme.sideBar.text.link,
               }}
             >
-              Home
+              Dashboard
             </Typography>
           </RowStack>
 
@@ -73,12 +75,12 @@ export const SideBar = () => {
               alignItems: "center",
               borderRadius: "12px",
               border: (theme) =>
-                isActive("/blockchain") ? `1px solid ${theme.sideBar.btn.border}` : "none",
+                isActive("/admin/users") ? `1px solid ${theme.sideBar.btn.border}` : "none",
               background: (theme) =>
-                isActive("/blockchain") ? theme.sideBar.btn.background : "none",
+                isActive("/admin/users") ? theme.sideBar.btn.background : "none",
               cursor: "pointer",
             }}
-            onClick={() => router.push("/blockchain")}
+             onClick={() => router.push("/admin/users")}
           >
             <StyledImage src={chartIcon} alt="" sx={{ width: "23px", height: "24px" }} />
 
@@ -90,7 +92,7 @@ export const SideBar = () => {
                   isActive("/blockchain") ? theme.sideBar.btn.text.color : theme.sideBar.text.link,
               }}
             >
-              Solana Performance
+              Users
             </Typography>
           </RowStack>
         </Stack>
