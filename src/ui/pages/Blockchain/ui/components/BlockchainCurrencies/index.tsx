@@ -3,6 +3,7 @@ import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
 import ScrollImg from "@/ui/assets/icons/image 12.svg";
 import { ApiBlockchainData, useApplicationTheme, useCryptoApi } from "@/common";
+import { useRouter } from "next/navigation";
 
 import starDarkIcon from "./ui/assets/icons/star_dark.svg";
 import starIcon from "./ui/assets/icons/star.svg";
@@ -10,6 +11,7 @@ import supplyDarkIcon from "./ui/assets/icons/shell_fish_dark.svg";
 import supplyIcon from "./ui/assets/icons/shell_fish.svg";
 
 export const BlockchainCurrencies = () => {
+  const router = useRouter();
   const { isDarkMode } = useApplicationTheme();
   const { getTopTokens } = useCryptoApi();
 
@@ -30,6 +32,10 @@ export const BlockchainCurrencies = () => {
 
     fetchTopTokens();
   }, [getTopTokens]);
+
+  const handleTokenClick = (tokenId: string | number) => {
+    router.push(`/blockchain/${tokenId}`);
+  };
 
   if (loading) {
     return <CircularProgress />;
@@ -52,6 +58,7 @@ export const BlockchainCurrencies = () => {
         cryptoData.map((data) => (
           <Box
             key={data.id}
+            onClick={() => handleTokenClick(data.id)}
             sx={{
               padding: "20px",
               display: "flex",
@@ -59,6 +66,12 @@ export const BlockchainCurrencies = () => {
               gap: "61px",
               borderRadius: "12px",
               border: (theme) => `1px solid ${theme.dashboard.blockchain.border}`,
+              cursor: "pointer",
+              transition: "all 0.2s ease-in-out",
+              "&:hover": {
+                transform: "translateY(-2px)",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              },
             }}
           >
             <Stack>

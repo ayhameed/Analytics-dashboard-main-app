@@ -1,6 +1,6 @@
 import React from "react";
-import { Blockchain } from "@/ui/pages";
+import { SolanaSummary } from "@/ui/pages/SolanaPerformance";
 
 export default function BlockChainPage() {
-  return <Blockchain />;
+  return <SolanaSummary />;
 }

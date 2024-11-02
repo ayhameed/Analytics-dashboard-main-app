@@ -41,18 +41,13 @@ export const AdminSideBar = () => {
             sx={{
               borderRadius: "12px",
               border: (theme) =>
-                isActive("/admin/dashboard") || isActive("/search")
-                  ? `1px solid ${theme.sideBar.btn.border}`
-                  : "none",
-              background: (theme) =>
-                isActive("/admin/dashboard") || isActive("/search")
-                  ? theme.sideBar.btn.background
-                  : "none",
+                isActive("/admin") ? `1px solid ${theme.sideBar.btn.border}` : "none",
+              background: (theme) => (isActive("/admin") ? theme.sideBar.btn.background : "none"),
               padding: "13px 12px 11px 12px",
               gap: "5px",
               cursor: "pointer",
             }}
-            onClick={() => router.push("/admin/dashboard")}
+            onClick={() => router.push("/admin")}
           >
             <StyledImage src={homeIcon} alt="" sx={{ width: "23px", height: "24px" }} />
 
@@ -61,7 +56,7 @@ export const AdminSideBar = () => {
                 fontSize: pxToRem(16),
                 fontWeight: 600,
                 color: (theme) =>
-                  isActive("/") ? theme.sideBar.btn.text.color : theme.sideBar.text.link,
+                  isActive("/admin") ? theme.sideBar.btn.text.color : theme.sideBar.text.link,
               }}
             >
               Dashboard
@@ -80,7 +75,7 @@ export const AdminSideBar = () => {
                 isActive("/admin/users") ? theme.sideBar.btn.background : "none",
               cursor: "pointer",
             }}
-             onClick={() => router.push("/admin/users")}
+            onClick={() => router.push("/admin/users")}
           >
             <StyledImage src={chartIcon} alt="" sx={{ width: "23px", height: "24px" }} />
 
@@ -89,7 +84,7 @@ export const AdminSideBar = () => {
                 fontSize: pxToRem(16),
                 fontWeight: 400,
                 color: (theme) =>
-                  isActive("/blockchain") ? theme.sideBar.btn.text.color : theme.sideBar.text.link,
+                  isActive("/admin/users") ? theme.sideBar.btn.text.color : theme.sideBar.text.link,
               }}
             >
               Users

@@ -74,8 +74,8 @@ export const LoginForm = () => {
     setSubmitting(true);
     const result = await login(values.email, values.password);
 
-    if (result) {
-      router.push("/");
+    if (result.success) {
+      router.push(result.isAdmin ? "/admin" : "/");
     } else {
       setSubmitting(false);
     }

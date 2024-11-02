@@ -14,6 +14,11 @@ export type ApiResetPasswordPayload = {
   password: string;
 };
 
+export type LoginResult = {
+  success: boolean;
+  isAdmin: boolean;
+};
+
 export type ApiLoginData = {
   user: {
     email: string;

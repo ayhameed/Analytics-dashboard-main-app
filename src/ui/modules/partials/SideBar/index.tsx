@@ -22,7 +22,14 @@ export const SideBar = () => {
     setDarkMode(!isDarkMode);
   };
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => {
+    if (path === "/") {
+      return pathname === "/" || pathname === "/search" || /^\/blockchain\/\d+$/.test(pathname);
+    } else if (path === "/blockchain") {
+      return pathname === "/blockchain";
+    }
+    return pathname === path;
+  };
 
   return (
     <Stack sx={{ justifyContent: "space-between", height: "100%" }}>
@@ -40,12 +47,8 @@ export const SideBar = () => {
           <RowStack
             sx={{
               borderRadius: "12px",
-              border: (theme) =>
-                isActive("/") || isActive("/search")
-                  ? `1px solid ${theme.sideBar.btn.border}`
-                  : "none",
-              background: (theme) =>
-                isActive("/") || isActive("/search") ? theme.sideBar.btn.background : "none",
+              border: (theme) => (isActive("/") ? `1px solid ${theme.sideBar.btn.border}` : "none"),
+              background: (theme) => (isActive("/") ? theme.sideBar.btn.background : "none"),
               padding: "13px 12px 11px 12px",
               gap: "5px",
               cursor: "pointer",

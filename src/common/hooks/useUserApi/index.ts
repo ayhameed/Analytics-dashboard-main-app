@@ -5,11 +5,13 @@ import {
   ApiResponse,
   ApiSignUpPayload,
   ApiVerifyEmailPayload,
+  LoginResult,
   setAccessToken,
   tryExecute,
   useApi,
 } from "@/common";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 interface EmailCheckResponse {
   user_exists: boolean;
@@ -82,12 +84,15 @@ export const useUserApi = () => {
   };
 
   /**
-   * Logs in a user and returns an access token if successful.
+   * Logs in a user and returns login result with admin status if successful.
    * @param email the email address to log in with
    * @param password the password to log in with
    */
-  const login = async (email: string, password: string): Promise<boolean> => {
-    let loginSuccess = false;
+  const login = async (email: string, password: string): Promise<LoginResult> => {
+    let loginResult: LoginResult = {
+      success: false,
+      isAdmin: false,
+    };
 
     const data = new URLSearchParams();
     data.append("username", email);
@@ -103,10 +108,24 @@ export const useUserApi = () => {
         }),
       async (response) => {
         if (response.status === 200) {
-          loginSuccess = true;
+          loginResult.success = true;
+          loginResult.isAdmin = response.data.data.user.is_admin;
 
           // Set access token
           setAccessToken(response.data.data.tokens.access_token);
+
+          // Set cookie with access token and admin status
+          Cookies.set(
+            "authToken",
+            JSON.stringify({
+              token: response.data.data.tokens.access_token,
+              isAdmin: response.data.data.user.is_admin,
+            }),
+            {
+              expires: 1, // 1 day
+              path: "/",
+            },
+          );
         } else {
           toast.error("Invalid Email or password");
         }
@@ -116,7 +135,7 @@ export const useUserApi = () => {
       },
     );
 
-    return loginSuccess;
+    return loginResult;
   };
 
   const signUp = async (email: string, password: string): Promise<boolean> => {

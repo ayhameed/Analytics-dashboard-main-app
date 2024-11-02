@@ -1,4 +1,3 @@
-// import { redirect } from "next/navigation";
 "use client";
 import { Blockchain } from "@/ui/pages";
 import React from "react";
