@@ -22,7 +22,21 @@ type DashboardStyle = {
     };
   };
 };
+
+type TokenDetailsStyle = {
+  card: {
+    background: string;
+    border: string;
+    text: {
+      primary: string;
+      secondary: string;
+    };
+  };
+  stakingPool: {};
+};
+
 type UserPageStyle = {};
+
 type AuthPageStyle = {
   authLeft: {
     background: string;
@@ -36,6 +50,7 @@ type AuthPageStyle = {
     };
   };
 };
+
 type sideBarStyles = {
   background: string;
   borderRight: string;
@@ -56,6 +71,7 @@ type sideBarStyles = {
     boxShadow: string;
   };
 };
+
 type navBarStyles = {
   background: string;
   search: {
@@ -75,6 +91,7 @@ interface ThemeExtension extends BaseThemeExtension {
   authPage: AuthPageStyle;
   sideBar: sideBarStyles;
   navBar: navBarStyles;
+  tokenDetails: TokenDetailsStyle;
 }
 
 // Augment the existing MUI `Theme` and `ThemeOptions` interfaces

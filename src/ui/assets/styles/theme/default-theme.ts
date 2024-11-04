@@ -4,6 +4,17 @@ import { useApplicationTheme } from "@/common";
 
 // Define light and dark theme styles for different components
 const lightThemeStyles = {
+  tokenDetails: {
+    card: {
+      background: "#F9F9F9",
+      border: "rgba(228, 231, 236, 0.50)",
+      text: {
+        primary: "#101928",
+        secondary: "#344054",
+      },
+    },
+    stakingPool: {},
+  },
   dashboard: {
     text: {
       header: "#101928",
@@ -73,6 +84,17 @@ const lightThemeStyles = {
 };
 
 const darkThemeStyles = {
+  tokenDetails: {
+    card: {
+      background: "#202326",
+      border: "rgba(228, 231, 236, 0.50)",
+      text: {
+        primary: "#C5C5C5",
+        secondary: "#C5C5C5",
+      },
+    },
+    stakingPool: {},
+  },
   dashboard: {
     text: {
       header: "#C5C5C5",
@@ -153,6 +175,7 @@ export const useDefaultTheme = () => {
           authPage: isDarkMode ? darkThemeStyles.authPage : lightThemeStyles.authPage,
           sideBar: isDarkMode ? darkThemeStyles.sideBar : lightThemeStyles.sideBar,
           navBar: isDarkMode ? darkThemeStyles.navBar : lightThemeStyles.navBar,
+          tokenDetails: isDarkMode ? darkThemeStyles.tokenDetails : lightThemeStyles.tokenDetails,
         },
         isDarkMode,
       ),
