@@ -32,7 +32,40 @@ type TokenDetailsStyle = {
       secondary: string;
     };
   };
-  stakingPool: {};
+  tokenChart: {
+    background: string;
+    border: string;
+    text: {
+      primary: string;
+      secondary: string;
+    };
+    btnBackground: {
+      primary: string;
+      secondary: string;
+    };
+    indicatorDetails: {
+      background: string;
+    };
+  };
+  stakingPool: {
+    background: string;
+    border: string;
+    text: {
+      primary: string;
+      secondary: string;
+    };
+    tableBackground: {
+      primary: string;
+      secondary: string;
+      tHead: string;
+    };
+  };
+  gasFeesTracker: {
+    border: string;
+    background: string;
+    primary: string;
+    PNGcolor: string;
+  };
 };
 
 type UserPageStyle = {};

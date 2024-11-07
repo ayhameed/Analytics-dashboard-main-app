@@ -13,7 +13,40 @@ const lightThemeStyles = {
         secondary: "#344054",
       },
     },
-    stakingPool: {},
+    tokenChart: {
+      background: "#fff",
+      border: "#D7D8DC",
+      text: {
+        primary: "#28292D",
+        secondary: "#582FD0",
+      },
+      btnBackground: {
+        primary: "#EBEBEB",
+        secondary: "rgba(223, 215, 246, 0.40",
+      },
+      indicatorDetails: {
+        background: "#fff",
+      },
+    },
+    stakingPool: {
+      background: "#fff",
+      border: "#D7D8DC",
+      text: {
+        primary: "#606060",
+        secondary: "#000",
+      },
+      tableBackground: {
+        primary: "#F9FAFB",
+        secondary: "rgba(249, 250, 251, 0.00",
+        tHead: "#F2EEFB",
+      },
+    },
+    gasFeesTracker: {
+      border: "#D7D8DC",
+      background: "#fff",
+      primary: "#000",
+      PNGcolor: "#737373",
+    },
   },
   dashboard: {
     text: {
@@ -93,7 +126,40 @@ const darkThemeStyles = {
         secondary: "#C5C5C5",
       },
     },
-    stakingPool: {},
+    tokenChart: {
+      background: "#202326",
+      border: "#C5C5C5",
+      text: {
+        primary: "#C5C5C5",
+        secondary: "#17191C",
+      },
+      btnBackground: {
+        primary: "#17191C",
+        secondary: "#AC7DEA",
+      },
+      indicatorDetails: {
+        background: "#2D3137",
+      },
+    },
+    stakingPool: {
+      background: "#202326",
+      border: "#C5C5C5",
+      text: {
+        primary: "#C5C5C5",
+        secondary: "#C5C5C5",
+      },
+      tableBackground: {
+        primary: "#2D3137",
+        secondary: "#202326",
+        tHead: "#424750",
+      },
+    },
+    gasFeesTracker: {
+      border: "#C5C5C5",
+      background: "#202326",
+      primary: "#C5C5C5",
+      PNGcolor: "#737373",
+    },
   },
   dashboard: {
     text: {

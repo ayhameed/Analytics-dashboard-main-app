@@ -245,5 +245,36 @@
       "Users": 50,
       "image": "Nigeria"
     }
+  ],
+  "tokenChart": [
+    { "name": "12am", "uv": 700, "pv": 2400, "amt": 2400 },
+    { "name": "1am", "uv": 1000, "pv": 2400, "amt": 2400 },
+    { "name": "2am", "uv": 1200, "pv": 1398, "amt": 2210 },
+    { "name": "3am ", "uv": 750, "pv": 9800, "amt": 2290 },
+    { "name": "4am", "uv": 500, "pv": 3908, "amt": 2000 },
+    { "name": "5am", "uv": 800, "pv": 4800, "amt": 2181 },
+    { "name": "6am", "uv": 950, "pv": 3800, "amt": 2500 },
+    { "name": "7am", "uv": 1400, "pv": 4300, "amt": 2100 },
+    { "name": "8am", "uv": 1250, "pv": 4300, "amt": 2100 },
+    { "name": "9am", "uv": 1150, "pv": 4300, "amt": 2100 },
+    { "name": "10am", "uv": 1500, "pv": 4300, "amt": 2100 },
+    { "name": "11am", "uv": 1300, "pv": 4300, "amt": 2100 },
+    { "name": "12pm", "uv": 750, "pv": 4300, "amt": 2100 },
+    { "name": "1pm", "uv": 2200, "pv": 4300, "amt": 2100 },
+    { "name": "2pm", "uv": 1700, "pv": 4300, "amt": 2100 },
+    { "name": "3pm", "uv": 3000, "pv": 4300, "amt": 2100 },
+    { "name": "4pm", "uv": 3000, "pv": 4300, "amt": 2100 },
+    { "name": "5pm", "uv": 2000, "pv": 4300, "amt": 2100 },
+    { "name": "6pm", "uv": 1500, "pv": 4300, "amt": 2100 },
+    { "name": "7pm", "uv": 1600, "pv": 4300, "amt": 2100 }
+  ],
+  "gasFeeData": [
+    { "name": "01/08", "priorityFee": 2000, "baseFee": 8000, "amt": 2400 },
+    { "name": "02/08", "priorityFee": 6000, "baseFee": 4000, "amt": 2210 },
+    { "name": "03/08", "priorityFee": 2500, "baseFee": 7500, "amt": 2290 },
+    { "name": "04/08", "priorityFee": 5000, "baseFee": 5000, "amt": 2000 },
+    { "name": "05/08", "priorityFee": 9000, "baseFee": 1000, "amt": 2181 },
+    { "name": "06/08", "priorityFee": 1000, "baseFee": 9000, "amt": 2500 },
+    { "name": "07/08", "priorityFee": 8000, "baseFee": 2000, "amt": 2100 }
   ]
 }
