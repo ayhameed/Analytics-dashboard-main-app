@@ -48,6 +48,26 @@ const lightThemeStyles = {
       PNGcolor: "#737373",
     },
   },
+  userPage: {
+    profile: {
+      background: "#F9FAFB",
+      primaryCl: "#5E646E",
+      secondaryCl: "#444",
+      dateCl: "#C5C5C5",
+    },
+    searchHistory: {
+      text: {
+        tableBody: "#606060",
+        tableHead: "#000",
+        primary: "#444",
+      },
+      background: {
+        tableHead: "#F2EEFB",
+        primary: "#F9FAFB",
+        secondary: "transparent",
+      },
+    },
+  },
   dashboard: {
     text: {
       header: "#101928",
@@ -68,7 +88,6 @@ const lightThemeStyles = {
       },
     },
   },
-  userPage: {},
   authPage: {
     authLeft: {
       background: "#F8F9FB",
@@ -161,6 +180,26 @@ const darkThemeStyles = {
       PNGcolor: "#737373",
     },
   },
+  userPage: {
+    profile: {
+      background: "#202326",
+      primaryCl: "#AEB4BD",
+      secondaryCl: "#C5C5C5",
+      dateCl: "#C5C5C5",
+    },
+    searchHistory: {
+      text: {
+        tableBody: "#C5C5C5",
+        tableHead: "#C5C5C5",
+        primary: "#C5C5C5",
+      },
+      background: {
+        tableHead: "#424750",
+        primary: "#2D3137",
+        secondary: "#101114",
+      },
+    },
+  },
   dashboard: {
     text: {
       header: "#C5C5C5",
@@ -181,7 +220,6 @@ const darkThemeStyles = {
       },
     },
   },
-  userPage: {},
   authPage: {
     authLeft: {
       background: "#17191C",

@@ -6,7 +6,6 @@ import { pxToRem } from "@web-insight/component-library";
 import {
   Box,
   CircularProgress,
-  Stack,
   TableContainer,
   TableBody,
   TableHead,
@@ -85,7 +84,7 @@ export const AdminUsersPage = () => {
                   fontSize: pxToRem(16),
                   fontWeight: 700,
                   padding: "8px 12px",
-                  border: "none"
+                  border: "none",
                 }}
               >
                 Full Name
@@ -96,7 +95,7 @@ export const AdminUsersPage = () => {
                   fontSize: pxToRem(16),
                   fontWeight: 700,
                   padding: "8px 12px",
-                  border: "none"
+                  border: "none",
                 }}
               >
                 Number Of Searches
@@ -107,7 +106,7 @@ export const AdminUsersPage = () => {
                   fontSize: pxToRem(16),
                   fontWeight: 700,
                   padding: "8px 12px",
-                  border: "none"
+                  border: "none",
                 }}
               >
                 Date Joined
@@ -132,9 +131,8 @@ export const AdminUsersPage = () => {
                         fontWeight: 400,
                         color: "#606060",
                         padding: isWhiteBackground ? "12px" : "8px 12px",
-                        border: "none"
+                        border: "none",
                       }}
-                      
                     >
                       {user.Name}
                     </TableCell>
@@ -145,7 +143,7 @@ export const AdminUsersPage = () => {
                         fontWeight: 400,
                         color: "#606060",
                         padding: isWhiteBackground ? "12px" : "8px 12px",
-                        border: "none"
+                        border: "none",
                       }}
                     >
                       {user.SearchNumber}
@@ -157,7 +155,7 @@ export const AdminUsersPage = () => {
                         fontWeight: 400,
                         color: "#606060",
                         padding: isWhiteBackground ? "12px" : "8px 12px",
-                        border: "none"
+                        border: "none",
                       }}
                     >
                       {user.dateJoined}

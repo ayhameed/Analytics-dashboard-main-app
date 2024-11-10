@@ -68,7 +68,26 @@ type TokenDetailsStyle = {
   };
 };
 
-type UserPageStyle = {};
+type UserPageStyle = {
+  profile: {
+    background: string;
+    primaryCl: string;
+    secondaryCl: string;
+    dateCl: string;
+  };
+  searchHistory: {
+    text: {
+      tableBody: string;
+      tableHead: string;
+      primary: string;
+    };
+    background: {
+      tableHead: string;
+      primary: string;
+      secondary: string;
+    };
+  };
+};
 
 type AuthPageStyle = {
   authLeft: {

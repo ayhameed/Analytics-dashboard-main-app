@@ -276,5 +276,39 @@
     { "name": "05/08", "priorityFee": 9000, "baseFee": 1000, "amt": 2181 },
     { "name": "06/08", "priorityFee": 1000, "baseFee": 9000, "amt": 2500 },
     { "name": "07/08", "priorityFee": 8000, "baseFee": 2000, "amt": 2100 }
+  ],
+  "searchHistoryData": [
+    {
+      "tokenSearched": "Hamster Token",
+      "time": "Thu Oct 19 2062 03:58:20 GMT+0100"
+    },
+    {
+      "tokenSearched": "defi UNI",
+      "time": "Mon Dec 13 2004 22:16:07 GMT+0100"
+    },
+    {
+      "tokenSearched": "Jupita",
+      "time": "Tue Jul 04 2084 21:57:25 GMT+0100"
+    },
+    {
+      "tokenSearched": "MindsCoin",
+      "time": "Thu Jul 06 2079 00:48:37 GMT+0100"
+    },
+    {
+      "tokenSearched": "Solaware",
+      "time": "Fri Sep 10 2077 00:32:41 GMT+0100"
+    },
+    {
+      "tokenSearched": "Mint$",
+      "time": "Tue Sep 08 2015 12:06:41 GMT+0100"
+    },
+    {
+      "tokenSearched": "teleCOinf",
+      "time": "Mon Nov 05 2018 12:47:13 GMT+0100"
+    },
+    {
+      "tokenSearched": "Manadan",
+      "time": "Fri Nov 04 2033 07:15:35 GMT+0100"
+    }
   ]
 }
