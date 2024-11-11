@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import profileAvatar from "@/ui/modules/partials/Header/ui/assets/icon/Avatar.jpg";
@@ -33,27 +33,33 @@ const CoinGeckoWidget: React.FC = () => {
 export const Header: React.FC = () => {
   const router = useRouter();
   const [displayLogout, setDisplayLogout] = useState(false);
-  const logoutRef = useRef<HTMLDivElement | null>(null);
-
-  function toggleLogout() {
-    setDisplayLogout((prevLogout) => !prevLogout);
-  }
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (logoutRef.current && !logoutRef.current.contains(event.target as Node)) {
+    const handleClickOutside = () => {
+      if (displayLogout) {
         setDisplayLogout(false);
       }
-    }
-
-    // Add event listener for clicks
-    document.addEventListener("mousedown", handleClickOutside);
-
-    // Clean up the event listener
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+
+    // Add click event listener to the document
+    document.addEventListener("click", handleClickOutside);
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [displayLogout]);
+
+  const handleProfileIconClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event from bubbling up
+    setDisplayLogout(!displayLogout);
+  };
+
+  const handleLogoutClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event from bubbling up
+    // Add your logout logic here
+    console.log("Logging out...");
+  };
 
   return (
     <AppBar
@@ -62,7 +68,7 @@ export const Header: React.FC = () => {
       sx={{
         padding: "16px 39px 15px 5px",
         background: (theme) => theme.navBar.background,
-        overflow: "hidden",
+        overflow: "visible", // Changed to visible to show dropdown
       }}
     >
       <Toolbar disableGutters>
@@ -104,6 +110,7 @@ export const Header: React.FC = () => {
                 alignItems: "center",
                 gap: "15px",
                 flexShrink: 0,
+                position: "relative",
               }}
             >
               <StyledImage
@@ -166,13 +173,15 @@ export const Header: React.FC = () => {
                   marginLeft: "24px",
                   flexShrink: 0,
                   cursor: "pointer",
+                  transform: displayLogout ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "transform 0.3s ease",
                 }}
-                onClick={toggleLogout}
+                onClick={handleProfileIconClick}
               />
 
               {displayLogout && (
                 <Box
-                  ref={logoutRef}
+                  onClick={handleLogoutClick}
                   sx={{
                     display: "flex",
                     padding: "15px 0 15px 10px",
@@ -182,10 +191,12 @@ export const Header: React.FC = () => {
                     boxShadow: "0px 4px 27.1px -6px rgba(92, 92, 92, 0.25)",
                     gap: "8px",
                     width: "252px",
-                    position: "fixed",
-                    top: "110px",
+                    position: "absolute",
+                    top: "70px",
+                    right: 0,
+                    marginTop: "10px",
                     cursor: "pointer",
-                    transition: "transform 0.3s ease",
+                    transition: "all 0.3s ease",
                     transform: "scaleY(1)",
                     transformOrigin: "top",
                     zIndex: 2000,
