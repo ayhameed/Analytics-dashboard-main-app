@@ -1,6 +1,5 @@
 "use client";
-
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
 import { AppBar, Box, Toolbar, Typography, Button } from "@mui/material";
 import profileAvatar from "@/ui/modules/partials/Header/ui/assets/icon/Avatar.jpg";
@@ -8,6 +7,7 @@ import logOut from "../assets/icon/logout.svg";
 import profileIcon from "@/ui/modules/partials/Header/ui/assets/icon/arrow-circle-down.svg";
 import { useApplicationTheme } from "@/common";
 import { SearchBar } from "@/ui/modules/partials/Header/ui/components";
+import { useRouter } from "next/navigation";
 
 const CoinGeckoWidget: React.FC = () => {
   const { isDarkMode } = useApplicationTheme();
@@ -23,7 +23,6 @@ const CoinGeckoWidget: React.FC = () => {
     >
       <gecko-coin-price-marquee-widget
         coin-ids={""}
-        // coin-ids="bitcoin,ethereum,tether,binancecoin,ripple,usd-coin,solana,cardano,dogecoin,polkadot,matic-network,tron,litecoin,chainlink,avalanche-2,stellar,monero,cosmos,ethereum-classic"
         initial-currency="usd"
         dark-mode={isDarkMode ? "true" : "false"}
       />
@@ -32,11 +31,29 @@ const CoinGeckoWidget: React.FC = () => {
 };
 
 export const Header: React.FC = () => {
+  const router = useRouter();
   const [displayLogout, setDisplayLogout] = useState(false);
+  const logoutRef = useRef<HTMLDivElement | null>(null);
 
   function toggleLogout() {
     setDisplayLogout((prevLogout) => !prevLogout);
   }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (logoutRef.current && !logoutRef.current.contains(event.target as Node)) {
+        setDisplayLogout(false);
+      }
+    }
+
+    // Add event listener for clicks
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <AppBar
@@ -99,6 +116,7 @@ export const Header: React.FC = () => {
                   objectFit: "cover",
                   cursor: "pointer",
                 }}
+                onClick={() => router.push("/users")}
               />
               <Box
                 sx={{
@@ -118,6 +136,7 @@ export const Header: React.FC = () => {
                     cursor: "pointer",
                   }}
                   title="Opeyemi Adeboye"
+                  onClick={() => router.push("/users")}
                 >
                   Opeyemi Adeboye
                 </Typography>
@@ -133,6 +152,7 @@ export const Header: React.FC = () => {
                     cursor: "pointer",
                   }}
                   title="Yemi@fig.com"
+                  onClick={() => router.push("/users")}
                 >
                   Yemi@fig.com
                 </Typography>
@@ -152,6 +172,7 @@ export const Header: React.FC = () => {
 
               {displayLogout && (
                 <Box
+                  ref={logoutRef}
                   sx={{
                     display: "flex",
                     padding: "15px 0 15px 10px",
@@ -164,6 +185,10 @@ export const Header: React.FC = () => {
                     position: "fixed",
                     top: "110px",
                     cursor: "pointer",
+                    transition: "transform 0.3s ease",
+                    transform: "scaleY(1)",
+                    transformOrigin: "top",
+                    zIndex: 2000,
                   }}
                 >
                   <StyledImage
