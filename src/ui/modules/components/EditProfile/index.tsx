@@ -1,15 +1,14 @@
 "use client";
-import { Box, Typography, Stack, Button } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import {
+  AppButton,
+  FormikAppTextField,
   pxToRem,
   RowStack,
   StyledImage,
-  AppButton,
-  FormikAppTextField,
 } from "@web-insight/component-library";
 import * as Yup from "yup";
 import { Form, Formik, FormikHelpers, useFormikContext } from "formik";
-import { useUserApi } from "@/common";
 import { useRouter } from "next/navigation";
 
 import profileAvatar from "./components/assets/image/avatar.svg";
@@ -71,13 +70,7 @@ export const EditProfile = () => {
         borderRadius: "20px",
         boxShadow: "0px 6px 15px 0px rgba(124, 124, 124, 0.05)",
         bgcolor: "#101114",
-        position: "fixed",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: 2000,
         padding: "40px 46px",
-        width: "fit-content",
       }}
     >
       <Stack spacing="60px">

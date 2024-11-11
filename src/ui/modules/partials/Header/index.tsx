@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
-import { AppBar, Box, Toolbar, Typography, Button } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import profileAvatar from "@/ui/modules/partials/Header/ui/assets/icon/Avatar.jpg";
 import logOut from "../assets/icon/logout.svg";
 import profileIcon from "@/ui/modules/partials/Header/ui/assets/icon/arrow-circle-down.svg";

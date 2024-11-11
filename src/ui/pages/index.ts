@@ -12,4 +12,3 @@ export * from "./SearchResult";
 export * from "./AdminDashboard";
 export * from "./AdminUsers";
 export * from "./UserPage";
-export * from "./EditProfilePage";
