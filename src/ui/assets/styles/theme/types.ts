@@ -68,6 +68,20 @@ type TokenDetailsStyle = {
   };
 };
 
+type solanaPerformanceStyle = {
+  contractSummary: {
+    background: {
+      primary: string;
+      secondary: string;
+    };
+    border: string;
+    text: {
+      primary: string;
+      secondary: string;
+    };
+  };
+};
+
 type UserPageStyle = {
   profile: {
     background: string;
@@ -134,6 +148,10 @@ type navBarStyles = {
       background: string;
     };
   };
+  logOut: {
+    color: string;
+    background: string;
+  };
 };
 
 // Extend the BaseThemeExtension with custom properties
@@ -144,6 +162,7 @@ interface ThemeExtension extends BaseThemeExtension {
   sideBar: sideBarStyles;
   navBar: navBarStyles;
   tokenDetails: TokenDetailsStyle;
+  solanaPerformance: solanaPerformanceStyle;
 }
 
 // Augment the existing MUI `Theme` and `ThemeOptions` interfaces

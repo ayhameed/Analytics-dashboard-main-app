@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import { useState } from "react";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography, Button } from "@mui/material";
 import profileAvatar from "@/ui/modules/partials/Header/ui/assets/icon/Avatar.jpg";
+import logOut from "../assets/icon/logout.svg";
 import profileIcon from "@/ui/modules/partials/Header/ui/assets/icon/arrow-circle-down.svg";
 import { useApplicationTheme } from "@/common";
 import { SearchBar } from "@/ui/modules/partials/Header/ui/components";
@@ -15,8 +16,9 @@ const CoinGeckoWidget: React.FC = () => {
     <Box
       sx={{
         width: "100%",
-        height: "40px", // Adjust height as needed
-        overflow: "hidden", // Prevent overflow
+        height: "40px",
+        overflow: "hidden",
+        position: "relative",
       }}
     >
       <gecko-coin-price-marquee-widget
@@ -30,6 +32,12 @@ const CoinGeckoWidget: React.FC = () => {
 };
 
 export const Header: React.FC = () => {
+  const [displayLogout, setDisplayLogout] = useState(false);
+
+  function toggleLogout() {
+    setDisplayLogout((prevLogout) => !prevLogout);
+  }
+
   return (
     <AppBar
       elevation={0}
@@ -89,6 +97,7 @@ export const Header: React.FC = () => {
                   height: "48px",
                   borderRadius: "50%",
                   objectFit: "cover",
+                  cursor: "pointer",
                 }}
               />
               <Box
@@ -106,6 +115,7 @@ export const Header: React.FC = () => {
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
+                    cursor: "pointer",
                   }}
                   title="Opeyemi Adeboye"
                 >
@@ -120,6 +130,7 @@ export const Header: React.FC = () => {
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
+                    cursor: "pointer",
                   }}
                   title="Yemi@fig.com"
                 >
@@ -134,8 +145,44 @@ export const Header: React.FC = () => {
                   height: "24px",
                   marginLeft: "24px",
                   flexShrink: 0,
+                  cursor: "pointer",
                 }}
+                onClick={toggleLogout}
               />
+
+              {displayLogout && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    padding: "15px 0 15px 10px",
+                    alignItems: "flex-start",
+                    borderRadius: "9px",
+                    backgroundColor: (theme) => theme.navBar.logOut.background,
+                    boxShadow: "0px 4px 27.1px -6px rgba(92, 92, 92, 0.25)",
+                    gap: "8px",
+                    width: "252px",
+                    position: "fixed",
+                    top: "110px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <StyledImage
+                    src={logOut}
+                    alt="logOutIcon"
+                    sx={{ height: "24px", width: "24px", display: "block" }}
+                  />
+                  <Typography
+                    sx={{
+                      fontSize: pxToRem(16),
+                      fontWeight: 400,
+                      lineHeight: "150%",
+                      color: (theme) => theme.navBar.logOut.color,
+                    }}
+                  >
+                    Log Out
+                  </Typography>
+                </Box>
+              )}
             </RowStack>
           </Box>
         </Box>

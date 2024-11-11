@@ -48,6 +48,19 @@ const lightThemeStyles = {
       PNGcolor: "#737373",
     },
   },
+  solanaPerformance: {
+    contractSummary: {
+      background: {
+        primary: "#fff",
+        secondary: "#F9FAFB",
+      },
+      border: "rgba(228, 231, 236, 0.50)",
+      text: {
+        primary: "#3B3B3B",
+        secondary: "#344054",
+      },
+    },
+  },
   userPage: {
     profile: {
       background: "#F9FAFB",
@@ -132,6 +145,10 @@ const lightThemeStyles = {
         background: "#F7F9FC",
       },
     },
+    logOut: {
+      color: "#667185",
+      background: "#E4E7EC",
+    },
   },
 };
 
@@ -200,6 +217,19 @@ const darkThemeStyles = {
       },
     },
   },
+  solanaPerformance: {
+    contractSummary: {
+      background: {
+        primary: "#202326",
+        secondary: "#2D3137",
+      },
+      border: "#C5C5C5",
+      text: {
+        primary: "#C5C5C5",
+        secondary: "#C5C5C5",
+      },
+    },
+  },
   dashboard: {
     text: {
       header: "#C5C5C5",
@@ -264,6 +294,10 @@ const darkThemeStyles = {
         background: "#17191C",
       },
     },
+    logOut: {
+      color: "#C5C5C5",
+      background: "#000",
+    },
   },
 };
 
@@ -280,6 +314,9 @@ export const useDefaultTheme = () => {
           sideBar: isDarkMode ? darkThemeStyles.sideBar : lightThemeStyles.sideBar,
           navBar: isDarkMode ? darkThemeStyles.navBar : lightThemeStyles.navBar,
           tokenDetails: isDarkMode ? darkThemeStyles.tokenDetails : lightThemeStyles.tokenDetails,
+          solanaPerformance: isDarkMode
+            ? darkThemeStyles.solanaPerformance
+            : lightThemeStyles.solanaPerformance,
         },
         isDarkMode,
       ),

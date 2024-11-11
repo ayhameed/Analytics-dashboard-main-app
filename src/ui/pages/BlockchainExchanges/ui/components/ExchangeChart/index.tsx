@@ -12,7 +12,7 @@ export const ExchangeChart = () => {
         padding: "20px 24px 0 24px",
         minWidth: "662px",
         borderRadius: "10px",
-        border: "0.8px solid var(--Light-Divider-2, #D7D8DC)",
+        border: (theme) => `0.8px solid ${theme.tokenDetails.tokenChart.border}`,
         overflow: "hidden",
       }}
     >

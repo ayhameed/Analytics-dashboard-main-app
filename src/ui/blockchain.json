@@ -133,32 +133,32 @@
   "SmartContracts": [
     {
       "Token": "Minds",
-      "Contract Address": "HRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV7J",
+      "ContractAddress": "HRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV7J",
       "Interactions": 2345
     },
     {
       "Token": "Ghyu$",
-      "Contract Address": "ZRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVRE",
+      "ContractAddress": "ZRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVRE",
       "Interactions": 1123
     },
     {
       "Token": "rteDD",
-      "Contract Address": "ERr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVP9",
+      "ContractAddress": "ERr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVP9",
       "Interactions": 1235
     },
     {
       "Token": "Minjna  Token",
-      "Contract Address": "KRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV90",
+      "ContractAddress": "KRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV90",
       "Interactions": 6554
     },
     {
       "Token": "Dabaya",
-      "Contract Address": "FFr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVY5",
+      "ContractAddress": "FFr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWVY5",
       "Interactions": 3442
     },
     {
       "Token": "JulliK",
-      "Contract Address": "TRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV2E",
+      "ContractAddress": "TRr8EW8FYSuNHkJc822ZuDRCWRwaRyJ7xaWAr8xWV2E",
       "Interactions": 2311
     }
   ],
@@ -310,5 +310,27 @@
       "tokenSearched": "Manadan",
       "time": "Fri Nov 04 2033 07:15:35 GMT+0100"
     }
+  ],
+  "healthMetricsChart": [
+    { "name": "12am", "uv": 60, "pv": 240, "amt": 2400 },
+    { "name": "1am", "uv": 80, "pv": 240, "amt": 2400 },
+    { "name": "2am", "uv": 90, "pv": 139, "amt": 2210 },
+    { "name": "3am ", "uv": 65, "pv": 980, "amt": 2290 },
+    { "name": "4am", "uv": 40, "pv": 390, "amt": 2000 },
+    { "name": "5am", "uv": 70, "pv": 480, "amt": 2181 },
+    { "name": "6am", "uv": 80, "pv": 380, "amt": 2500 },
+    { "name": "7am", "uv": 120, "pv": 430, "amt": 2100 },
+    { "name": "8am", "uv": 100, "pv": 430, "amt": 2100 },
+    { "name": "9am", "uv": 85, "pv": 430, "amt": 2100 },
+    { "name": "10am", "uv": 130, "pv": 430, "amt": 2100 },
+    { "name": "11am", "uv": 110, "pv": 430, "amt": 2100 },
+    { "name": "12pm", "uv": 75, "pv": 430, "amt": 2100 },
+    { "name": "1pm", "uv": 150, "pv": 430, "amt": 2100 },
+    { "name": "2pm", "uv": 120, "pv": 430, "amt": 2100 },
+    { "name": "3pm", "uv": 185, "pv": 430, "amt": 2100 },
+    { "name": "4pm", "uv": 185, "pv": 430, "amt": 2100 },
+    { "name": "5pm", "uv": 95, "pv": 430, "amt": 2100 },
+    { "name": "6pm", "uv": 100, "pv": 430, "amt": 2100 },
+    { "name": "7pm", "uv": 110, "pv": 430, "amt": 2100 }
   ]
 }
