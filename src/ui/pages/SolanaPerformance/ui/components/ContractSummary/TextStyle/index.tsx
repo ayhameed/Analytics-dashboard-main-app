@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 interface TypographyTextProp {
   text: string;
 }
+
 export const TypographyText = ({ text }: TypographyTextProp) => {
   return (
     <Typography

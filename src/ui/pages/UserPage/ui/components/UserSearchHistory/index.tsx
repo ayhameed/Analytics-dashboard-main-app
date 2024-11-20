@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import SearchHistoryDatas from "@/ui/blockchain.json";
 import { pxToRem } from "@web-insight/component-library";
 import {
   Box,
@@ -16,38 +15,70 @@ import {
 } from "@mui/material";
 import { getUserId, useApplicationTheme, useUserApi } from "@/common";
 
-type searchedHistoryDataProp = {
+interface SearchHistoryResponse {
+  token_searched: string;
+  timestamp: string;
+}
+
+type SearchHistoryItem = {
   tokenSearched: string;
   time: string;
 };
 
 export const UserSearchHistory = () => {
   const { isDarkMode } = useApplicationTheme();
-  const [seachedHistory, setSearchedHistory] = useState<searchedHistoryDataProp[] | null>(null);
+  const [searchHistory, setSearchHistory] = useState<SearchHistoryItem[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const userID = getUserId();
+  const userId = getUserId();
   const { getUserSearchHistory } = useUserApi();
 
   useEffect(() => {
-    try {
-      // Set data from the JSON file as initial state
-      const data = SearchHistoryDatas.searchHistoryData;
-      setSearchedHistory(data);
-      setLoading(false);
-    } catch (error) {
-      setError("Failed to load user data");
-      setLoading(false);
-    }
-  }, []);
+    const fetchSearchHistory = async () => {
+      if (!userId) {
+        setError("User ID not found");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const { success, data } = await getUserSearchHistory(userId);
+
+        if (success && data) {
+          const transformedData = (data as SearchHistoryResponse[]).map((item) => ({
+            tokenSearched: item.token_searched,
+            time: new Date(item.timestamp).toLocaleString(),
+          }));
+
+          setSearchHistory(transformedData);
+        } else {
+          setError("Failed to load search history");
+        }
+      } catch (err) {
+        setError("An error occurred while fetching search history");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSearchHistory();
+  }, [userId, getUserSearchHistory]);
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", padding: "2rem" }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
-  if (error) {
-    return <Typography color="error">{error}</Typography>;
+  if (!searchHistory || searchHistory.length === 0) {
+    return (
+      <Box sx={{ padding: "2rem", textAlign: "center" }}>
+        <Typography>No search history found</Typography>
+      </Box>
+    );
   }
 
   return (
@@ -117,43 +148,42 @@ export const UserSearchHistory = () => {
                 }}
               />
             </TableRow>
-            {seachedHistory &&
-              seachedHistory.map((data, index) => (
-                <TableRow
-                  key={index}
+            {searchHistory.map((data, index) => (
+              <TableRow
+                key={index}
+                sx={{
+                  backgroundColor: (theme) =>
+                    index % 2
+                      ? theme.userPage.searchHistory.background.secondary
+                      : theme.userPage.searchHistory.background.primary,
+                }}
+              >
+                <TableCell
                   sx={{
-                    backgroundColor: (theme) =>
-                      index % 2
-                        ? theme.userPage.searchHistory.background.secondary
-                        : theme.userPage.searchHistory.background.primary,
+                    fontSize: pxToRem(16),
+                    fontWeight: 400,
+                    color: (theme) => theme.userPage.searchHistory.text.tableBody,
+                    padding: index % 2 ? "12px" : "8px 12px",
+                    border: "none",
+                    textAlign: "left",
                   }}
                 >
-                  <TableCell
-                    sx={{
-                      fontSize: pxToRem(16),
-                      fontWeight: 400,
-                      color: (theme) => theme.userPage.searchHistory.text.tableBody,
-                      padding: index % 2 ? "12px" : "8px 12px",
-                      border: "none",
-                      textAlign: "left",
-                    }}
-                  >
-                    {data.tokenSearched}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontSize: pxToRem(16),
-                      fontWeight: 400,
-                      color: (theme) => theme.userPage.searchHistory.text.tableBody,
-                      padding: index % 2 ? "12px" : "8px 12px",
-                      border: "none",
-                      textAlign: "right",
-                    }}
-                  >
-                    {data.time}
-                  </TableCell>
-                </TableRow>
-              ))}
+                  {data.tokenSearched}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontSize: pxToRem(16),
+                    fontWeight: 400,
+                    color: (theme) => theme.userPage.searchHistory.text.tableBody,
+                    padding: index % 2 ? "12px" : "8px 12px",
+                    border: "none",
+                    textAlign: "right",
+                  }}
+                >
+                  {data.time}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

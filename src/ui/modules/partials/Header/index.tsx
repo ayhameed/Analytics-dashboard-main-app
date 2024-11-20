@@ -162,7 +162,7 @@ export const Header: React.FC = () => {
                     cursor: "pointer",
                   }}
                   title="Opeyemi Adeboye"
-                  onClick={() => router.push("/users")}
+                  onClick={() => router.push("/user")}
                 >
                   {userInfo.name}
                 </Typography>
@@ -178,7 +178,7 @@ export const Header: React.FC = () => {
                     cursor: "pointer",
                   }}
                   title="Yemi@fig.com"
-                  onClick={() => router.push("/users")}
+                  onClick={() => router.push("/user")}
                 >
                   {userInfo.email}
                 </Typography>

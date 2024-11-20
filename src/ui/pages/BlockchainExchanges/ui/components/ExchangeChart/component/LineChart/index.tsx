@@ -1,44 +1,48 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-  LineChart as RechartsLineChart,
   Line,
-  XAxis,
-  Tooltip,
+  LineChart as RechartsLineChart,
   ResponsiveContainer,
+  Tooltip,
+  XAxis,
 } from "recharts";
-import { Box, Typography, CircularProgress } from "@mui/material";
-import chartData from "@/ui/blockchain.json";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { RowStack } from "@web-insight/component-library";
+import { format } from "date-fns";
 
-interface ChartDataProps {
-  name: string;
-  uv: number;
-  pv: number;
-  amt: number;
+interface HistoryData {
+  [date: string]: {
+    volume: number;
+    percentage_change: number | null;
+  };
 }
 
-export const LineChart = () => {
-  const [chart, setChart] = useState<ChartDataProps[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface FormattedData {
+  date: string;
+  volume: number;
+  percentage: number | null;
+}
+
+interface LineChartProps {
+  data: HistoryData | null;
+}
+
+export const LineChart = ({ data }: LineChartProps) => {
+  const [formattedData, setFormattedData] = useState<FormattedData[]>([]);
 
   useEffect(() => {
-    try {
-      const data = chartData.tokenChart;
-      setChart(data);
-      setLoading(false);
-    } catch (error) {
-      setError("Failed to load chart data");
-      setLoading(false);
+    if (data) {
+      const formatted = Object.entries(data).map(([date, values]) => ({
+        date: format(new Date(date), "dd MMM, yyyy"),
+        volume: values.volume,
+        percentage: values.percentage_change,
+      }));
+      setFormattedData(formatted);
     }
-  }, []);
+  }, [data]);
 
-  if (loading) {
+  if (!data) {
     return <CircularProgress />;
-  }
-
-  if (error) {
-    return <Typography color="error">{error}</Typography>;
   }
 
   return (
@@ -52,16 +56,16 @@ export const LineChart = () => {
     >
       <ResponsiveContainer width="100%" height={259}>
         <RechartsLineChart
-          data={chart}
+          data={formattedData}
           syncId="anyId"
           margin={{ top: 10, right: 30, left: 10, bottom: 0 }}
         >
-          <XAxis dataKey="name" axisLine={false} tickLine={false} />
+          <XAxis dataKey="date" axisLine={false} tickLine={false} />
           <Tooltip
             cursor={{ stroke: "#8F46F8", strokeWidth: 1 }}
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
-                const { name, uv } = payload[0].payload; // token detail API can be added here
+                const data = payload[0].payload as FormattedData;
                 return (
                   <Box
                     sx={{
@@ -75,8 +79,7 @@ export const LineChart = () => {
                       top: "-50px",
                     }}
                   >
-                    {/** The token detail Api can be displayed here */}
-                    <Typography variant="body2">04 April, 2024</Typography>
+                    <Typography variant="body2">{data.date}</Typography>
                     <RowStack spacing={"13px"} marginTop={"10px"}>
                       <Typography
                         variant="body1"
@@ -85,20 +88,23 @@ export const LineChart = () => {
                           fontWeight: 600,
                         }}
                       >
-                        1,211.88
+                        {data.volume.toLocaleString()}
                       </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          backgroundColor: "#DDF6E6",
-                          borderRadius: "4px",
-                          fontWeight: 500,
-                          color: "#27A963",
-                          padding: "5px 10px",
-                        }}
-                      >
-                        +3.4%
-                      </Typography>
+                      {data.percentage !== null && (
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            backgroundColor: data.percentage >= 0 ? "#DDF6E6" : "#FFE6E6",
+                            borderRadius: "4px",
+                            fontWeight: 500,
+                            color: data.percentage >= 0 ? "#27A963" : "#FF4545",
+                            padding: "5px 10px",
+                          }}
+                        >
+                          {data.percentage >= 0 ? "+" : ""}
+                          {data.percentage.toFixed(2)}%
+                        </Typography>
+                      )}
                     </RowStack>
                   </Box>
                 );
@@ -106,7 +112,7 @@ export const LineChart = () => {
               return null;
             }}
           />
-          <Line type="monotone" dataKey="uv" stroke="#8F46F8" dot={false} />
+          <Line type="monotone" dataKey="volume" stroke="#8F46F8" dot={false} />
         </RechartsLineChart>
       </ResponsiveContainer>
     </Box>

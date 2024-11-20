@@ -13,6 +13,11 @@ const nextConfig = {
         hostname: "s2.coinmarketcap.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "web3insights.s3.amazonaws.com",
+        port: "",
+      }
     ],
   },
   productionBrowserSourceMaps: false,

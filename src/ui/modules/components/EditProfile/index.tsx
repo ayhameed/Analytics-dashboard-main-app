@@ -10,8 +10,10 @@ import {
 import * as Yup from "yup";
 import { Form, Formik, FormikHelpers, useFormikContext } from "formik";
 import { useRouter } from "next/navigation";
+import { useUserApi } from "@/common";
 
 import profileAvatar from "./components/assets/image/avatar.svg";
+import React from "react";
 
 const authSchema = Yup.object().shape({
   email: Yup.string()
@@ -37,13 +39,8 @@ export const SubmitButton = () => {
 };
 
 export const EditProfile = () => {
-  // const { checkEmail } = useUserApi();
+  const { updateUserProfile } = useUserApi();
   const router = useRouter();
-
-  const handleCheckEmail = async (email: string) => {
-    // return await checkEmail(email);
-    return true;
-  };
 
   const initialValues: FormContent = {
     email: "",
@@ -52,16 +49,35 @@ export const EditProfile = () => {
   };
 
   const onSubmit = async (values: FormContent, { setSubmitting }: FormikHelpers<FormContent>) => {
-    setSubmitting(true);
-    const result = await handleCheckEmail(values.email);
+    try {
+      setSubmitting(true);
 
-    // if (result) {
-    //   router.push(`/login?email=${encodeURIComponent(values.email)}`);
-    // } else {
-    //   router.push("/sign-up?email=" + encodeURIComponent(values.email));
-    // }
+      // Create FormData object for multipart/form-data submission
+      const formData = new FormData();
+      formData.append("email", values.email);
+      formData.append("first_name", values.firstName);
+      formData.append("last_name", values.lastName);
 
-    setSubmitting(false);
+      const success = await updateUserProfile(formData);
+
+      if (success) {
+        // Optionally redirect or show success message
+        router.push("/user");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const formData = new FormData();
+      formData.append("avatar", event.target.files[0]);
+
+      await updateUserProfile(formData);
+    }
   };
 
   return (
@@ -109,7 +125,16 @@ export const EditProfile = () => {
               }}
             />
 
-            <Button>Change Avatar</Button>
+            <input
+              type="file"
+              id="avatar-upload"
+              hidden
+              accept="image/*"
+              onChange={handleAvatarChange}
+            />
+            <Button onClick={() => document.getElementById("avatar-upload")?.click()}>
+              Change Avatar
+            </Button>
           </Box>
 
           <Box width={"100%"}>
@@ -136,7 +161,6 @@ export const EditProfile = () => {
                         size="small"
                         variant="outlined"
                         placeholder={"yemi.fig@figma.com"}
-                        sx={{}}
                       />
                     </Box>
 
@@ -159,7 +183,6 @@ export const EditProfile = () => {
                         size="small"
                         variant="outlined"
                         placeholder={"Opeyemi"}
-                        sx={{}}
                       />
                     </Box>
 
@@ -182,7 +205,6 @@ export const EditProfile = () => {
                         size="small"
                         variant="outlined"
                         placeholder={"Melusaabu"}
-                        sx={{}}
                       />
                     </Box>
                     <SubmitButton />

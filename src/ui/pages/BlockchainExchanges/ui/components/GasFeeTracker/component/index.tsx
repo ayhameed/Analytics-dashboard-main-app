@@ -1,46 +1,76 @@
-import { useState, useEffect } from "react";
-import { CircularProgress, Typography } from "@mui/material";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import gasFeeDatas from "@/ui/blockchain.json";
+import { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material";
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { format } from "date-fns";
 
-interface gasFeeGraphProps {
-  name: string;
-  priorityFee: number;
-  baseFee: number;
+interface GasFeeData {
+  [date: string]: {
+    total_gas_fees: number;
+    total_transactions: number;
+    priority_transactions: number;
+    basic_transactions: number;
+  };
 }
-const GasFeeGraph = () => {
-  const [barChart, setBarChart] = useState<gasFeeGraphProps[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
+interface FormattedGasFeeData {
+  date: string;
+  baseFee: number;
+  priorityFee: number;
+}
+
+interface GasFeeGraphProps {
+  data: GasFeeData | null;
+}
+
+const GasFeeGraph = ({ data }: GasFeeGraphProps) => {
+  const [formattedData, setFormattedData] = useState<FormattedGasFeeData[]>([]);
 
   useEffect(() => {
-    try {
-      const data = gasFeeDatas.gasFeeData;
-      setBarChart(data);
-      setLoading(false);
-    } catch (error) {
-      setError("Failed to load chart data");
-      setLoading(false);
+    if (data) {
+      const formatted = Object.entries(data).map(([date, values]) => ({
+        date: format(new Date(date), "MMM dd"),
+        baseFee: values.basic_transactions,
+        priorityFee: values.priority_transactions,
+      }));
+      setFormattedData(formatted);
     }
-  }, []);
+  }, [data]);
 
-  if (loading) {
+  if (!data) {
     return <CircularProgress />;
-  }
-
-  if (error) {
-    return <Typography color="error">{error}</Typography>;
   }
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <BarChart data={barChart} margin={{ top: 5, left: -20, bottom: 20 }} barSize={21}>
-        <XAxis dataKey="name" tickLine={false} axisLine={false} />
+      <BarChart data={formattedData} margin={{ top: 5, left: -20, bottom: 20 }} barSize={21}>
+        <XAxis dataKey="date" tickLine={false} axisLine={false} />
         <YAxis
-          ticks={[0, 2000, 4000, 6000, 8000, 10000, 12000]}
-          tickFormatter={(value) => (value > 0 ? `${value / 1000}k` : value)}
+          tickFormatter={(value) => (value > 0 ? `${(value / 1000).toFixed(1)}k` : "0")}
           tickLine={false}
           axisLine={false}
+        />
+        <Tooltip
+          cursor={false}
+          content={({ active, payload }) => {
+            if (active && payload && payload.length) {
+              const data = payload[0].payload as FormattedGasFeeData;
+              return (
+                <div
+                  style={{
+                    background: "white",
+                    padding: "10px",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                  }}
+                >
+                  <p>{data.date}</p>
+                  <p>Base Fee: {data.baseFee}</p>
+                  <p>Priority Fee: {data.priorityFee}</p>
+                </div>
+              );
+            }
+            return null;
+          }}
         />
         <Bar dataKey="baseFee" stackId="a" fill="#22DDD4" />
         <Bar dataKey="priorityFee" stackId="a" fill="#0E5855" />

@@ -1,9 +1,35 @@
 "use client";
-import { Box, Stack } from "@mui/material";
+
+import { Stack } from "@mui/material";
 import { TypographyText } from "./TextStyle";
 import { TypographyDigit } from "./digitStyle";
+import { useEffect, useState } from "react";
+import { useCryptoApi } from "@/common";
+
+interface SolanaMetrics {
+  validators: number;
+  daily_active_programs: number | null;
+  total_non_vote_fees: number | null;
+  tps: number | null;
+}
 
 export const ContractSummary = () => {
+  const { getSolanaMetrics } = useCryptoApi();
+  const [metrics, setMetrics] = useState<SolanaMetrics | null>(null);
+
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      const data = await getSolanaMetrics();
+      if (data) setMetrics(data);
+    };
+    fetchMetrics();
+  }, [getSolanaMetrics]);
+
+  const formatNumber = (value: number | null | undefined): string => {
+    if (value === null || value === undefined) return "N/A";
+    return new Intl.NumberFormat("en-US").format(value);
+  };
+
   return (
     <Stack
       padding={"20px 12px"}
@@ -25,7 +51,7 @@ export const ContractSummary = () => {
         }}
       >
         <TypographyText text={"TPS for the last 1 hour"} />
-        <TypographyDigit numberValue={2966} />
+        <TypographyDigit numberValue={formatNumber(metrics?.tps)} />
       </Stack>
 
       <Stack
@@ -37,7 +63,7 @@ export const ContractSummary = () => {
         }}
       >
         <TypographyText text={"Total Fees of Non-Vote Transactions Over 24h (SOL)"} />
-        <TypographyDigit numberValue={6434.247628964} />
+        <TypographyDigit numberValue={formatNumber(metrics?.total_non_vote_fees)} />
       </Stack>
 
       <Stack
@@ -49,7 +75,7 @@ export const ContractSummary = () => {
         }}
       >
         <TypographyText text={"Validators"} />
-        <TypographyDigit numberValue={2360} />
+        <TypographyDigit numberValue={formatNumber(metrics?.validators)} />
       </Stack>
 
       <Stack
@@ -61,7 +87,7 @@ export const ContractSummary = () => {
         }}
       >
         <TypographyText text={"Daily Active Programs"} />
-        <TypographyDigit numberValue={1457} />
+        <TypographyDigit numberValue={formatNumber(metrics?.daily_active_programs)} />
       </Stack>
     </Stack>
   );

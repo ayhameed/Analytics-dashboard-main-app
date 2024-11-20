@@ -1,9 +1,38 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
+import { pxToRem, RowStack } from "@web-insight/component-library";
 import { ChartStyledTypography } from "./component/ChartStyledTypography";
 import { LineChart } from "./component/LineChart";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { useCryptoApi } from "@/common";
+
+type TimeSpan = "24h" | "7d" | "30d" | "1Y";
+type VolumeData = { volume: number; percentage_change: number | null };
+
+interface HistoryData {
+  [date: string]: VolumeData;
+}
 
 export const ExchangeChart = () => {
+  const params = useParams();
+  const tokenId = Number(params.id);
+  const [timeSpan, setTimeSpan] = useState<TimeSpan>("7d");
+  const [historyData, setHistoryData] = useState<HistoryData | null>(null);
+  const { getTokenHistory } = useCryptoApi();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!tokenId) return;
+      const data = await getTokenHistory(tokenId, timeSpan);
+      if (data) setHistoryData(data);
+    };
+    fetchData();
+  }, [tokenId, timeSpan, getTokenHistory]);
+
+  const handleTimeSpanChange = (newTimeSpan: TimeSpan) => {
+    setTimeSpan(newTimeSpan);
+  };
+
   return (
     <Stack
       spacing={"40px"}
@@ -40,29 +69,38 @@ export const ExchangeChart = () => {
             gap: "10px",
           }}
         >
-          <Typography
-            sx={{
-              color: (theme) => theme.tokenDetails.tokenChart.text.secondary,
-              fontFeatureSettings: "'liga' off, 'clig' off",
-              fontSize: pxToRem(14),
-              fontWeight: 600,
-              lineHeight: "20px",
-              letterSpacing: "0.25px",
-              backgroundColor: (theme) => theme.tokenDetails.tokenChart.btnBackground.secondary,
-              borderRadius: "6px",
-              padding: "13px 24px 13px 27px",
-            }}
+          <ChartStyledTypography
+            isActive={timeSpan === "24h"}
+            onClick={() => handleTimeSpanChange("24h")}
           >
             Today
-          </Typography>
-          <ChartStyledTypography>Past Week</ChartStyledTypography>
-          <ChartStyledTypography>Month</ChartStyledTypography>
-          <ChartStyledTypography>Year</ChartStyledTypography>
+          </ChartStyledTypography>
+
+          <ChartStyledTypography
+            isActive={timeSpan === "7d"}
+            onClick={() => handleTimeSpanChange("7d")}
+          >
+            Past Week
+          </ChartStyledTypography>
+
+          <ChartStyledTypography
+            isActive={timeSpan === "30d"}
+            onClick={() => handleTimeSpanChange("30d")}
+          >
+            Month
+          </ChartStyledTypography>
+
+          <ChartStyledTypography
+            isActive={timeSpan === "1Y"}
+            onClick={() => handleTimeSpanChange("1Y")}
+          >
+            Year
+          </ChartStyledTypography>
         </Box>
       </RowStack>
 
       <Box>
-        <LineChart />
+        <LineChart data={historyData} />
       </Box>
     </Stack>
   );

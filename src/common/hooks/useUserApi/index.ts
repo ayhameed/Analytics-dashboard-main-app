@@ -5,6 +5,7 @@ import {
   ApiResponse,
   ApiSignUpPayload,
   ApiVerifyEmailPayload,
+  getAccessToken,
   LoginResult,
   setAccessToken,
   setUserId,
@@ -218,6 +219,37 @@ export const useUserApi = () => {
     return { success, data };
   };
 
+  const updateUserProfile = async (data: FormData) => {
+    let success = false;
+    const token = getAccessToken();
+
+    await tryExecute(
+      () =>
+        api.patch<ApiResponse<any>, any>("/users/profile", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      async (response) => {
+        if (response.status === 200) {
+          success = true;
+          setUserInfo(
+            response.data.data.name,
+            response.data.data.avatar_url,
+            response.data.data.email,
+          );
+          toast.success("Profile updated successfully");
+        }
+      },
+      async () => {
+        toast.error("Failed to update profile");
+      },
+    );
+
+    return success;
+  };
+
   return {
     checkEmail,
     login,
@@ -225,5 +257,6 @@ export const useUserApi = () => {
     forgotPassword,
     resetPassword,
     getUserSearchHistory,
+    updateUserProfile,
   };
 };

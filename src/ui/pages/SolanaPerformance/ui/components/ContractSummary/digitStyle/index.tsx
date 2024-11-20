@@ -3,12 +3,15 @@ import { pxToRem } from "@web-insight/component-library";
 import { Typography } from "@mui/material";
 
 interface TypographyDigitProp {
-  numberValue: number;
+  numberValue: number | string;
 }
 
 export const TypographyDigit = ({ numberValue }: TypographyDigitProp) => {
-  // Format the number to include commas
-  const formattedNumber = new Intl.NumberFormat("en-US").format(numberValue);
+  const formattedNumber =
+    typeof numberValue === "number"
+      ? new Intl.NumberFormat("en-US").format(numberValue)
+      : numberValue;
+
   return (
     <Typography
       sx={{
