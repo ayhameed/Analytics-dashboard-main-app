@@ -7,6 +7,8 @@ import {
   ApiVerifyEmailPayload,
   LoginResult,
   setAccessToken,
+  setUserId,
+  setUserInfo,
   tryExecute,
   useApi,
 } from "@/common";
@@ -108,11 +110,18 @@ export const useUserApi = () => {
         }),
       async (response) => {
         if (response.status === 200) {
+          const { user, tokens } = response.data.data;
+
           loginResult.success = true;
-          loginResult.isAdmin = response.data.data.user.is_admin;
+          loginResult.isAdmin = user.is_admin;
 
           // Set access token
-          setAccessToken(response.data.data.tokens.access_token);
+          setAccessToken(tokens.access_token);
+
+          // Save user info
+          setUserInfo(user.name, user.avatar_url, user.email);
+
+          setUserId(user.id.toString());
 
           // Set cookie with access token and admin status
           Cookies.set(
@@ -187,11 +196,34 @@ export const useUserApi = () => {
     return loginSuccess;
   };
 
+  const getUserSearchHistory = async (id: string) => {
+    let success = false;
+    let data = null;
+
+    await tryExecute(
+      () => api.get<ApiResponse<[]>>(`/dashboard/users/${id}/search-history`),
+      async (response) => {
+        if (response.status === 200) {
+          data = response.data.data;
+          success = true;
+        } else {
+          toast.error("Failed to get search history");
+        }
+      },
+      async () => {
+        toast.error("An error occurred");
+      },
+    );
+
+    return { success, data };
+  };
+
   return {
     checkEmail,
     login,
     signUp,
     forgotPassword,
     resetPassword,
+    getUserSearchHistory,
   };
 };

@@ -4,16 +4,39 @@ import { Box, Stack, Typography } from "@mui/material";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
 import profileAvatar from "../assets/icons/profile_avatar.svg";
 import editIcon from "../assets/icons/icon_edit.svg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppModal, EditProfile } from "@/ui/modules/components";
+import { StaticImageData } from "next/image";
+import { getUserInfo } from "@/common";
+
+interface UserInfo {
+  name: string;
+  imageUrl: StaticImageData | string;
+  email: string;
+}
 
 export const UserProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    name: "User",
+    email: "user@user.com",
+    imageUrl: profileAvatar,
+  });
 
   const handleModalClick = () => (e: React.MouseEvent) => {
     e.preventDefault();
     setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    const storedUserInfo = getUserInfo();
+    setUserInfo({
+      name: storedUserInfo.name || "User",
+      email: storedUserInfo.email || "user@user.com",
+      imageUrl: storedUserInfo.imageUrl || profileAvatar,
+    });
+  }, []);
 
   return (
     <>
@@ -28,7 +51,7 @@ export const UserProfile = () => {
       >
         <RowStack spacing={"12px"} alignItems={"center"}>
           <StyledImage
-            src={profileAvatar}
+            src={userInfo.imageUrl}
             alt="Profile Avatar"
             sx={{
               width: "54px",
@@ -47,7 +70,7 @@ export const UserProfile = () => {
               }}
               title="Opeyemi Adeboye"
             >
-              Opeyemi Adeboye
+              {userInfo.name}
             </Typography>
             <Typography
               sx={{
@@ -57,7 +80,7 @@ export const UserProfile = () => {
                 color: (theme) => theme.userPage.profile.primaryCl,
               }}
             >
-              Yemi@fig.com
+              {userInfo.email}
             </Typography>
           </Stack>
         </RowStack>

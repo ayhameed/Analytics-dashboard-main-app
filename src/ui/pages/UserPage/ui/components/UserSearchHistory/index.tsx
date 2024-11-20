@@ -5,16 +5,16 @@ import { pxToRem } from "@web-insight/component-library";
 import {
   Box,
   CircularProgress,
-  TableContainer,
+  Paper,
+  Table,
   TableBody,
+  TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-  TableCell,
-  Table,
-  Paper,
   Typography,
 } from "@mui/material";
-import { useApplicationTheme } from "@/common";
+import { getUserId, useApplicationTheme, useUserApi } from "@/common";
 
 type searchedHistoryDataProp = {
   tokenSearched: string;
@@ -26,6 +26,9 @@ export const UserSearchHistory = () => {
   const [seachedHistory, setSearchedHistory] = useState<searchedHistoryDataProp[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const userID = getUserId();
+  const { getUserSearchHistory } = useUserApi();
 
   useEffect(() => {
     try {

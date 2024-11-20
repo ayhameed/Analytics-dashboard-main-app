@@ -1,14 +1,36 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import profileAvatar from "@/ui/modules/partials/Header/ui/assets/icon/Avatar.jpg";
 import profileIcon from "@/ui/modules/partials/Header/ui/assets/icon/arrow-circle-down.svg";
-import { useApplicationTheme } from "@/common";
+import { getUserInfo, useApplicationTheme } from "@/common";
+import { StaticImageData } from "next/image";
+
+interface UserInfo {
+  name: string;
+  imageUrl: StaticImageData | string;
+  email: string;
+}
 
 export const AdminHeader: React.FC = () => {
   const { isDarkMode } = useApplicationTheme();
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    name: "User",
+    email: "user@user.com",
+    imageUrl: profileAvatar,
+  });
+
+  useEffect(() => {
+    const storedUserInfo = getUserInfo();
+    setUserInfo({
+      name: storedUserInfo.name || "User",
+      email: storedUserInfo.email || "user@user.com",
+      imageUrl: storedUserInfo.imageUrl || profileAvatar,
+    });
+  }, []);
+
   return (
     <AppBar
       elevation={0}
@@ -38,7 +60,7 @@ export const AdminHeader: React.FC = () => {
             }}
           >
             <StyledImage
-              src={profileAvatar}
+              src={userInfo.imageUrl}
               alt="Profile Avatar"
               sx={{
                 width: "48px",
@@ -65,7 +87,7 @@ export const AdminHeader: React.FC = () => {
                 }}
                 title="Opeyemi Adeboye"
               >
-                Opeyemi Adeboye
+                {userInfo.name}
               </Typography>
               <Typography
                 sx={{
@@ -79,7 +101,7 @@ export const AdminHeader: React.FC = () => {
                 }}
                 title="Yemi@fig.com"
               >
-                Yemi@fig.com
+                {userInfo.email}
               </Typography>
             </Box>
             <StyledImage

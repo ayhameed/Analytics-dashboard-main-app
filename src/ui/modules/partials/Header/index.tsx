@@ -5,9 +5,10 @@ import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import profileAvatar from "@/ui/modules/partials/Header/ui/assets/icon/Avatar.jpg";
 import logOut from "../assets/icon/logout.svg";
 import profileIcon from "@/ui/modules/partials/Header/ui/assets/icon/arrow-circle-down.svg";
-import { useApplicationTheme } from "@/common";
+import { getUserInfo, useApplicationTheme } from "@/common";
 import { SearchBar } from "@/ui/modules/partials/Header/ui/components";
 import { useRouter } from "next/navigation";
+import { StaticImageData } from "next/image";
 
 const CoinGeckoWidget: React.FC = () => {
   const { isDarkMode } = useApplicationTheme();
@@ -30,9 +31,21 @@ const CoinGeckoWidget: React.FC = () => {
   );
 };
 
+interface UserInfo {
+  name: string;
+  imageUrl: StaticImageData | string;
+  email: string;
+}
+
 export const Header: React.FC = () => {
   const router = useRouter();
   const [displayLogout, setDisplayLogout] = useState(false);
+
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    name: "User",
+    email: "user@user.com",
+    imageUrl: profileAvatar,
+  });
 
   useEffect(() => {
     const handleClickOutside = () => {
@@ -41,23 +54,29 @@ export const Header: React.FC = () => {
       }
     };
 
-    // Add click event listener to the document
     document.addEventListener("click", handleClickOutside);
 
-    // Cleanup the event listener
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [displayLogout]);
 
+  useEffect(() => {
+    const storedUserInfo = getUserInfo();
+    setUserInfo({
+      name: storedUserInfo.name || "User",
+      email: storedUserInfo.email || "user@user.com",
+      imageUrl: storedUserInfo.imageUrl || profileAvatar,
+    });
+  }, []);
+
   const handleProfileIconClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent event from bubbling up
+    e.stopPropagation();
     setDisplayLogout(!displayLogout);
   };
 
   const handleLogoutClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent event from bubbling up
-    // Add your logout logic here
+    e.stopPropagation();
     console.log("Logging out...");
   };
 
@@ -68,7 +87,7 @@ export const Header: React.FC = () => {
       sx={{
         padding: "16px 39px 15px 5px",
         background: (theme) => theme.navBar.background,
-        overflow: "visible", // Changed to visible to show dropdown
+        overflow: "visible",
       }}
     >
       <Toolbar disableGutters>
@@ -114,7 +133,7 @@ export const Header: React.FC = () => {
               }}
             >
               <StyledImage
-                src={profileAvatar}
+                src={userInfo.imageUrl}
                 alt="Profile Avatar"
                 sx={{
                   width: "48px",
@@ -123,7 +142,7 @@ export const Header: React.FC = () => {
                   objectFit: "cover",
                   cursor: "pointer",
                 }}
-                onClick={() => router.push("/users")}
+                onClick={() => router.push("/user")}
               />
               <Box
                 sx={{
@@ -145,7 +164,7 @@ export const Header: React.FC = () => {
                   title="Opeyemi Adeboye"
                   onClick={() => router.push("/users")}
                 >
-                  Opeyemi Adeboye
+                  {userInfo.name}
                 </Typography>
                 <Typography
                   sx={{
@@ -161,7 +180,7 @@ export const Header: React.FC = () => {
                   title="Yemi@fig.com"
                   onClick={() => router.push("/users")}
                 >
-                  Yemi@fig.com
+                  {userInfo.email}
                 </Typography>
               </Box>
               <StyledImage
