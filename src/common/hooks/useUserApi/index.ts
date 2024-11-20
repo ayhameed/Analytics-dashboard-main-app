@@ -20,6 +20,17 @@ interface EmailCheckResponse {
   user_exists: boolean;
 }
 
+interface UserSearchHistory {
+  id: number;
+  user_id: number;
+  search_term: string;
+  search_time: string;
+}
+
+interface SearchHistoryResponse {
+  user_search_history: UserSearchHistory[];
+}
+
 export const useUserApi = () => {
   const api = useApi();
 
@@ -199,13 +210,14 @@ export const useUserApi = () => {
 
   const getUserSearchHistory = async (id: string) => {
     let success = false;
-    let data = null;
+    let data: UserSearchHistory[] | null = null;
 
     await tryExecute(
-      () => api.get<ApiResponse<[]>>(`/dashboard/users/${id}/search-history`),
+      () => api.get<ApiResponse<SearchHistoryResponse>>(`/dashboard/users/${id}/search-history`),
       async (response) => {
         if (response.status === 200) {
-          data = response.data.data;
+          data = response.data.data.user_search_history;
+          console.log(data);
           success = true;
         } else {
           toast.error("Failed to get search history");

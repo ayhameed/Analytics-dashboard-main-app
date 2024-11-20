@@ -15,19 +15,16 @@ import {
 } from "@mui/material";
 import { getUserId, useApplicationTheme, useUserApi } from "@/common";
 
-interface SearchHistoryResponse {
-  token_searched: string;
-  timestamp: string;
+interface UserSearchHistory {
+  id: number;
+  user_id: number;
+  search_term: string;
+  search_time: string;
 }
-
-type SearchHistoryItem = {
-  tokenSearched: string;
-  time: string;
-};
 
 export const UserSearchHistory = () => {
   const { isDarkMode } = useApplicationTheme();
-  const [searchHistory, setSearchHistory] = useState<SearchHistoryItem[] | null>(null);
+  const [searchHistory, setSearchHistory] = useState<UserSearchHistory[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,14 +41,8 @@ export const UserSearchHistory = () => {
 
       try {
         const { success, data } = await getUserSearchHistory(userId);
-
         if (success && data) {
-          const transformedData = (data as SearchHistoryResponse[]).map((item) => ({
-            tokenSearched: item.token_searched,
-            time: new Date(item.timestamp).toLocaleString(),
-          }));
-
-          setSearchHistory(transformedData);
+          setSearchHistory(data);
         } else {
           setError("Failed to load search history");
         }
@@ -150,7 +141,7 @@ export const UserSearchHistory = () => {
             </TableRow>
             {searchHistory.map((data, index) => (
               <TableRow
-                key={index}
+                key={data.id}
                 sx={{
                   backgroundColor: (theme) =>
                     index % 2
@@ -168,7 +159,7 @@ export const UserSearchHistory = () => {
                     textAlign: "left",
                   }}
                 >
-                  {data.tokenSearched}
+                  {data.search_term}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -180,7 +171,7 @@ export const UserSearchHistory = () => {
                     textAlign: "right",
                   }}
                 >
-                  {data.time}
+                  {new Date(data.search_time).toLocaleString()}
                 </TableCell>
               </TableRow>
             ))}

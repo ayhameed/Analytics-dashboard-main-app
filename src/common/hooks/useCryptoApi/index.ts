@@ -18,6 +18,12 @@ interface TokenDetailsData {
   asset_type: string;
 }
 
+interface TokenHolder {
+  address: string;
+  amount_held: number;
+  percentage_of_supply: number;
+}
+
 interface SolanaMetrics {
   validators: number;
   daily_active_programs: number | null;
@@ -141,6 +147,23 @@ export const useCryptoApi = () => {
     );
   };
 
+  const getTokenHolders = async (id: number): Promise<TokenHolder[] | null> => {
+    return tryExecute(
+      () => api.get<ApiResponse<TokenHolder[]>>(`tokens/${id}/holders`),
+      async (response) => {
+        if (response.data.status_code === 200) {
+          return response.data.data;
+        }
+        toast.error(response.data.message);
+        return null;
+      },
+      async () => {
+        toast.error("An error occurred");
+        return null;
+      },
+    );
+  };
+
   return {
     getTopTokens,
     searchToken,
@@ -148,5 +171,6 @@ export const useCryptoApi = () => {
     getTokenHistory,
     getTokenFeeTracker,
     getSolanaMetrics,
+    getTokenHolders,
   };
 };

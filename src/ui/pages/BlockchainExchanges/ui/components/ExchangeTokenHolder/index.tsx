@@ -1,18 +1,60 @@
 import {
+  Box,
+  CircularProgress,
+  Paper,
   Stack,
-  TableContainer,
+  Table,
   TableBody,
+  TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-  TableCell,
-  Table,
-  Paper,
   Typography,
 } from "@mui/material";
 import { pxToRem } from "@web-insight/component-library";
-import ExchangeHolderData from "@/ui/blockchain.json";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { useCryptoApi } from "@/common";
+
+interface TokenHolder {
+  address: string;
+  amount_held: number;
+  percentage_of_supply: number;
+}
 
 export const ExchangeTokenHolder = () => {
+  const params = useParams();
+  const tokenId = Number(params.id);
+  const { getTokenHolders } = useCryptoApi();
+  const [holders, setHolders] = useState<TokenHolder[] | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHolders = async () => {
+      if (!tokenId) return;
+      const data = await getTokenHolders(tokenId);
+      if (data) setHolders(data);
+      setLoading(false);
+    };
+    fetchHolders();
+  }, [tokenId]);
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" padding="2rem">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!holders || holders.length === 0) {
+    return (
+      <Box padding="2rem" textAlign="center">
+        <Typography>No holder data available</Typography>
+      </Box>
+    );
+  }
+
   return (
     <Stack
       spacing={"12px"}
@@ -36,8 +78,6 @@ export const ExchangeTokenHolder = () => {
         Exchange Token holders
       </Typography>
 
-      {/* the whole of the table makes use of fontFamily: 
-            Lato.their size nd width have been  implemented already*/}
       <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
         <Table sx={{ borderCollapse: "separate", border: "none" }}>
           <TableHead
@@ -92,57 +132,54 @@ export const ExchangeTokenHolder = () => {
                 }}
               />
             </TableRow>
-            {ExchangeHolderData.scrollTokenHolder.map((holders, index) => {
-              const isWhiteBackground = index % 2 === 0;
-              return (
-                <TableRow
-                  key={index}
+            {holders.map((holder, index) => (
+              <TableRow
+                key={holder.address}
+                sx={{
+                  backgroundColor: (theme) =>
+                    index % 2 === 0
+                      ? theme.tokenDetails.stakingPool.tableBackground.primary
+                      : theme.tokenDetails.stakingPool.tableBackground.secondary,
+                }}
+              >
+                <TableCell
                   sx={{
-                    backgroundColor: (theme) =>
-                      index % 2 === 0
-                        ? theme.tokenDetails.stakingPool.tableBackground.primary
-                        : theme.tokenDetails.stakingPool.tableBackground.secondary,
+                    fontSize: pxToRem(16),
+                    fontWeight: 400,
+                    color: (theme) => theme.tokenDetails.stakingPool.text.primary,
+                    padding: index % 2 === 0 ? "8px 12px" : "14px",
+                    border: "none",
                   }}
                 >
-                  <TableCell
-                    sx={{
-                      fontSize: pxToRem(16),
-                      fontWeight: 400,
-                      color: (theme) => theme.tokenDetails.stakingPool.text.primary,
-                      padding: isWhiteBackground ? "8px 12px" : "14px",
-                      border: "none",
-                    }}
-                  >
-                    {holders.TokenAddress}
-                  </TableCell>
+                  {holder.address}
+                </TableCell>
 
-                  <TableCell
-                    sx={{
-                      fontSize: pxToRem(16),
-                      fontWeight: 400,
-                      color: (theme) => theme.tokenDetails.stakingPool.text.primary,
-                      padding: isWhiteBackground ? "8px 12px" : "14px",
-                      border: "none",
-                    }}
-                  >
-                    {holders.TokenAmount}
-                  </TableCell>
+                <TableCell
+                  sx={{
+                    fontSize: pxToRem(16),
+                    fontWeight: 400,
+                    color: (theme) => theme.tokenDetails.stakingPool.text.primary,
+                    padding: index % 2 === 0 ? "8px 12px" : "14px",
+                    border: "none",
+                  }}
+                >
+                  {holder.amount_held.toLocaleString()}
+                </TableCell>
 
-                  <TableCell
-                    sx={{
-                      fontSize: pxToRem(16),
-                      fontWeight: 400,
-                      textAlign: "center",
-                      color: (theme) => theme.tokenDetails.stakingPool.text.primary,
-                      padding: isWhiteBackground ? "8px 12px" : "14px",
-                      border: "none",
-                    }}
-                  >
-                    {holders.SupplyPercentages}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                <TableCell
+                  sx={{
+                    fontSize: pxToRem(16),
+                    fontWeight: 400,
+                    textAlign: "center",
+                    color: (theme) => theme.tokenDetails.stakingPool.text.primary,
+                    padding: index % 2 === 0 ? "8px 12px" : "14px",
+                    border: "none",
+                  }}
+                >
+                  {holder.percentage_of_supply.toFixed(2)}%
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

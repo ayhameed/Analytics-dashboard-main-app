@@ -16,15 +16,11 @@ import profileAvatar from "./components/assets/image/avatar.svg";
 import React from "react";
 
 const authSchema = Yup.object().shape({
-  email: Yup.string()
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please enter a valid email")
-    .required("Email is required"),
   firstName: Yup.string().required("First name is required"),
   lastName: Yup.string().required("Last name is required"),
 });
 
 interface FormContent {
-  email: string;
   firstName: string;
   lastName: string;
 }
@@ -43,7 +39,6 @@ export const EditProfile = () => {
   const router = useRouter();
 
   const initialValues: FormContent = {
-    email: "",
     lastName: "",
     firstName: "",
   };
@@ -54,7 +49,6 @@ export const EditProfile = () => {
 
       // Create FormData object for multipart/form-data submission
       const formData = new FormData();
-      formData.append("email", values.email);
       formData.append("first_name", values.firstName);
       formData.append("last_name", values.lastName);
 
@@ -101,17 +95,6 @@ export const EditProfile = () => {
           >
             Edit Profile
           </Typography>
-
-          <Typography
-            sx={{
-              color: "#CBCFD6",
-              fontSize: pxToRem(16),
-              fontWeight: 400,
-              lineHeight: "24px",
-            }}
-          >
-            Editing your email address will require you verify again
-          </Typography>
         </Box>
 
         <RowStack spacing="44px">
@@ -142,28 +125,6 @@ export const EditProfile = () => {
               {() => (
                 <Form>
                   <Stack spacing={"40px"}>
-                    <Box>
-                      <Typography
-                        sx={{
-                          color: (theme) => theme.authPage.authLeft.input,
-                          fontSize: pxToRem(16),
-                          fontWeight: 500,
-                          lineHeight: "150%",
-                          mb: "8px",
-                        }}
-                      >
-                        Email Address
-                      </Typography>
-
-                      <FormikAppTextField
-                        type="email"
-                        name="email"
-                        size="small"
-                        variant="outlined"
-                        placeholder={"yemi.fig@figma.com"}
-                      />
-                    </Box>
-
                     <Box>
                       <Typography
                         sx={{
