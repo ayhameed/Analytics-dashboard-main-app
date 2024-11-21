@@ -5,7 +5,7 @@ import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import profileAvatar from "@/ui/modules/partials/Header/ui/assets/icon/Avatar.jpg";
 import logOut from "../assets/icon/logout.svg";
 import profileIcon from "@/ui/modules/partials/Header/ui/assets/icon/arrow-circle-down.svg";
-import { getUserInfo, useApplicationTheme } from "@/common";
+import { getUserInfo, useApplicationTheme, useUserApi } from "@/common";
 import { SearchBar } from "@/ui/modules/partials/Header/ui/components";
 import { useRouter } from "next/navigation";
 import { StaticImageData } from "next/image";
@@ -39,6 +39,7 @@ interface UserInfo {
 
 export const Header: React.FC = () => {
   const router = useRouter();
+  const { logout } = useUserApi();
   const [displayLogout, setDisplayLogout] = useState(false);
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
@@ -75,9 +76,12 @@ export const Header: React.FC = () => {
     setDisplayLogout(!displayLogout);
   };
 
-  const handleLogoutClick = (e: React.MouseEvent) => {
+  const handleLogoutClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log("Logging out...");
+    const success = await logout();
+    if (success) {
+      router.push("/login");
+    }
   };
 
   return (
@@ -144,6 +148,7 @@ export const Header: React.FC = () => {
                 }}
                 onClick={() => router.push("/user")}
               />
+
               <Box
                 sx={{
                   display: "flex",
@@ -166,6 +171,7 @@ export const Header: React.FC = () => {
                 >
                   {userInfo.name}
                 </Typography>
+
                 <Typography
                   sx={{
                     fontSize: pxToRem(16),
@@ -183,6 +189,7 @@ export const Header: React.FC = () => {
                   {userInfo.email}
                 </Typography>
               </Box>
+
               <StyledImage
                 src={profileIcon}
                 alt="Profile Dropdown"

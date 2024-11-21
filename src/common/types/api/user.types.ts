@@ -25,7 +25,8 @@ export type ApiLoginData = {
     id: number;
     is_active: boolean;
     is_admin: boolean;
-    name: string | null;
+    first_name: string | null;
+    last_name: string | null;
     avatar_url: string | null;
   };
   tokens: {

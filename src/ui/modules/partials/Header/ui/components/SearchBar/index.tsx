@@ -19,7 +19,7 @@ export const SearchBar = () => {
   return (
     <Input
       value={localSearchTerm}
-      placeholder="Search web inside"
+      placeholder="Search web3insights"
       type="search"
       fullWidth
       size="small"

@@ -131,7 +131,7 @@ export const useUserApi = () => {
           setAccessToken(tokens.access_token);
 
           // Save user info
-          setUserInfo(user.name, user.avatar_url, user.email);
+          setUserInfo(user.last_name + " " + user.first_name, user.avatar_url, user.email);
 
           setUserId(user.id.toString());
 
@@ -213,7 +213,7 @@ export const useUserApi = () => {
     let data: UserSearchHistory[] | null = null;
 
     await tryExecute(
-      () => api.get<ApiResponse<SearchHistoryResponse>>(`/dashboard/users/${id}/search-history`),
+      () => api.get<ApiResponse<SearchHistoryResponse>>(`/admin/users/${id}/search-history`),
       async (response) => {
         if (response.status === 200) {
           data = response.data.data.user_search_history;
@@ -229,6 +229,36 @@ export const useUserApi = () => {
     );
 
     return { success, data };
+  };
+
+  const logout = async (): Promise<boolean> => {
+    let success = false;
+    const token = getAccessToken();
+
+    await tryExecute(
+      () =>
+        api.post<ApiResponse<any>, any>("/auth/logout", "", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      async (response) => {
+        if (response.status === 200) {
+          success = true;
+          Cookies.remove("authToken", { path: "/" });
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("user_id");
+          localStorage.removeItem("user_info");
+        } else {
+          toast.error("Failed to logout");
+        }
+      },
+      async () => {
+        toast.error("An error occurred");
+      },
+    );
+
+    return success;
   };
 
   const updateUserProfile = async (data: FormData) => {
@@ -270,5 +300,6 @@ export const useUserApi = () => {
     resetPassword,
     getUserSearchHistory,
     updateUserProfile,
+    logout,
   };
 };

@@ -5,12 +5,13 @@ import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
 import starIcon from "@/ui/assets/icons/star.svg";
 import supplyIcon from "@/ui/assets/icons/shellfish.svg";
 import { ApiBlockchainData, useApplicationTheme, useAuth, useCryptoApi, useSearch } from "@/common";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { LinkSignIn } from "../LinkSignIn";
 import supplyDarkIcon from "@/ui/pages/Blockchain/ui/components/BlockchainCurrencies/ui/assets/icons/shell_fish_dark.svg";
 import starDarkIcon from "@/ui/pages/Blockchain/ui/components/BlockchainCurrencies/ui/assets/icons/star_dark.svg";
 
 export const FilteredResult: React.FC = () => {
+  const router = useRouter();
   const { searchToken } = useCryptoApi();
   const { isSignedIn } = useAuth();
   const { isDarkMode } = useApplicationTheme();
@@ -18,6 +19,10 @@ export const FilteredResult: React.FC = () => {
   const { searchTerm, setSearchTerm } = useSearch();
   const [filteredData, setFilteredData] = useState<ApiBlockchainData[]>([]);
   const searchParams = useSearchParams();
+
+  const handleTokenClick = (tokenId: string | number) => {
+    router.push(`/blockchain/${tokenId}`);
+  };
 
   useEffect(() => {
     const searchFromParams = searchParams?.get("q");
@@ -79,12 +84,14 @@ export const FilteredResult: React.FC = () => {
             return (
               <Box
                 key={data.id}
+                onClick={() => handleTokenClick(data.id)}
                 sx={{
                   padding: "20px",
                   display: "flex",
                   flexDirection: "column",
                   gap: "61px",
                   borderRadius: "12px",
+                  cursor: "pointer",
                   border: (theme) => `1px solid ${theme.dashboard.blockchain.border}`,
                   marginBottom: "20px",
                   opacity: isSignedIn ? 1 : index === 1 ? 0.3 : index === 2 ? 0.1 : 1,
