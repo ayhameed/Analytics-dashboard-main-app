@@ -131,6 +131,7 @@ export const Header: React.FC = () => {
             }}
           >
             <AppButton
+              onClick={() => router.push("/sign-up")}
               sx= {{
                 height: "100%",
                 width: "100%",

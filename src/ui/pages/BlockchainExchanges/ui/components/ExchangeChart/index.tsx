@@ -37,7 +37,7 @@ export const ExchangeChart = () => {
     <Stack
       spacing={"40px"}
       sx={{
-        marginTop: "20px",
+        marginTop: {xs: "20px", sm: 0, md: "20px"},
         padding: "20px 24px 0 24px",
         minWidth: {xs: "auto", md: "662px"},
         borderRadius: "10px",
@@ -74,6 +74,7 @@ export const ExchangeChart = () => {
             justifyContent: "space-between",
             alignItems: "center",
             gap: "10px",
+            marginTop: {xs: "25px", md: 0}
           }}
         >
           <ChartStyledTypography

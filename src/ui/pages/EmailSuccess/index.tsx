@@ -15,7 +15,7 @@ export const EmailSuccess = () => {
   return (
     <Box
       sx={{
-        p: "49px 81px",
+        p: {xs: "40px", sm: "49px 81px"},
         position: "relative",
         minHeight: "100vh",
       }}
@@ -38,14 +38,18 @@ export const EmailSuccess = () => {
                 alt={"envelope"}
                 width={100}
                 height={100}
-                sx={{ width: "161px", height: "139px", mb: "35px" }}
+                sx={{
+                  width: {xs: "120px" ,sm: "161px"},
+                  height: {xs: "100px",sm: "139px"},
+                  mb: "35px"
+                }}
               />
             </Centered>
 
             <Typography
               sx={{
                 textAlign: "center",
-                fontSize: pxToRem(32),
+                fontSize: {xs: pxToRem(24), sm: pxToRem(32)},
                 color: (theme) => theme.authPage.emailSuccess.text.color,
                 fontWeight: 500,
                 lineHeight: "150%",

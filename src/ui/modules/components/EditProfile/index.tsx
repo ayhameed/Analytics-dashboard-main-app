@@ -80,7 +80,7 @@ export const EditProfile = () => {
         borderRadius: "20px",
         boxShadow: "0px 6px 15px 0px rgba(124, 124, 124, 0.05)",
         bgcolor: "#101114",
-        padding: "40px 46px",
+        padding: {xs: "30px 25px", sm: "40px 46px"},
       }}
     >
       <Stack spacing="60px">
@@ -97,14 +97,28 @@ export const EditProfile = () => {
           </Typography>
         </Box>
 
-        <RowStack spacing="44px">
-          <Box alignSelf="flex-start">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: {xs: "column", sm: "row"},
+            gap: {xs: "20px", md: "40px"},
+          }}
+        >
+          <Box
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "20px",
+                flexDirection: {xs: "row", sm: "column"},
+                alignSelf: {xs: "auto", sm: "flex-start"}
+            }}
+          >
             <StyledImage
               src={profileAvatar}
               alt="profile_avatar"
               sx={{
-                width: "106px",
-                height: "106px",
+                width: {xs: "50px", sm: "106px"},
+                height: {xs: "50px", sm: "106px"},
               }}
             />
 
@@ -174,7 +188,7 @@ export const EditProfile = () => {
               )}
             </Formik>
           </Box>
-        </RowStack>
+        </Box>
       </Stack>
     </Box>
   );

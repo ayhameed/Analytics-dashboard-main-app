@@ -9,7 +9,7 @@ export const SolanaLayout = () => {
         // display: "grid",
         // gridTemplateColumns: "repeat(4, 1fr)",
         backgroundColor: "inherit",
-        padding: {xs: "25px", sm:"21px 0 0 37px"},
+        padding: {xs: "25px", md:"21px 0 0 37px"},
       }}
     >
       <ContractSummary />

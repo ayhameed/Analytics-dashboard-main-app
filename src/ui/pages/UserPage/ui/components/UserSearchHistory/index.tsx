@@ -73,7 +73,7 @@ export const UserSearchHistory = () => {
   }
 
   return (
-    <Box>
+    <Box sx={{margin: {xs: "20px", md: 0}}}>
       <Typography
         sx={{
           color: (theme) => theme.userPage.searchHistory.text.primary,

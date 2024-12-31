@@ -15,7 +15,7 @@ export const NetworkHealthMetrics = () => {
         gridColumn: "span 4",
         gridRow: "2/3",
         padding: "20px 24px 14px 9px",
-        margin: {xs: "25px 0 0 0",sm:"15px 47px 0 0"},
+        margin: {xs: "25px 0 0 0", md: "15px 47px 0 0"},
         borderRadius: "10px",
         border: (theme) => `0.8px solid ${theme.tokenDetails.tokenChart.border}`,
         backgroundColor: (theme) => theme.tokenDetails.tokenChart.background,
@@ -27,7 +27,7 @@ export const NetworkHealthMetrics = () => {
             sx={{
               color: (theme) => theme.tokenDetails.tokenChart.text.primary,
               fontFeatureSettings: "'liga' off, 'clig' off",
-              fontSize: pxToRem(16),
+              fontSize: {xs: pxToRem(14), sm:pxToRem(16)},
               fontWeight: 600,
               lineHeight: "24px",
               marginLeft: "15px",
@@ -38,9 +38,9 @@ export const NetworkHealthMetrics = () => {
               component="span"
               sx={{
                 color: "#747474",
-                fontSize: pxToRem(14),
+                fontSize: {xs: pxToRem(12), sm: pxToRem(14)},
                 fontWeight: 400,
-                lineHeight: "24px",
+                lineHeight: {xs: 1.2, sm: "24px"},
                 fontFeatureSettings: "'liga' off, 'clig' off",
               }}
             >

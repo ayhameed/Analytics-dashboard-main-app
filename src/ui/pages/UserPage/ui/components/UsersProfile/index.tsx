@@ -40,16 +40,25 @@ export const UserProfile = () => {
 
   return (
     <>
-      <RowStack
+      <Box
         sx={{
+          position: {xs: "relative", sm: "static"},
+          display: "flex",
+          flexDirection: {xs: "column", sm: "row"},
           justifyContent: "space-between",
           padding: "20px",
           backgroundColor: (theme) => theme.userPage.profile.background,
           borderRadius: "12px",
-          marginBottom: "40px",
+          margin: {xs: "20px", sm: "0 0 40px 0"},
         }}
       >
-        <RowStack spacing={"12px"} alignItems={"center"}>
+        <RowStack
+          spacing={"12px"}
+          alignItems={"center"}
+          sx={{
+            mb:{xs: "20px", sm: 0},
+          }}
+        >
           <StyledImage
             src={userInfo.imageUrl}
             alt="Profile Avatar"
@@ -85,13 +94,16 @@ export const UserProfile = () => {
           </Stack>
         </RowStack>
 
-        <Stack spacing={"32px"}>
+        <Stack sx={{gap: {xs: "10px", sm: "20px", md: "32px"}}}>
           <RowStack
             onClick={handleModalClick()}
             sx={{
               cursor: "pointer",
               alignItems: "center",
-              justifyContent: "flex-end",
+              justifyContent: {xs: "auto", sm:"flex-end"},
+              position: {xs: "absolute", sm: "static"},
+              right: {xs: "20px", sm: "auto"},
+              top: {xs: "20px", sm: "auto"},
             }}
           >
             <StyledImage
@@ -113,6 +125,7 @@ export const UserProfile = () => {
                 lineHeight: "150%",
                 color: "#AC7DEA",
                 textTransform: "none",
+                cursor: "pointer"
               }}
             >
               Edit Profile
@@ -152,7 +165,7 @@ export const UserProfile = () => {
             </Typography>
           </RowStack>
         </Stack>
-      </RowStack>
+      </Box>
 
       <AppModal open={isModalOpen} setOpen={setIsModalOpen} label="edit-user-detail">
         <EditProfile />

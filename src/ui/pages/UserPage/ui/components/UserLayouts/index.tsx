@@ -4,7 +4,7 @@ import { UserProfile } from "../UsersProfile";
 
 export const UserLayout = () => {
   return (
-    <Box sx={{ paddingRight: "52px" }}>
+    <Box sx={{ paddingRight: {xs: "0",md: "52px"} }}>
       <UserProfile />
       <UserSearchHistory />
     </Box>

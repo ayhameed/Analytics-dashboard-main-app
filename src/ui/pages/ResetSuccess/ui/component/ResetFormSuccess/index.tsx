@@ -27,13 +27,20 @@ export const Success = () => {
       }}
     >
       <Box>
-        <StyledImage src={EnvelopeIcon} alt="" sx={{ width: "156px", height: "135px" }} />
+        <StyledImage
+          src={EnvelopeIcon}
+          alt=""
+          sx={{
+            width: {xs: "120px", sm: "156px"},
+            height: {xs: "100px", sm: "135px"}
+          }}
+        />
       </Box>
       <Typography
         sx={{
           color: "#3D434C",
           textAlign: "center",
-          fontSize: pxToRem(32),
+          fontSize: {xs: pxToRem(24), sm: pxToRem(32)},
           fontWeight: 500,
           lineHeight: "150%",
         }}
