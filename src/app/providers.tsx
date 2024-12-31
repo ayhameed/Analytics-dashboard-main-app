@@ -10,7 +10,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "@web-insight/component-library/dist/style.css";
 import "swiper/css";
-import { ApplicationThemeProvider, AuthProvider, SearchProvider } from "@/ui/modules/partials";
+import { ApplicationThemeProvider, AuthProvider, SearchProvider, NavigatorProvider} from "@/ui/modules/partials";
+
 
 type ProvidersProps = {
   children: ReactNode;
@@ -23,9 +24,11 @@ export const Providers: React.FC<ProvidersProps> = ({ children }) => {
         <SearchProvider>
           <AuthProvider>
             <ThemeProvider>
-              <EnvironmentProvider>
-                <ServicesProvider>{children}</ServicesProvider>
-              </EnvironmentProvider>
+              <NavigatorProvider>
+                <EnvironmentProvider>
+                  <ServicesProvider>{children}</ServicesProvider>
+                </EnvironmentProvider>
+              </NavigatorProvider>
             </ThemeProvider>
           </AuthProvider>
         </SearchProvider>

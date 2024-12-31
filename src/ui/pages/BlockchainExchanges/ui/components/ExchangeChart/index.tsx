@@ -39,13 +39,20 @@ export const ExchangeChart = () => {
       sx={{
         marginTop: "20px",
         padding: "20px 24px 0 24px",
-        minWidth: "662px",
+        minWidth: {xs: "auto", md: "662px"},
         borderRadius: "10px",
         border: (theme) => `0.8px solid ${theme.tokenDetails.tokenChart.border}`,
         overflow: "hidden",
       }}
     >
-      <RowStack sx={{ justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: {xs: "column", md: "row"},
+          justifyContent: "space-between",
+          alignItems: {xs: "start", md: "center"}
+        }}
+      >
         <Typography
           sx={{
             color: (theme) => theme.tokenDetails.tokenChart.text.primary,
@@ -55,7 +62,7 @@ export const ExchangeChart = () => {
             lineHeight: "20px",
             letterSpacing: "0.25px",
             borderRadius: "6px",
-            padding: "13px 24px 13px 27px",
+            padding: {xs: 0, md: "13px 24px 13px 27px"},
           }}
         >
           Transaction volume
@@ -97,7 +104,7 @@ export const ExchangeChart = () => {
             Year
           </ChartStyledTypography>
         </Box>
-      </RowStack>
+      </Box>
 
       <Box>
         <LineChart data={historyData} />

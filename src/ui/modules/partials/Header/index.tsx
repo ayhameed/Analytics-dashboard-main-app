@@ -1,15 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
+import { pxToRem, RowStack, StyledImage, AppButton } from "@web-insight/component-library";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import profileAvatar from "@/ui/modules/partials/Header/ui/assets/icon/Avatar.jpg";
 import logOut from "../assets/icon/logout.svg";
 import profileIcon from "@/ui/modules/partials/Header/ui/assets/icon/arrow-circle-down.svg";
 import { getUserInfo, useApplicationTheme, useUserApi } from "@/common";
-import { SearchBar } from "@/ui/modules/partials/Header/ui/components";
+import { SearchBar, Navigator } from "@/ui/modules/partials/Header/ui/components";
 import { useRouter } from "next/navigation";
 import { StaticImageData } from "next/image";
-
 const CoinGeckoWidget: React.FC = () => {
   const { isDarkMode } = useApplicationTheme();
 
@@ -89,7 +88,10 @@ export const Header: React.FC = () => {
       elevation={0}
       position="static"
       sx={{
-        padding: "16px 39px 15px 5px",
+        padding: {
+          xs: "16px 15px 15px 5px",
+          sm: "16px 39px 15px 5px",
+        },
         background: (theme) => theme.navBar.background,
         overflow: "visible",
       }}
@@ -108,18 +110,54 @@ export const Header: React.FC = () => {
           <Box
             sx={{
               flexGrow: 1,
-              maxWidth: "70%",
-              minWidth: "200px",
+              maxWidth: {xs:"50%", sm:"70%"},
+              minWidth: {xs:"150px", sm:"200px"},
               overflow: "hidden",
             }}
           >
             <CoinGeckoWidget />
           </Box>
 
+                                                                        {/* mobile navigators */}
+          <RowStack
+            sx={{
+              "@media (min-width: 600px)": {
+                display: "none",
+              },
+              height: "40px",
+              alignItems: "center",
+              gap: "10px",
+              flexShrink: 0,
+            }}
+          >
+            <AppButton
+              sx= {{
+                height: "100%",
+                width: "100%",
+                maxWidth: "120px",
+                padding: "4px 10px ",
+                borderRadius: "8px",
+              }}
+            >
+              <Typography
+              sx={{
+                fontSize: pxToRem(14),
+                lineHeight: "21px"
+              }}
+              >
+                Get Started
+              </Typography>
+            </AppButton>
+            <Navigator/>
+          </RowStack>
+
           {/* SearchBar and Profile Section */}
           <Box
             sx={{
-              display: "flex",
+              display: { xs: "none", sm: "flex" },
+              "@media (max-width: 599px)": {
+                display: "none",
+              },
               alignItems: "center",
               gap: "24px",
               flexShrink: 0,

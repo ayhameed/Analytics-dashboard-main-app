@@ -28,7 +28,7 @@ export const ChartStyledTypography = ({
             ? theme.tokenDetails.tokenChart.btnBackground.primary
             : theme.tokenDetails.tokenChart.btnBackground.secondary,
         borderRadius: "6px",
-        padding: "13px 24px 13px 27px",
+        padding: {xs:"5px 10px", sm: "13px 24px 13px 27px"},
       }}
     >
       {children}

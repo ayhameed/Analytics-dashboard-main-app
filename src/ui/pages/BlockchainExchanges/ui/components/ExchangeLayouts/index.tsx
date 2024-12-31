@@ -8,13 +8,13 @@ import { Box } from "@mui/material";
 
 export const ExchangeLayouts = () => {
   return (
-    <Box sx={{ paddingTop: "24px" }}>
+    <Box sx={{ padding: {xs: "24px", sm:"24px 0 0 0"}  }}>
       <Box component={ExchangeCard} sx={{ width: "100%" }} />
       <Box component={ExchangeChart} sx={{ width: "100%" }} />
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateColumns: {xs: "1fr", md:"repeat(2, 1fr)"},
           gap: "18px",
         }}
       >

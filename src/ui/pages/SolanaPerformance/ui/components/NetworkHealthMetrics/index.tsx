@@ -15,7 +15,7 @@ export const NetworkHealthMetrics = () => {
         gridColumn: "span 4",
         gridRow: "2/3",
         padding: "20px 24px 14px 9px",
-        margin: "15px 47px 0 0",
+        margin: {xs: "25px 0 0 0",sm:"15px 47px 0 0"},
         borderRadius: "10px",
         border: (theme) => `0.8px solid ${theme.tokenDetails.tokenChart.border}`,
         backgroundColor: (theme) => theme.tokenDetails.tokenChart.background,

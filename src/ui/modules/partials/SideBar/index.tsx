@@ -9,11 +9,12 @@ import docLinkIcon from "../assets/icon/link-square-01.svg";
 import reportBugIcon from "../assets/icon/bug-01.svg";
 import sunIcon from "../assets/icon/sun-01.svg";
 import moonIcon from "../assets/icon/moon-02.svg";
-import { useApplicationTheme } from "@/common";
+import { useApplicationTheme, useMenu} from "@/common";
 import { ApplicationLogo } from "@/ui/modules/components";
 import { usePathname, useRouter } from "next/navigation";
 
 export const SideBar = () => {
+  const {openMenu, toggleMenu} = useMenu();
   const { isDarkMode, setDarkMode } = useApplicationTheme();
   const router = useRouter();
   const pathname = usePathname();
@@ -32,7 +33,12 @@ export const SideBar = () => {
   };
 
   return (
-    <Stack sx={{ justifyContent: "space-between", height: "100%" }}>
+    <Stack
+      sx={{
+        justifyContent: "space-between",
+        height: {xs: "calc(100% - 88px)", sm:"100%"}
+      }}
+    >
       <Box>
         <Box margin={"32px 70px 49px 16px"}>
           <ApplicationLogo />
