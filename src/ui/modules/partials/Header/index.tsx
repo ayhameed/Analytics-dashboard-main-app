@@ -330,7 +330,7 @@ export const Header: React.FC = () => {
 
           <RowStack
             sx={{
-              "@media (min-width: 600px)": { display: "none" },
+              display: { xs: "flex", md: "none" },
               height: "40px",
               alignItems: "center",
               gap: "10px",
@@ -356,21 +356,21 @@ export const Header: React.FC = () => {
             <Navigator />
           </RowStack>
 
+          {(displaySearch && isMobile) || !isMobile ? (
+            <Box ref={searchRef} sx={{ display: "block", width: "100%" }}>
+              <SearchBar />
+            </Box>
+          ) : null}
+
           <Box
             sx={{
-              display: "flex",
+              display: { xs: "none", md: "flex" },
               alignItems: "center",
               gap: "24px",
               flexShrink: 0,
               maxWidth: "500px",
             }}
           >
-            {(displaySearch && isMobile) || !isMobile ? (
-              <Box ref={searchRef} sx={{ display: "block", width: "100%" }}>
-                <SearchBar />
-              </Box>
-            ) : null}
-
             {userInfo.name === "User" ? (
               <GetStartedButton onClick={() => router.push("/check-email")} />
             ) : (
