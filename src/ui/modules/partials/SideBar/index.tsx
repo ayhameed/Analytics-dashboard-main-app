@@ -102,6 +102,62 @@ export const SideBar = () => {
               Solana Performance
             </Typography>
           </RowStack>
+
+          <RowStack
+            sx={{
+              gap: "5px",
+              padding: "12px 14px 12px 8px",
+              alignItems: "center",
+              borderRadius: "12px",
+              border: (theme) =>
+                isActive("/nft") ? `1px solid ${theme.sideBar.btn.border}` : "none",
+              background: (theme) =>
+                isActive("/nft") ? theme.sideBar.btn.background : "none",
+              cursor: "pointer",
+            }}
+            onClick={() => router.push("/nft")}
+          >
+            <StyledImage src={chartIcon} alt="" sx={{ width: "23px", height: "24px" }} />
+
+            <Typography
+              sx={{
+                fontSize: pxToRem(16),
+                fontWeight: 400,
+                color: (theme) =>
+                  isActive("/nft") ? theme.sideBar.btn.text.color : theme.sideBar.text.link,
+              }}
+            >
+              NFT
+            </Typography>
+          </RowStack>
+
+          <RowStack
+            sx={{
+              gap: "5px",
+              padding: "12px 14px 12px 8px",
+              alignItems: "center",
+              borderRadius: "12px",
+              border: (theme) =>
+                isActive("/defi") ? `1px solid ${theme.sideBar.btn.border}` : "none",
+              background: (theme) =>
+                isActive("/defi") ? theme.sideBar.btn.background : "none",
+              cursor: "pointer",
+            }}
+            onClick={() => router.push("/defi")}
+          >
+            <StyledImage src={chartIcon} alt="" sx={{ width: "23px", height: "24px" }} />
+
+            <Typography
+              sx={{
+                fontSize: pxToRem(16),
+                fontWeight: 400,
+                color: (theme) =>
+                  isActive("/defi") ? theme.sideBar.btn.text.color : theme.sideBar.text.link,
+              }}
+            >
+              Defi
+            </Typography>
+          </RowStack>
         </Stack>
       </Box>
 

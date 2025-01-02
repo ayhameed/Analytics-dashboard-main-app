@@ -170,7 +170,7 @@ export const Header: React.FC = () => {
             }}
           >
             <AppButton
-              onClick={() => router.push("/sign-up")}
+              onClick={() => router.push("/check-email")}
               disableArrow
               sx={{
                 height: "100%",

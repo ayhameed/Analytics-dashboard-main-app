@@ -48,9 +48,9 @@ export const BlockchainCurrencies = () => {
   return (
     <Box
       sx={{
-        marginTop: "30px",
+        margin: {xs: "20px", sm: "30px 0 0 0"},
         display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
+        gridTemplateColumns: {xs: "1fr", md: "repeat(3, 1fr)"},
         gap: "20px",
       }}
     >
@@ -82,12 +82,12 @@ export const BlockchainCurrencies = () => {
                   sx={{
                     width: "25.794px",
                     height: "25.304px",
-                    marginRight: "5px",
+                    marginRight: "8px",
                   }}
                 />
                 <Typography
                   sx={{
-                    fontSize: pxToRem(20),
+                    fontSize: {xs: pxToRem(20), md: pxToRem(18), xl: pxToRem(20)},
                     fontWeight: 500,
                     lineHeight: "32px",
                     color: (theme) => theme.dashboard.blockchain.text.primary,
@@ -100,7 +100,7 @@ export const BlockchainCurrencies = () => {
               <Typography
                 sx={{
                   color: (theme) => theme.dashboard.blockchain.text.secondary,
-                  fontSize: pxToRem(16),
+                  fontSize: {xs: pxToRem(16), md: pxToRem(15), xl: pxToRem(16)},
                   fontWeight: 500,
                   lineHeight: "26px",
                   letterSpacing: "-0.08px",
@@ -112,43 +112,47 @@ export const BlockchainCurrencies = () => {
             </Stack>
 
             <RowStack>
-              <StyledImage
-                src={!isDarkMode ? starIcon : starDarkIcon}
-                alt="Star Icon"
-                sx={{ width: "24px", height: "24px", marginRight: "8px" }}
-              />
+              <RowStack>
+                <StyledImage
+                  src={!isDarkMode ? starIcon : starDarkIcon}
+                  alt="Star Icon"
+                  sx={{ width: "24px", height: "24px", marginRight: "8px" }}
+                />
 
-              <Typography
-                sx={{
-                  color: (theme) => theme.dashboard.blockchain.text.secondary,
-                  fontSize: pxToRem(16),
-                  fontWeight: 500,
-                  lineHeight: "26px",
-                  letterSpacing: "-0.08px",
-                  fontFeatureSettings: "cv03 on, cv04 on",
-                }}
-              >
-                {data.circulating_supply.toLocaleString()}
-              </Typography>
+                <Typography
+                  sx={{
+                    color: (theme) => theme.dashboard.blockchain.text.secondary,
+                    fontSize: {xs: pxToRem(15), xl: pxToRem(16)},
+                    fontWeight: 500,
+                    lineHeight: "26px",
+                    letterSpacing: "-0.08px",
+                    fontFeatureSettings: "cv03 on, cv04 on",
+                  }}
+                >
+                  {data.circulating_supply.toLocaleString()}
+                </Typography>
+              </RowStack>
 
-              <StyledImage
-                src={isDarkMode ? supplyDarkIcon : supplyIcon}
-                alt="Supply Icon"
-                sx={{ width: "24px", height: "24px", margin: "0 8px" }}
-              />
+              <RowStack>
+                <StyledImage
+                  src={isDarkMode ? supplyDarkIcon : supplyIcon}
+                  alt="Supply Icon"
+                  sx={{ width: "24px", height: "24px", margin: "0 8px" }}
+                />
 
-              <Typography
-                sx={{
-                  color: (theme) => theme.dashboard.blockchain.text.secondary,
-                  fontSize: pxToRem(16),
-                  fontWeight: 500,
-                  lineHeight: "26px",
-                  letterSpacing: "-0.08px",
-                  fontFeatureSettings: "cv03 on, cv04 on",
-                }}
-              >
-                ${data.market_cap.toLocaleString()}
-              </Typography>
+                <Typography
+                  sx={{
+                    color: (theme) => theme.dashboard.blockchain.text.secondary,
+                    fontSize: {xs: pxToRem(15), xl: pxToRem(16)},
+                    fontWeight: 500,
+                    lineHeight: "26px",
+                    letterSpacing: "-0.08px",
+                    fontFeatureSettings: "cv03 on, cv04 on",
+                  }}
+                >
+                  ${data.market_cap.toLocaleString()}
+                </Typography>
+              </RowStack>
             </RowStack>
           </Box>
         ))}
