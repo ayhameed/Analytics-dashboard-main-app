@@ -38,7 +38,7 @@ export const NetworkHealthMetrics = () => {
               component="span"
               sx={{
                 color: "#747474",
-                fontSize: {xs: pxToRem(12), sm: pxToRem(14)},
+                fontSize: {xs: pxToRem(13), sm: pxToRem(14)},
                 fontWeight: 400,
                 lineHeight: {xs: 1.2, sm: "24px"},
                 fontFeatureSettings: "'liga' off, 'clig' off",
