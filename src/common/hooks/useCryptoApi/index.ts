@@ -51,9 +51,9 @@ export const useCryptoApi = () => {
     );
   };
 
-  const getTopTokens = async (): Promise<ApiTopTokenData | null> => {
+  const getTopTokens = async (type: string): Promise<ApiTopTokenData | null> => {
     return tryExecute(
-      () => api.get<ApiResponse<ApiTopTokenData>>(`tokens/top-tokens`),
+      () => api.get<ApiResponse<ApiTopTokenData>>(`tokens/top-tokens?asset_type=${type}`),
       async (response) => {
         if (response.data.status_code === 200) {
           return response.data.data;

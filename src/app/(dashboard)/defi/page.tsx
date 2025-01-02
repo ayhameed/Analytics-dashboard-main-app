@@ -1,6 +1,7 @@
+"use client";
+import { Blockchain } from "@/ui/pages";
 import React from "react";
-import { SolanaSummary } from "@/ui/pages/SolanaPerformance";
 
-export default function BlockChainPage() {
-  return <SolanaSummary />;
+export default function HomePage() {
+  return <Blockchain />;
 }

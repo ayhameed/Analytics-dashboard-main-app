@@ -31,6 +31,47 @@ interface SearchHistoryResponse {
   user_search_history: UserSearchHistory[];
 }
 
+const SESSION_KEYS = {
+  AUTH_TOKEN: "authToken",
+  ACCESS_TOKEN: "access_token",
+  USER_ID: "user_id",
+  USER_INFO: "user_info",
+  THEME: "theme",
+  SEARCH_HISTORY: "search_history",
+  USER_PREFERENCES: "user_preferences",
+  REMEMBERED_SEARCHES: "remembered_searches",
+  RECENT_ACTIVITIES: "recent_activities",
+} as const;
+
+/**
+ * Clears all session data and storage items
+ */
+const clearAllSessionData = () => {
+  // Clear all cookies
+  Object.values(SESSION_KEYS).forEach((key) => {
+    Cookies.remove(key, { path: "/" });
+    Cookies.remove(key, { path: "/", domain: window.location.hostname });
+  });
+
+  // Clear localStorage
+  Object.values(SESSION_KEYS).forEach((key) => {
+    localStorage.removeItem(key);
+  });
+
+  // Clear sessionStorage
+  Object.values(SESSION_KEYS).forEach((key) => {
+    sessionStorage.removeItem(key);
+  });
+
+  // Clear any additional application state if needed
+  // For example, reset any global state management store
+  try {
+    window.location.reload(); // Optional: Refresh the page to ensure clean state
+  } catch (error) {
+    console.error("Error during page reload:", error);
+  }
+};
+
 export const useUserApi = () => {
   const api = useApi();
 
@@ -245,16 +286,18 @@ export const useUserApi = () => {
       async (response) => {
         if (response.status === 200) {
           success = true;
-          Cookies.remove("authToken", { path: "/" });
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("user_id");
-          localStorage.removeItem("user_info");
+
+          // Clear all session data
+          clearAllSessionData();
         } else {
-          toast.error("Failed to logout");
+          // Even if the server logout fails, clear local data for security
+          clearAllSessionData();
         }
       },
       async () => {
-        toast.error("An error occurred");
+        toast.error("An error occurred during logout");
+        // Clear local data even if there's an error
+        clearAllSessionData();
       },
     );
 

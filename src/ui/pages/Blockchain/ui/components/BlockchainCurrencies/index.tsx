@@ -3,7 +3,7 @@ import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
 import ScrollImg from "@/ui/assets/icons/image 12.svg";
 import { ApiBlockchainData, useApplicationTheme, useCryptoApi } from "@/common";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import starDarkIcon from "./ui/assets/icons/star_dark.svg";
 import starIcon from "./ui/assets/icons/star.svg";
@@ -12,8 +12,11 @@ import supplyIcon from "./ui/assets/icons/shell_fish.svg";
 
 export const BlockchainCurrencies = () => {
   const router = useRouter();
+  const path = usePathname();
   const { isDarkMode } = useApplicationTheme();
   const { getTopTokens } = useCryptoApi();
+
+  const pathName = path.replace("/", "") === "" ? "token" : path.replace("/", "");
 
   const [cryptoData, setCryptoData] = useState<ApiBlockchainData[] | null>(null);
   const [loading, setLoading] = useState(true);
@@ -21,8 +24,8 @@ export const BlockchainCurrencies = () => {
 
   useEffect(() => {
     const fetchTopTokens = async () => {
-      const data = await getTopTokens();
-      console.log({ data });
+      const data = await getTopTokens(pathName);
+
       if (data) {
         // @ts-ignore
         setCryptoData(data);
@@ -48,9 +51,9 @@ export const BlockchainCurrencies = () => {
   return (
     <Box
       sx={{
-        margin: {xs: "20px", sm: "30px 0 0 0"},
+        margin: { xs: "20px", sm: "30px 0 0 0" },
         display: "grid",
-        gridTemplateColumns: {xs: "1fr", md: "repeat(3, 1fr)"},
+        gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
         gap: "20px",
       }}
     >
@@ -87,7 +90,7 @@ export const BlockchainCurrencies = () => {
                 />
                 <Typography
                   sx={{
-                    fontSize: {xs: pxToRem(20), md: pxToRem(18), xl: pxToRem(20)},
+                    fontSize: { xs: pxToRem(20), md: pxToRem(18), xl: pxToRem(20) },
                     fontWeight: 500,
                     lineHeight: "32px",
                     color: (theme) => theme.dashboard.blockchain.text.primary,
@@ -100,7 +103,7 @@ export const BlockchainCurrencies = () => {
               <Typography
                 sx={{
                   color: (theme) => theme.dashboard.blockchain.text.secondary,
-                  fontSize: {xs: pxToRem(16), md: pxToRem(15), xl: pxToRem(16)},
+                  fontSize: { xs: pxToRem(16), md: pxToRem(15), xl: pxToRem(16) },
                   fontWeight: 500,
                   lineHeight: "26px",
                   letterSpacing: "-0.08px",
@@ -122,7 +125,7 @@ export const BlockchainCurrencies = () => {
                 <Typography
                   sx={{
                     color: (theme) => theme.dashboard.blockchain.text.secondary,
-                    fontSize: {xs: pxToRem(15), xl: pxToRem(16)},
+                    fontSize: { xs: pxToRem(15), xl: pxToRem(16) },
                     fontWeight: 500,
                     lineHeight: "26px",
                     letterSpacing: "-0.08px",
@@ -143,7 +146,7 @@ export const BlockchainCurrencies = () => {
                 <Typography
                   sx={{
                     color: (theme) => theme.dashboard.blockchain.text.secondary,
-                    fontSize: {xs: pxToRem(15), xl: pxToRem(16)},
+                    fontSize: { xs: pxToRem(15), xl: pxToRem(16) },
                     fontWeight: 500,
                     lineHeight: "26px",
                     letterSpacing: "-0.08px",
