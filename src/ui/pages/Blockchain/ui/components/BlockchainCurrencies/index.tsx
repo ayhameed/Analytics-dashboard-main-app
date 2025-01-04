@@ -51,7 +51,7 @@ export const BlockchainCurrencies = () => {
   return (
     <Box
       sx={{
-        margin: { xs: "20px", sm: "30px 0 0 0" },
+        margin: { xs: "18px", sm: "30px 0 0 0" },
         display: "grid",
         gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
         gap: "20px",
@@ -125,7 +125,7 @@ export const BlockchainCurrencies = () => {
                 <Typography
                   sx={{
                     color: (theme) => theme.dashboard.blockchain.text.secondary,
-                    fontSize: { xs: pxToRem(15), xl: pxToRem(16) },
+                    fontSize: { xs: pxToRem(14), xl: pxToRem(16) },
                     fontWeight: 500,
                     lineHeight: "26px",
                     letterSpacing: "-0.08px",
@@ -146,7 +146,7 @@ export const BlockchainCurrencies = () => {
                 <Typography
                   sx={{
                     color: (theme) => theme.dashboard.blockchain.text.secondary,
-                    fontSize: { xs: pxToRem(15), xl: pxToRem(16) },
+                    fontSize: { xs: pxToRem(14), xl: pxToRem(16) },
                     fontWeight: 500,
                     lineHeight: "26px",
                     letterSpacing: "-0.08px",

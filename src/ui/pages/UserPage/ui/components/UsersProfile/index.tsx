@@ -54,9 +54,11 @@ export const UserProfile = () => {
       >
         <RowStack
           spacing={"12px"}
-          alignItems={"center"}
+          alignItems={"flex-start"} // Changed from center to flex-start
           sx={{
             mb:{xs: "20px", sm: 0},
+            flex: "1", // Added flex: 1 to allow content to take available space
+            minWidth: 0, // Added to ensure flex item can shrink below its minimum content size
           }}
         >
           <StyledImage
@@ -67,17 +69,25 @@ export const UserProfile = () => {
               height: "54px",
               borderRadius: "50%",
               objectFit: "cover",
+              flexShrink: 0, // Prevent avatar from shrinking
             }}
           />
-          <Stack overflow={"hidden"}>
+          <Stack
+            overflow={"hidden"}
+            sx={{
+              minWidth: 0, // Enable text truncation in child elements
+              flex: 1, // Take remaining space
+            }}
+          >
             <Typography
               sx={{
                 fontSize: pxToRem(16),
                 fontWeight: 700,
                 lineHeight: "150%",
                 color: (theme) => theme.userPage.profile.secondaryCl,
+                wordBreak: "break-word", // Enable word breaking
               }}
-              title="Opeyemi Adeboye"
+              title={userInfo.name}
             >
               {userInfo.name}
             </Typography>
@@ -87,6 +97,9 @@ export const UserProfile = () => {
                 fontWeight: 400,
                 lineHeight: "150%",
                 color: (theme) => theme.userPage.profile.primaryCl,
+                wordBreak: "break-word", // Enable word breaking
+                overflowWrap: "break-word", // Handle long words
+                whiteSpace: "normal", // Allow text to wrap
               }}
             >
               {userInfo.email}
