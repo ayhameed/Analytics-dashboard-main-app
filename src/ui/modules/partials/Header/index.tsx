@@ -95,7 +95,8 @@ const UserProfileSection: React.FC<{
   onProfileClick: () => void;
   onProfileIconClick: (e: React.MouseEvent) => void;
   onLogoutClick: (e: React.MouseEvent) => void;
-}> = ({ userInfo, displayLogout, onProfileClick, onProfileIconClick, onLogoutClick }) => {
+  isMobileView?: boolean;
+}> = ({ userInfo, displayLogout, onProfileClick, onProfileIconClick, onLogoutClick, isMobileView }) => {
   const logoutRef = useRef<HTMLDivElement>(null);
 
   useClickOutside({
@@ -106,10 +107,9 @@ const UserProfileSection: React.FC<{
   return (
     <RowStack
       sx={{
-        display: { xs: "none", sm: "flex" },
-        "@media (max-width: 599px)": { display: "none" },
+        display: "flex",
         alignItems: "center",
-        gap: "15px",
+        gap: isMobileView ? "10px" : "15px",
         flexShrink: 0,
         position: "relative",
       }}
@@ -118,8 +118,8 @@ const UserProfileSection: React.FC<{
         src={userInfo.imageUrl}
         alt="Profile Avatar"
         sx={{
-          width: "48px",
-          height: "48px",
+          width: isMobileView ? "30px" : "48px",
+          height: isMobileView ? "30px" : "48px",
           borderRadius: "50%",
           objectFit: "cover",
           cursor: "pointer",
@@ -127,12 +127,13 @@ const UserProfileSection: React.FC<{
         onClick={onProfileClick}
       />
 
-      <UserInfo userInfo={userInfo} onProfileClick={onProfileClick} />
+      {!isMobileView && <UserInfo userInfo={userInfo} onProfileClick={onProfileClick} />}
       <ProfileDropdown
         displayLogout={displayLogout}
         onProfileIconClick={onProfileIconClick}
         onLogoutClick={onLogoutClick}
         ref={logoutRef}
+        isMobileView={isMobileView}
       />
     </RowStack>
   );
@@ -181,6 +182,7 @@ const ProfileDropdown = React.forwardRef<
     displayLogout: boolean;
     onProfileIconClick: (e: React.MouseEvent) => void;
     onLogoutClick: (e: React.MouseEvent) => void;
+    isMobileView?: boolean;
   }
 >((props, ref) => (
   <>
@@ -190,7 +192,7 @@ const ProfileDropdown = React.forwardRef<
       sx={{
         width: "24px",
         height: "24px",
-        marginLeft: "24px",
+        marginLeft: props.isMobileView ? "0" : "24px",
         flexShrink: 0,
         cursor: "pointer",
         transform: props.displayLogout ? "rotate(180deg)" : "rotate(0deg)",
@@ -210,10 +212,10 @@ const ProfileDropdown = React.forwardRef<
           backgroundColor: (theme) => theme.navBar.logOut.background,
           boxShadow: "0px 4px 27.1px -6px rgba(92, 92, 92, 0.25)",
           gap: "8px",
-          width: "252px",
+          width: props.isMobileView ? "200px" : "252px",
           position: "absolute",
-          top: "70px",
-          right: { sm: "10px", md: 0 },
+          top: props.isMobileView ? "40px" : "70px",
+          right: { xs: "0", sm: "10px", md: 0 },
           marginTop: "10px",
           cursor: "pointer",
           transition: "all 0.3s ease",
@@ -340,17 +342,16 @@ export const Header: React.FC = () => {
             {userInfo.name === "User" ? (
               <GetStartedButton onClick={() => router.push("/check-email")} />
             ) : (
-              <StyledImage
-                src={userInfo.imageUrl}
-                alt="Profile Avatar"
-                sx={{
-                  width: "30px",
-                  height: "30px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  cursor: "pointer",
+              <UserProfileSection
+                userInfo={userInfo}
+                displayLogout={displayLogout}
+                onProfileClick={() => router.push("/user")}
+                onProfileIconClick={(e) => {
+                  e.stopPropagation();
+                  setDisplayLogout(!displayLogout);
                 }}
-                onClick={() => router.push("/user")}
+                onLogoutClick={handleLogoutClick}
+                isMobileView={true}
               />
             )}
             <Navigator />
@@ -383,6 +384,7 @@ export const Header: React.FC = () => {
                   setDisplayLogout(!displayLogout);
                 }}
                 onLogoutClick={handleLogoutClick}
+                isMobileView={false}
               />
             )}
           </Box>

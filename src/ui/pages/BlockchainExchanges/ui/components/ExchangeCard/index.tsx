@@ -49,6 +49,7 @@ export const ExchangeCard = () => {
         borderRadius: "12px",
         border: (theme) => `1px solid ${theme.tokenDetails.card.border}`,
         backgroundColor: (theme) => theme.tokenDetails.card.background,
+        marginBottom: "30px"
       }}
     >
       <RowStack>
@@ -69,66 +70,87 @@ export const ExchangeCard = () => {
           {tokenData.name}
         </Typography>
       </RowStack>
-      <RowStack>
-        <Typography
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: {xs: "column", md: "row"},
+          alignItems: {xs: "left", md: "center"},
+          gap: {xs: "25px", md: "auto"}
+        }}
+      >
+        <RowStack
           sx={{
-            color: (theme) => theme.tokenDetails.card.text.secondary,
-            fontFeatureSettings: "'cv03' on, 'cv04' on",
-            fontSize: pxToRem(16),
-            fontWeight: 500,
-            lineHeight: "26px",
-            letterSpacing: "-0.08px",
+            justifyContent: {xs: "space-between", md: "normal"},
+            flex: {xs: "0 0 0", md: "0 0 50%"}
           }}
         >
-          TVL <br />
-          <Box component="span">{formatNumber(tokenData.tvl)}</Box>
-        </Typography>
+          <Typography
+            sx={{
+              color: (theme) => theme.tokenDetails.card.text.secondary,
+              fontFeatureSettings: "'cv03' on, 'cv04' on",
+              fontSize: pxToRem(16),
+              fontWeight: 500,
+              lineHeight: "26px",
+              letterSpacing: "-0.08px",
+            }}
+          >
+            TVL <br />
+            <Box component="span">{formatNumber(tokenData.tvl)}</Box>
+          </Typography>
 
-        <Typography
-          sx={{
-            color: (theme) => theme.tokenDetails.card.text.secondary,
-            fontFeatureSettings: "'cv03' on, 'cv04' on",
-            fontSize: pxToRem(16),
-            fontWeight: 500,
-            lineHeight: "26px",
-            letterSpacing: "-0.08px",
-            marginLeft: "auto",
-          }}
-        >
-          Market cap <br />
-          <Box component="span">{formatNumber(tokenData.market_cap)}</Box>
-        </Typography>
+          <Typography
+            sx={{
+              color: (theme) => theme.tokenDetails.card.text.secondary,
+              fontFeatureSettings: "'cv03' on, 'cv04' on",
+              fontSize: pxToRem(16),
+              fontWeight: 500,
+              lineHeight: "26px",
+              letterSpacing: "-0.08px",
+              margin: {xs: 0, md: "0 auto"},
+            }}
+          >
+            Market cap <br />
+            <Box component="span">{formatNumber(tokenData.market_cap)}</Box>
+          </Typography>
+        </RowStack>
 
-        <Typography
+        <RowStack
           sx={{
-            color: (theme) => theme.tokenDetails.card.text.secondary,
-            fontFeatureSettings: "'cv03' on, 'cv04' on",
-            fontSize: pxToRem(16),
-            fontWeight: 500,
-            lineHeight: "26px",
-            letterSpacing: "-0.08px",
-            marginLeft: "auto",
+            justifyContent: {xs: "space-between", md: "normal"},
+            flex: {xs: "0 0 0", md: "0 0 50%"}
           }}
         >
-          FDV <br />
-          <Box component="span">${tokenData.fdv}</Box>
-        </Typography>
+          <Typography
+            sx={{
+              color: (theme) => theme.tokenDetails.card.text.secondary,
+              fontFeatureSettings: "'cv03' on, 'cv04' on",
+              fontSize: pxToRem(16),
+              fontWeight: 500,
+              lineHeight: "26px",
+              letterSpacing: "-0.08px",
+              margin: {xs: 0, md: "0 auto"},
+            }}
+          >
+            FDV <br />
+            <Box component="span">${tokenData.fdv}</Box>
+          </Typography>
 
-        <Typography
-          sx={{
-            color: (theme) => theme.tokenDetails.card.text.secondary,
-            fontFeatureSettings: "'cv03' on, 'cv04' on",
-            fontSize: pxToRem(16),
-            fontWeight: 500,
-            lineHeight: "26px",
-            letterSpacing: "-0.08px",
-            marginLeft: "auto",
-          }}
-        >
-          1 day volume <br />
-          <Box component="span">{formatNumber(tokenData.volume_24h)}</Box>
-        </Typography>
-      </RowStack>
+          <Typography
+            sx={{
+              color: (theme) => theme.tokenDetails.card.text.secondary,
+              fontFeatureSettings: "'cv03' on, 'cv04' on",
+              fontSize: pxToRem(16),
+              fontWeight: 500,
+              lineHeight: "26px",
+              letterSpacing: "-0.08px",
+              margin: {xs: 0, md: "0 30px 0 0"},
+            }}
+          >
+            1 day volume <br />
+            <Box component="span">{formatNumber(tokenData.volume_24h)}</Box>
+          </Typography>
+        </RowStack>
+      </Box>
     </Stack>
   );
 };
