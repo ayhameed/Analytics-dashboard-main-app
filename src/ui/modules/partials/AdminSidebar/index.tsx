@@ -27,7 +27,12 @@ export const AdminSideBar = () => {
   return (
     <Stack sx={{ justifyContent: "space-between", height: "100%" }}>
       <Box>
-        <Box margin={"32px 70px 49px 16px"}>
+        <Box
+          sx={{
+            ml: "-55px",
+            mt: "-55px",
+          }}
+        >
           <ApplicationLogo />
         </Box>
 
@@ -35,6 +40,7 @@ export const AdminSideBar = () => {
           sx={{
             gap: "20px",
             margin: "0 16px",
+            mt: "-50px",
           }}
         >
           <RowStack

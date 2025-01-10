@@ -102,11 +102,16 @@ export const SideBar = () => {
       }}
     >
       <Box>
-        <Box margin="32px 70px 49px 16px">
+        <Box
+          sx={{
+            ml: "-55px",
+            mt: "-55px",
+          }}
+        >
           <ApplicationLogo />
         </Box>
 
-        <Stack sx={{ gap: "20px", margin: "0 16px" }}>
+        <Stack sx={{ gap: "20px", margin: "0 16px", mt: "-50px" }}>
           {NAV_ITEMS.map((item) => (
             <RowStack
               key={item.path}
