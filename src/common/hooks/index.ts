@@ -5,3 +5,4 @@ export * from "./useSearch";
 export * from "./useCryptoApi";
 export * from "./useAuth";
 export * from "./usemobileNavigator";
+export * from "./useApplication";

@@ -24,6 +24,11 @@ interface TokenHolder {
   percentage_of_supply: number;
 }
 
+export interface Country {
+  country_name: string;
+  visitor_count: number;
+}
+
 interface SolanaMetrics {
   validators: number;
   daily_active_programs: number | null;
@@ -164,6 +169,51 @@ export const useCryptoApi = () => {
     );
   };
 
+  const getTopCountries = async (): Promise<Country[]> => {
+    return tryExecute(
+      () => api.get<ApiResponse<any>>("admin/dashboard/visitor-geography"),
+      async (response) => {
+        if (response.data.status_code === 200) {
+          const ret = response.data.data;
+          return ret.countries;
+        }
+        toast.error(response.data.message);
+        return null;
+      },
+      async () => {
+        toast.error("An error occurred");
+        return null;
+      },
+    );
+  };
+
+  const exportCountryData = async (timeRange: string): Promise<void> => {
+    return tryExecute(
+      () =>
+        api.get(`admin/dashboard/export?time_range=${timeRange}`, {
+          responseType: "blob", // Explicitly set response type to 'blob'
+        }),
+      async (response) => {
+        if (response.status === 200) {
+          const blob = response.data as Blob; // Explicitly cast response.data to Blob
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", `export_${timeRange}.csv`); // Name the downloaded file
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          toast.success("Download started");
+        } else {
+          toast.error("Failed to start download");
+        }
+      },
+      async () => {
+        toast.error("An error occurred during export");
+      },
+    );
+  };
+
   return {
     getTopTokens,
     searchToken,
@@ -172,5 +222,7 @@ export const useCryptoApi = () => {
     getTokenFeeTracker,
     getSolanaMetrics,
     getTokenHolders,
+    getTopCountries,
+    exportCountryData,
   };
 };

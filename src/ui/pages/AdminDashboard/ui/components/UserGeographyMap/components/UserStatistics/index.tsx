@@ -6,19 +6,18 @@ import arrowUp from "./assets/icon/Icon.svg";
 
 export const UserStatistics = () => {
   return (
-    <RowStack spacing={"67px"}>
+    <RowStack spacing={"67px"} alignItems={"center"}>
       <Stack
         spacing={"10px"}
         sx={{
           background: "rgba(51, 165, 93, 0.20)",
-          padding: "3px 8px",
+          pt: "12px",
+          px: "12px",
           borderRadius: "10px",
         }}
       >
-        {/**here Plus Jakarta Sans is used as font*/}
         <Typography
           sx={{
-            color: "#71717A",
             fontSize: pxToRem(14),
             fontWeight: 600,
             lineHeight: "18px",
@@ -31,7 +30,6 @@ export const UserStatistics = () => {
         <RowStack spacing={"8px"}>
           <Typography
             sx={{
-              color: "#18181B",
               fontSize: pxToRem(21),
               fontWeight: 600,
               lineHeight: "32px",
@@ -39,7 +37,7 @@ export const UserStatistics = () => {
               top: "-5px",
             }}
           >
-            395
+            2
           </Typography>
 
           <RowStack
@@ -56,7 +54,7 @@ export const UserStatistics = () => {
                 lineHeight: "21px",
               }}
             >
-              348.9
+              100
             </Typography>
 
             <StyledImage src={arrowUp} alt="" />
@@ -64,10 +62,9 @@ export const UserStatistics = () => {
         </RowStack>
       </Stack>
 
-      <Stack spacing={"4px"} alignSelf={"flex-start"}>
+      <Stack spacing={"4px"}>
         <Typography
           sx={{
-            color: "#9AA0A6",
             fontSize: pxToRem(14),
             fontWeight: 600,
             lineHeight: "18px",
@@ -80,13 +77,12 @@ export const UserStatistics = () => {
         <RowStack spacing={"4px"}>
           <Typography
             sx={{
-              color: "#9AA0A6",
               fontSize: pxToRem(21),
               fontWeight: 600,
               lineHeight: "120%",
             }}
           >
-            932
+            3
           </Typography>
 
           <RowStack
@@ -103,7 +99,7 @@ export const UserStatistics = () => {
                 lineHeight: "21px",
               }}
             >
-              565.7
+              100
             </Typography>
 
             <StyledImage src={arrowUp} alt="" />
@@ -111,7 +107,7 @@ export const UserStatistics = () => {
         </RowStack>
       </Stack>
 
-      <Stack spacing={"4px"} alignSelf={"flex-start"}>
+      <Stack spacing={"4px"}>
         <Typography
           sx={{
             color: "#9AA0A6",
@@ -133,7 +129,7 @@ export const UserStatistics = () => {
               lineHeight: "32px",
             }}
           >
-            1m 23s
+            5m 25s
           </Typography>
 
           <RowStack
@@ -150,7 +146,7 @@ export const UserStatistics = () => {
                 lineHeight: "21px",
               }}
             >
-              565.7
+              243
             </Typography>
 
             <StyledImage src={arrowDown} alt="" />

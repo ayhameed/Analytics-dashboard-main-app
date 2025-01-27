@@ -75,6 +75,14 @@ const clearAllSessionData = () => {
   }
 };
 
+export interface ActivityUser {
+  total_user_count: number;
+  active_inactive_users: {
+    active_users: number;
+    inactive_users: number;
+  };
+}
+
 export const useUserApi = () => {
   const api = useApi();
 
@@ -275,6 +283,35 @@ export const useUserApi = () => {
     return { success, data };
   };
 
+  /**
+   * Fetch user search insights from the API
+   */
+  const getUserSearchInsights = async (): Promise<Array<{
+    user_data: { id: number; name: string; created_at: string };
+    search_count: number;
+  }> | null> => {
+    let searchData: Array<{
+      user_data: { id: number; name: string; created_at: string };
+      search_count: number;
+    }> | null = null;
+
+    await tryExecute(
+      () => api.get<ApiResponse<{ search_data: typeof searchData }>>("admin/users/search-insights"),
+      async (response) => {
+        if (response.status === 200) {
+          searchData = response.data.data.search_data;
+        } else {
+          toast.error("Failed to fetch user search insights");
+        }
+      },
+      async () => {
+        toast.error("An error occurred while fetching user search insights");
+      },
+    );
+
+    return searchData;
+  };
+
   const logout = async (): Promise<boolean> => {
     let success = false;
     const token = getAccessToken();
@@ -338,6 +375,26 @@ export const useUserApi = () => {
     return success;
   };
 
+  const getAdminUsers = async (): Promise<ActivityUser | null> => {
+    let activityUser: ActivityUser | null = null;
+
+    await tryExecute(
+      () => api.get<ApiResponse<ActivityUser>>(`admin/users/activity-summary`),
+      async (response) => {
+        if (response.status === 200) {
+          activityUser = response.data.data;
+        } else {
+          toast.error("Failed to get users");
+        }
+      },
+      async () => {
+        toast.error("An error occurred");
+      },
+    );
+
+    return activityUser;
+  };
+
   return {
     checkEmail,
     login,
@@ -347,5 +404,7 @@ export const useUserApi = () => {
     getUserSearchHistory,
     updateUserProfile,
     logout,
+    getAdminUsers,
+    getUserSearchInsights,
   };
 };

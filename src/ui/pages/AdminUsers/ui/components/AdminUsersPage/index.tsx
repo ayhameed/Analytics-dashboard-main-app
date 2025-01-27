@@ -1,20 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import { TotalUsers } from "../TotalUsers";
-import UserData from "@/ui/blockchain.json";
 import { pxToRem } from "@web-insight/component-library";
 import {
   Box,
   CircularProgress,
-  TableContainer,
+  Table,
   TableBody,
+  TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-  TableCell,
-  Table,
-  Paper,
   Typography,
 } from "@mui/material";
+import { useUserApi } from "@/common";
 
 type Users = {
   Name: string;
@@ -23,28 +22,63 @@ type Users = {
 };
 
 export const AdminUsersPage = () => {
+  const { getUserSearchInsights } = useUserApi();
   const [Users, setUsers] = useState<Users[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    try {
-      // Set data from the JSON file as initial state
-      const data = UserData.AdminUsers;
-      setUsers(data);
-      setLoading(false);
-    } catch (error) {
-      setError("Failed to load user data");
-      setLoading(false);
-    }
-  }, []);
+    const fetchUserData = async () => {
+      try {
+        const data = await getUserSearchInsights();
+        if (data) {
+          const formattedUsers = data.map((item) => ({
+            Name: item.user_data.name || "Unknown User",
+            SearchNumber: item.search_count,
+            dateJoined: new Date(item.user_data.created_at).toLocaleDateString(),
+          }));
+          setUsers(formattedUsers);
+        } else {
+          setError("No data found");
+        }
+      } catch (err) {
+        setError("Failed to fetch user data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [getUserSearchInsights]);
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (error) {
-    return <Typography color="error">{error}</Typography>;
+    return (
+      <Typography
+        color="error"
+        sx={{
+          textAlign: "center",
+          fontSize: pxToRem(18),
+          fontWeight: 500,
+        }}
+      >
+        {error}
+      </Typography>
+    );
   }
 
   return (
@@ -53,19 +87,24 @@ export const AdminUsersPage = () => {
 
       <Typography
         sx={{
-          color: "#444", //fontFamily: Lato
           fontSize: pxToRem(24),
           fontWeight: 700,
           lineHeight: "150%",
           marginBottom: "8px",
           padding: "0 17px 0 7px",
+          color: "#FFFFFF",
         }}
       >
         Users
       </Typography>
 
-      {/**note pls the entire table uses "lato as font but all font weight nd sizes has been implemented" */}
-      <TableContainer component={Paper} sx={{ padding: "0 17px 0 7px", boxShadow: "none" }}>
+      <TableContainer
+        sx={{
+          padding: "0 17px 0 7px",
+          backgroundColor: "transparent !important",
+          boxShadow: "none",
+        }}
+      >
         <Table
           sx={{
             borderCollapse: "separate",
@@ -74,8 +113,7 @@ export const AdminUsersPage = () => {
         >
           <TableHead
             sx={{
-              padding: 0,
-              backgroundColor: "#F2EEFB",
+              backgroundColor: "#303030",
             }}
           >
             <TableRow>
@@ -85,6 +123,7 @@ export const AdminUsersPage = () => {
                   fontWeight: 700,
                   padding: "8px 12px",
                   border: "none",
+                  color: "#FFFFFF",
                 }}
               >
                 Full Name
@@ -96,6 +135,7 @@ export const AdminUsersPage = () => {
                   fontWeight: 700,
                   padding: "8px 12px",
                   border: "none",
+                  color: "#FFFFFF",
                 }}
               >
                 Number Of Searches
@@ -107,6 +147,7 @@ export const AdminUsersPage = () => {
                   fontWeight: 700,
                   padding: "8px 12px",
                   border: "none",
+                  color: "#FFFFFF",
                 }}
               >
                 Date Joined
@@ -122,15 +163,15 @@ export const AdminUsersPage = () => {
                   <TableRow
                     key={index}
                     sx={{
-                      backgroundColor: isWhiteBackground ? "#ffffff" : "#F9FAFB",
+                      backgroundColor: isWhiteBackground ? "#424242" : "#303030",
                     }}
                   >
                     <TableCell
                       sx={{
                         fontSize: pxToRem(16),
                         fontWeight: 400,
-                        color: "#606060",
-                        padding: isWhiteBackground ? "12px" : "8px 12px",
+                        color: "#E0E0E0",
+                        padding: "12px",
                         border: "none",
                       }}
                     >
@@ -141,8 +182,8 @@ export const AdminUsersPage = () => {
                       sx={{
                         fontSize: pxToRem(16),
                         fontWeight: 400,
-                        color: "#606060",
-                        padding: isWhiteBackground ? "12px" : "8px 12px",
+                        color: "#E0E0E0",
+                        padding: "12px",
                         border: "none",
                       }}
                     >
@@ -153,8 +194,8 @@ export const AdminUsersPage = () => {
                       sx={{
                         fontSize: pxToRem(16),
                         fontWeight: 400,
-                        color: "#606060",
-                        padding: isWhiteBackground ? "12px" : "8px 12px",
+                        color: "#E0E0E0",
+                        padding: "12px",
                         border: "none",
                       }}
                     >

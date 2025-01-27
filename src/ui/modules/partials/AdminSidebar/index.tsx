@@ -1,14 +1,12 @@
 "use client";
 
 import { Box, Stack, Typography } from "@mui/material";
-import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
+import { pxToRem, RowStack, StyledImage, StyledLink } from "@web-insight/component-library";
 import homeIcon from "../assets/icon/Component 6.svg";
 import chartIcon from "../assets/icon/chart-histogram.svg";
 import docPlugIcon from "../assets/icon/plug-socket.svg";
 import docLinkIcon from "../assets/icon/link-square-01.svg";
 import reportBugIcon from "../assets/icon/bug-01.svg";
-import sunIcon from "../assets/icon/sun-01.svg";
-import moonIcon from "../assets/icon/moon-02.svg";
 import { useApplicationTheme } from "@/common";
 import { ApplicationLogo } from "@/ui/modules/components";
 import { usePathname, useRouter } from "next/navigation";
@@ -27,14 +25,15 @@ export const AdminSideBar = () => {
   return (
     <Stack sx={{ justifyContent: "space-between", height: "100%" }}>
       <Box>
-        <Box
+        <StyledLink
+          href={"/admin"}
           sx={{
             ml: "-55px",
             mt: "-55px",
           }}
         >
           <ApplicationLogo />
-        </Box>
+        </StyledLink>
 
         <Stack
           sx={{
@@ -155,38 +154,38 @@ export const AdminSideBar = () => {
           />
         </RowStack>
 
-        <RowStack
-          spacing={"26px"}
-          sx={{
-            padding: "5px 14px 5px 5px",
-            margin: "0 auto",
-            borderRadius: "40px",
-            background: (theme) => theme.sideBar.toggle.background,
-            border: (theme) => `5px solid ${theme.sideBar.toggle.border}`,
-            boxShadow: (theme) => theme.sideBar.toggle.boxShadow,
-            cursor: "pointer",
-          }}
-          onClick={handleToggleTheme}
-        >
-          <StyledImage
-            src={sunIcon}
-            alt="Light Mode"
-            sx={{
-              width: "20px",
-              height: "20px",
-              // display: isDarkMode ? "none" : "block",
-            }}
-          />
-          <StyledImage
-            src={moonIcon}
-            alt="Dark Mode"
-            sx={{
-              width: "24px",
-              height: "24px",
-              // display: isDarkMode ? "block" : "none",
-            }}
-          />
-        </RowStack>
+        {/*<RowStack*/}
+        {/*  spacing={"26px"}*/}
+        {/*  sx={{*/}
+        {/*    padding: "5px 14px 5px 5px",*/}
+        {/*    margin: "0 auto",*/}
+        {/*    borderRadius: "40px",*/}
+        {/*    background: (theme) => theme.sideBar.toggle.background,*/}
+        {/*    border: (theme) => `5px solid ${theme.sideBar.toggle.border}`,*/}
+        {/*    boxShadow: (theme) => theme.sideBar.toggle.boxShadow,*/}
+        {/*    cursor: "pointer",*/}
+        {/*  }}*/}
+        {/*  onClick={handleToggleTheme}*/}
+        {/*>*/}
+        {/*  <StyledImage*/}
+        {/*    src={sunIcon}*/}
+        {/*    alt="Light Mode"*/}
+        {/*    sx={{*/}
+        {/*      width: "20px",*/}
+        {/*      height: "20px",*/}
+        {/*      // display: isDarkMode ? "none" : "block",*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*  <StyledImage*/}
+        {/*    src={moonIcon}*/}
+        {/*    alt="Dark Mode"*/}
+        {/*    sx={{*/}
+        {/*      width: "24px",*/}
+        {/*      height: "24px",*/}
+        {/*      // display: isDarkMode ? "block" : "none",*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</RowStack>*/}
       </Stack>
     </Stack>
   );

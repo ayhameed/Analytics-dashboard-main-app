@@ -1,10 +1,45 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { toast } from "react-toastify";
 
 import managerIcon from "./assets/icons/manager.svg";
-import { Typography, Stack, Box } from "@mui/material";
+import { useUserApi } from "@/common";
 
 export const TotalUsers = () => {
+  const { getAdminUsers } = useUserApi();
+  const [totalUsers, setTotalUsers] = useState<number | null>(null);
+  const [activeUsers, setActiveUsers] = useState<number | null>(null);
+  const [inactiveUsers, setInactiveUsers] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const userStats = await getAdminUsers();
+        if (userStats) {
+          setTotalUsers(userStats.total_user_count);
+          setActiveUsers(userStats.active_inactive_users.active_users);
+          setInactiveUsers(userStats.active_inactive_users.inactive_users);
+        } else {
+          toast.error("Failed to fetch user statistics.");
+        }
+      } catch (error) {
+        toast.error("An error occurred while loading user statistics.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, [getAdminUsers]);
+
+  if (loading) {
+    return <CircularProgress />;
+  }
+
   return (
     <RowStack
       sx={{
@@ -12,17 +47,20 @@ export const TotalUsers = () => {
         padding: "20px 12px",
         gap: "12px",
         borderRadius: "8px",
-        backgroundColor: "#F9FAFB",
         flex: "1 0 0",
       }}
     >
-      <StyledImage src={managerIcon} alt="" sx={{ alignSelf: "flex-start", paddingTop: "10px" }} />
+      <StyledImage
+        src={managerIcon}
+        alt="Manager Icon"
+        sx={{ alignSelf: "flex-start", paddingTop: "10px" }}
+      />
+
       <Stack>
         <Typography
           sx={{
-            color: "#202020",
             fontSize: pxToRem(20),
-            fontWeight: 500, // font family => Inter
+            fontWeight: 500, // Font family => Inter
             lineHeight: "30px",
           }}
         >
@@ -31,13 +69,12 @@ export const TotalUsers = () => {
 
         <Typography
           sx={{
-            color: "#202020",
             fontSize: pxToRem(30),
-            fontWeight: 500, // font family => Inter
+            fontWeight: 500, // Font family => Inter
             lineHeight: "38px",
           }}
         >
-          2,345,90 {/** for total users */}
+          {totalUsers ?? "N/A"}
         </Typography>
       </Stack>
 
@@ -46,18 +83,17 @@ export const TotalUsers = () => {
           <RowStack>
             <Box
               sx={{
-                backgroundColor: " #FF5A5A",
+                backgroundColor: "#FF5A5A",
                 width: "8.5px",
                 height: "8.5px",
                 borderRadius: "50%",
                 marginRight: "10px",
               }}
             />
-
             <Typography
               sx={{
                 color: "#FF5A5A",
-                fontSize: pxToRem(16), // FontFamily: Inter
+                fontSize: pxToRem(16),
                 fontWeight: 500,
                 lineHeight: "120%",
               }}
@@ -68,13 +104,12 @@ export const TotalUsers = () => {
 
           <Typography
             sx={{
-              color: "#202020",
               fontSize: pxToRem(20),
               fontWeight: 500,
               lineHeight: "38px",
             }}
           >
-            2,000,000 {/** total inactive users */}
+            {inactiveUsers ?? "N/A"}
           </Typography>
         </RowStack>
 
@@ -82,18 +117,17 @@ export const TotalUsers = () => {
           <RowStack>
             <Box
               sx={{
-                backgroundColor: " #009B55",
+                backgroundColor: "#009B55",
                 width: "8.5px",
                 height: "8.5px",
                 borderRadius: "50%",
                 marginRight: "10px",
               }}
             />
-
             <Typography
               sx={{
                 color: "#009B55",
-                fontSize: pxToRem(16), // FontFamily: Inter
+                fontSize: pxToRem(16),
                 fontWeight: 500,
                 lineHeight: "120%",
               }}
@@ -104,13 +138,12 @@ export const TotalUsers = () => {
 
           <Typography
             sx={{
-              color: "#202020",
               fontSize: pxToRem(20),
               fontWeight: 500,
               lineHeight: "38px",
             }}
           >
-            345,90 {/** total active users */}
+            {activeUsers ?? "N/A"}
           </Typography>
         </RowStack>
       </Stack>

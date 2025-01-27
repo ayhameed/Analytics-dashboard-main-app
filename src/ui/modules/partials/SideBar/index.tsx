@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Stack, Typography } from "@mui/material";
-import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
+import { pxToRem, RowStack, StyledImage, StyledLink } from "@web-insight/component-library";
 import { useApplicationTheme } from "@/common";
 import { ApplicationLogo } from "@/ui/modules/components";
 import { usePathname, useRouter } from "next/navigation";
@@ -12,8 +12,6 @@ import chartIcon from "../assets/icon/chart-histogram.svg";
 import docPlugIcon from "../assets/icon/plug-socket.svg";
 import docLinkIcon from "../assets/icon/link-square-01.svg";
 import reportBugIcon from "../assets/icon/bug-01.svg";
-import sunIcon from "../assets/icon/sun-01.svg";
-import moonIcon from "../assets/icon/moon-02.svg";
 
 // Navigation item interface
 interface NavItem {
@@ -102,14 +100,16 @@ export const SideBar = () => {
       }}
     >
       <Box>
-        <Box
+        <StyledLink
+          href={"/"}
           sx={{
+            cursor: "pointer",
             ml: "-55px",
             mt: "-55px",
           }}
         >
           <ApplicationLogo />
-        </Box>
+        </StyledLink>
 
         <Stack sx={{ gap: "20px", margin: "0 16px", mt: "-50px" }}>
           {NAV_ITEMS.map((item) => (
@@ -164,22 +164,22 @@ export const SideBar = () => {
           </RowStack>
         ))}
 
-        <RowStack
-          spacing="26px"
-          sx={{
-            padding: "5px 14px 5px 5px",
-            margin: "0 auto",
-            borderRadius: "40px",
-            background: (theme) => theme.sideBar.toggle.background,
-            border: (theme) => `5px solid ${theme.sideBar.toggle.border}`,
-            boxShadow: (theme) => theme.sideBar.toggle.boxShadow,
-            cursor: "pointer",
-          }}
-          onClick={() => setDarkMode(!isDarkMode)}
-        >
-          <StyledImage src={sunIcon} alt="Light Mode" sx={{ width: "20px", height: "20px" }} />
-          <StyledImage src={moonIcon} alt="Dark Mode" sx={{ width: "24px", height: "24px" }} />
-        </RowStack>
+        {/*<RowStack*/}
+        {/*  spacing="26px"*/}
+        {/*  sx={{*/}
+        {/*    padding: "5px 14px 5px 5px",*/}
+        {/*    margin: "0 auto",*/}
+        {/*    borderRadius: "40px",*/}
+        {/*    background: (theme) => theme.sideBar.toggle.background,*/}
+        {/*    border: (theme) => `5px solid ${theme.sideBar.toggle.border}`,*/}
+        {/*    boxShadow: (theme) => theme.sideBar.toggle.boxShadow,*/}
+        {/*    cursor: "pointer",*/}
+        {/*  }}*/}
+        {/*  onClick={() => setDarkMode(!isDarkMode)}*/}
+        {/*>*/}
+        {/*  <StyledImage src={sunIcon} alt="Light Mode" sx={{ width: "20px", height: "20px" }} />*/}
+        {/*  <StyledImage src={moonIcon} alt="Dark Mode" sx={{ width: "24px", height: "24px" }} />*/}
+        {/*</RowStack>*/}
       </Stack>
     </Stack>
   );

@@ -1,254 +1,24 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { AppButton, pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
-import { getUserInfo, useApplicationTheme, useUserApi } from "@/common";
+import { RowStack, StyledImage } from "@web-insight/component-library";
+import { AppBar, Box, Toolbar } from "@mui/material";
+import {
+  getUserInfo,
+  useApplicationTheme,
+  useClickOutside,
+  useIsMobile,
+  UserInfo,
+  useUserApi,
+} from "@/common";
 import { Navigator, SearchBar } from "@/ui/modules/partials/Header/ui/components";
 import { useRouter } from "next/navigation";
-import { StaticImageData } from "next/image";
 
 // Import icons
 import profileAvatar from "@/ui/modules/partials/Header/ui/assets/icon/Avatar.jpg";
-import logOut from "../assets/icon/logout.svg";
-import profileIcon from "@/ui/modules/partials/Header/ui/assets/icon/arrow-circle-down.svg";
 import searchIcon from "./ui/assets/icon/search_icon.svg";
 import searchIconDark from "./ui/assets/icon/search_icon_dark.svg";
-
-// Interfaces
-interface UserInfo {
-  name: string;
-  imageUrl: StaticImageData | string;
-  email: string;
-}
-
-interface UseClickOutside {
-  ref: React.RefObject<HTMLElement>;
-  callback: () => void;
-}
-
-// Custom Hooks
-const useClickOutside = ({ ref, callback }: UseClickOutside) => {
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback();
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [ref, callback]);
-};
-
-const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      if (typeof window !== "undefined") {
-        setIsMobile(window.innerWidth < 900);
-      }
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  return isMobile;
-};
-
-// Components
-const CoinGeckoWidget: React.FC = () => {
-  const { isDarkMode } = useApplicationTheme();
-  return (
-    <Box sx={{ width: "100%", height: "40px", overflow: "hidden", position: "relative" }}>
-      <gecko-coin-price-marquee-widget
-        coin-ids=""
-        initial-currency="usd"
-        dark-mode={isDarkMode ? "true" : "false"}
-      />
-    </Box>
-  );
-};
-
-const GetStartedButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-  <AppButton
-    onClick={onClick}
-    disableArrow
-    sx={{
-      height: "100%",
-      width: "100%",
-      maxWidth: "120px",
-      padding: "4px 10px",
-      borderRadius: "8px",
-    }}
-  >
-    <Typography sx={{ fontSize: pxToRem(14), lineHeight: "21px" }}>Get Started</Typography>
-  </AppButton>
-);
-
-const UserProfileSection: React.FC<{
-  userInfo: UserInfo;
-  displayLogout: boolean;
-  onProfileClick: () => void;
-  onProfileIconClick: (e: React.MouseEvent) => void;
-  onLogoutClick: (e: React.MouseEvent) => void;
-  isMobileView?: boolean;
-}> = ({ userInfo, displayLogout, onProfileClick, onProfileIconClick, onLogoutClick, isMobileView }) => {
-  const logoutRef = useRef<HTMLDivElement>(null);
-
-  useClickOutside({
-    ref: logoutRef,
-    callback: () => displayLogout && onProfileIconClick(new MouseEvent("click") as any),
-  });
-
-  return (
-    <RowStack
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: isMobileView ? "10px" : "15px",
-        flexShrink: 0,
-        position: "relative",
-      }}
-    >
-      <StyledImage
-        src={userInfo.imageUrl}
-        alt="Profile Avatar"
-        sx={{
-          width: isMobileView ? "30px" : "48px",
-          height: isMobileView ? "30px" : "48px",
-          borderRadius: "50%",
-          objectFit: "cover",
-          cursor: "pointer",
-        }}
-        onClick={onProfileClick}
-      />
-
-      {!isMobileView && <UserInfo userInfo={userInfo} onProfileClick={onProfileClick} />}
-      <ProfileDropdown
-        displayLogout={displayLogout}
-        onProfileIconClick={onProfileIconClick}
-        onLogoutClick={onLogoutClick}
-        ref={logoutRef}
-        isMobileView={isMobileView}
-      />
-    </RowStack>
-  );
-};
-
-const UserInfo: React.FC<{
-  userInfo: UserInfo;
-  onProfileClick: () => void;
-}> = ({ userInfo, onProfileClick }) => (
-  <Box sx={{ display: "flex", flexDirection: "column", overflow: "hidden" }}>
-    <Typography
-      sx={{
-        fontSize: pxToRem(16),
-        fontWeight: 700,
-        lineHeight: "150%",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        cursor: "pointer",
-      }}
-      onClick={onProfileClick}
-    >
-      {userInfo.name}
-    </Typography>
-    <Typography
-      sx={{
-        fontSize: pxToRem(16),
-        fontWeight: 400,
-        lineHeight: "150%",
-        color: "#5E646E",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        cursor: "pointer",
-      }}
-      onClick={onProfileClick}
-    >
-      {userInfo.email}
-    </Typography>
-  </Box>
-);
-
-const ProfileDropdown = React.forwardRef<
-  HTMLDivElement,
-  {
-    displayLogout: boolean;
-    onProfileIconClick: (e: React.MouseEvent) => void;
-    onLogoutClick: (e: React.MouseEvent) => void;
-    isMobileView?: boolean;
-  }
->((props, ref) => (
-  <>
-    <StyledImage
-      src={profileIcon}
-      alt="Profile Dropdown"
-      sx={{
-        width: "24px",
-        height: "24px",
-        marginLeft: props.isMobileView ? "0" : "24px",
-        flexShrink: 0,
-        cursor: "pointer",
-        transform: props.displayLogout ? "rotate(180deg)" : "rotate(0deg)",
-        transition: "transform 0.3s ease",
-      }}
-      onClick={props.onProfileIconClick}
-    />
-    {props.displayLogout && (
-      <Box
-        ref={ref}
-        onClick={props.onLogoutClick}
-        sx={{
-          display: "flex",
-          padding: "15px 0 15px 10px",
-          alignItems: "flex-start",
-          borderRadius: "9px",
-          backgroundColor: (theme) => theme.navBar.logOut.background,
-          boxShadow: "0px 4px 27.1px -6px rgba(92, 92, 92, 0.25)",
-          gap: "8px",
-          width: props.isMobileView ? "200px" : "252px",
-          position: "absolute",
-          top: props.isMobileView ? "40px" : "70px",
-          right: { xs: "0", sm: "10px", md: 0 },
-          marginTop: "10px",
-          cursor: "pointer",
-          transition: "all 0.3s ease",
-          transform: "scaleY(1)",
-          transformOrigin: "top",
-          zIndex: 2000,
-        }}
-      >
-        <StyledImage
-          src={logOut}
-          alt="logOutIcon"
-          sx={{
-            height: "24px",
-            width: "24px",
-            display: "block",
-          }}
-        />
-        <Typography
-          sx={{
-            fontSize: pxToRem(16),
-            fontWeight: 400,
-            lineHeight: "150%",
-            color: (theme) => theme.navBar.logOut.color,
-          }}
-        >
-          Log Out
-        </Typography>
-      </Box>
-    )}
-  </>
-));
-
-ProfileDropdown.displayName = "ProfileDropdown";
+import { CoinGeckoWidget, GetStartedButton, UserProfileSection } from "@/ui/modules/components";
 
 // Main Header Component
 export const Header: React.FC = () => {
@@ -343,7 +113,7 @@ export const Header: React.FC = () => {
               <GetStartedButton onClick={() => router.push("/check-email")} />
             ) : (
               <UserProfileSection
-                userInfo={userInfo}
+                userData={userInfo}
                 displayLogout={displayLogout}
                 onProfileClick={() => router.push("/user")}
                 onProfileIconClick={(e) => {
@@ -376,7 +146,7 @@ export const Header: React.FC = () => {
               <GetStartedButton onClick={() => router.push("/check-email")} />
             ) : (
               <UserProfileSection
-                userInfo={userInfo}
+                userData={userInfo}
                 displayLogout={displayLogout}
                 onProfileClick={() => router.push("/user")}
                 onProfileIconClick={(e) => {

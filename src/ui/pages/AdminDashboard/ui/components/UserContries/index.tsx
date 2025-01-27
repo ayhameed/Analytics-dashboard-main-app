@@ -1,48 +1,62 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Box, CircularProgress, Stack, Typography, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
-import UserCountryData from "@/ui/blockchain.json";
-import type { StaticImageData } from "next/image";
+import { toast } from "react-toastify";
 
-import englandImg from "./assets/Images/england_rating.png";
-import brazilImg from "./assets/Images/brazil_rating.png";
-import cyprusImg from "./assets/Images/cyprus_rating (2).png";
-import nigeriaImg from "./assets/Images/nigeria_rating.png";
-import philipineImg from "./assets/Images/mid_rating.png";
-import tanzanianImg from "./assets/Images/tanzanian_rating.jpg";
+import { Country, useCryptoApi } from "@/common";
 
-type TopCountryUser = {
-  Country: string;
-  Users: number;
-};
-
-// Mapping of country names to imported images
-const countryImageMap: Record<string, string | StaticImageData> = {
-  England: englandImg,
-  Brazil: brazilImg,
-  Cyprus: cyprusImg,
-  Nigeria: nigeriaImg,
-  Philipines: philipineImg,
-  Tanzania: tanzanianImg,
-};
+import exportIcon from "../../assets/icons/download.svg";
+import dropdownIcon from "../../assets/icons/dropdown.svg";
+import { AppDropdownMenu } from "@/ui/modules/components";
 
 export const UserCountries = () => {
-  const [countryUsers, setCountryUsers] = useState<TopCountryUser[] | null>(null);
+  const { getTopCountries, exportCountryData } = useCryptoApi();
+  const [isOpen, setIsOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [countryUsers, setCountryUsers] = useState<Country[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
+  const options = ["30d", "7d", "6m", "12m"]; // Dropdown options
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getTopCountries();
+        setCountryUsers(data);
+      } catch (error) {
+        setError("Failed to load country data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [getTopCountries]);
+
+  // Handle dropdown open
+  const handleOpenDropdown = (event: React.MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget);
+    setIsOpen(true);
+  };
+
+  // Handle dropdown close
+  const handleCloseDropdown = () => {
+    setAnchorEl(null);
+    setIsOpen(false);
+  };
+
+  // Handle export
+  const handleExport = async (timeRange: string) => {
+    if (!timeRange) return;
     try {
-      // Set data from the JSON file as initial state
-      const data = UserCountryData.topCountryUser;
-      setCountryUsers(data);
-      setLoading(false);
+      await exportCountryData(timeRange); // Call the API function
     } catch (error) {
-      setError("Failed to load country data");
-      setLoading(false);
+      toast.error("Failed to export country data");
     }
-  }, []);
+  };
 
   if (loading) {
     return <CircularProgress />;
@@ -53,13 +67,12 @@ export const UserCountries = () => {
   }
 
   return (
-    <Box sx={{ gridColumn: "span 1" }} position={"relative"}>
-      <RowStack justifyContent={"space-between"} marginBottom={"24px"}>
+    <Box sx={{ gridColumn: "span 1" }} position="relative">
+      <RowStack justifyContent="space-between" marginBottom="24px">
         <Typography
           sx={{
             fontSize: pxToRem(16),
             fontWeight: 600,
-            color: "#828282",
             lineHeight: "21px",
           }}
         >
@@ -70,7 +83,6 @@ export const UserCountries = () => {
           sx={{
             fontSize: pxToRem(16),
             fontWeight: 600,
-            color: "#828282",
             lineHeight: "21px",
           }}
         >
@@ -80,58 +92,109 @@ export const UserCountries = () => {
 
       {countryUsers &&
         countryUsers.map((data) => (
-          <Box key={data.Country} marginBottom={"12px"}>
+          <Box key={data.country_name} marginBottom="12px">
             <Stack>
-              <RowStack justifyContent={"space-between"} marginBottom={"10px"}>
+              <RowStack justifyContent="space-between" marginBottom="10px">
                 <Typography
                   sx={{
                     fontSize: pxToRem(14),
                     fontWeight: 500,
-                    color: "#1E2025",
                     lineHeight: "18px",
                   }}
                 >
-                  {data.Country}
+                  {data.country_name}
                 </Typography>
 
                 <Typography
                   sx={{
                     fontSize: pxToRem(14),
                     fontWeight: 500,
-                    color: "#61656C",
                     lineHeight: "18px",
                   }}
                 >
-                  {data.Users}
+                  {data.visitor_count}
                 </Typography>
               </RowStack>
-              <StyledImage
-                src={countryImageMap[data.Country as keyof typeof countryImageMap]}
-                alt={data.Country}
-              />
+
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "10px",
+                  overflow: "hidden",
+                  borderRadius: "8px",
+                  backgroundColor: "#D9D9D9",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: `${data.visitor_count}%`,
+                    height: "100%",
+                    bgcolor: "#AAB0EA",
+                    transition: "width 0.3s ease-in-out",
+                  }}
+                />
+              </Box>
             </Stack>
           </Box>
         ))}
-      <Button
-        sx={{
-          border: "1px solid #000",
-          borderRadius: "8px",
-          padding: "8px 16px",
-          position: "absolute",
-          right: 0,
-          marginTop: "24px"
-        }}
-      >
-        <Typography
+
+      <RowStack justifyContent="center" width="100%" marginTop="55px">
+        <RowStack
+          spacing="12px"
           sx={{
-            color: "#475367",
-            fontSize: pxToRem(14),
-            fontWeight: 400,
+            border: "1px solid #D4D4D8",
+            borderRadius: "5px",
+            padding: "8px 16px",
+            marginTop: "24px",
+            cursor: "pointer",
           }}
+          onClick={handleOpenDropdown}
         >
-          View Country
-        </Typography>
-      </Button>
+          <StyledImage
+            src={exportIcon}
+            alt="export"
+            sx={{
+              width: "20px",
+              height: "20px",
+              objectFit: "cover",
+              marginLeft: "10px",
+            }}
+          />
+
+          <Typography
+            sx={{
+              fontSize: pxToRem(14),
+              fontWeight: 400,
+            }}
+          >
+            Export
+          </Typography>
+
+          <StyledImage
+            src={dropdownIcon}
+            alt="dropdown"
+            sx={{
+              width: "20px",
+              height: "20px",
+              marginLeft: "10px",
+              transform: "rotate(180deg)",
+              transition: "opacity 0.3s ease-in-out",
+            }}
+          />
+        </RowStack>
+      </RowStack>
+
+      <AppDropdownMenu
+        open={isOpen}
+        anchorEl={anchorEl}
+        onClose={handleCloseDropdown}
+        options={options}
+        onOptionSelected={(option) => {
+          setSelectedOption(option);
+          handleCloseDropdown();
+          handleExport(option);
+        }}
+      />
     </Box>
   );
 };

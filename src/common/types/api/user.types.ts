@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export type ApiVerifyEmailPayload = {
   email: string;
 };
@@ -35,9 +37,8 @@ export type ApiLoginData = {
   };
 };
 
-export interface blockChainImgs {
-  Scroll: string;
-  Ethereum: string;
-  "BNB COIN": string;
-  Fanthom: string;
+export interface UserInfo {
+  name: string;
+  imageUrl: StaticImageData | string;
+  email: string;
 }
