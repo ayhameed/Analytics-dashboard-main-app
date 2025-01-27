@@ -42,7 +42,11 @@ export const UserSearchHistory = () => {
       try {
         const { success, data } = await getUserSearchHistory(userId);
         if (success && data) {
-          setSearchHistory(data);
+          // Remove duplicates based on `search_term`
+          const uniqueData = Array.from(
+            new Map(data.map((item) => [item.search_term.toLowerCase(), item])).values(),
+          );
+          setSearchHistory(uniqueData);
         } else {
           setError("Failed to load search history");
         }
@@ -73,7 +77,7 @@ export const UserSearchHistory = () => {
   }
 
   return (
-    <Box sx={{margin: {xs: "20px", md: 0}}}>
+    <Box sx={{ margin: { xs: "20px", md: 0 } }}>
       <Typography
         sx={{
           color: (theme) => theme.userPage.searchHistory.text.primary,

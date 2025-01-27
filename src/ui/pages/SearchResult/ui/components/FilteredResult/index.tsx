@@ -4,21 +4,30 @@ import { Box, Stack, Typography } from "@mui/material";
 import { pxToRem, RowStack, StyledImage } from "@web-insight/component-library";
 import starIcon from "@/ui/assets/icons/star.svg";
 import supplyIcon from "@/ui/assets/icons/shellfish.svg";
-import { ApiBlockchainData, useApplicationTheme, useAuth, useCryptoApi, useSearch } from "@/common";
+import {
+  ApiBlockchainData,
+  getUserInfo,
+  useApplicationTheme,
+  useCryptoApi,
+  useSearch,
+} from "@/common";
 import { useRouter, useSearchParams } from "next/navigation";
 import { LinkSignIn } from "../LinkSignIn";
 import supplyDarkIcon from "@/ui/pages/Blockchain/ui/components/BlockchainCurrencies/ui/assets/icons/shell_fish_dark.svg";
 import starDarkIcon from "@/ui/pages/Blockchain/ui/components/BlockchainCurrencies/ui/assets/icons/star_dark.svg";
 
 export const FilteredResult: React.FC = () => {
+  const storedUserInfo = getUserInfo();
+
   const router = useRouter();
   const { searchToken } = useCryptoApi();
-  const { isSignedIn } = useAuth();
   const { isDarkMode } = useApplicationTheme();
 
   const { searchTerm, setSearchTerm } = useSearch();
   const [filteredData, setFilteredData] = useState<ApiBlockchainData[]>([]);
   const searchParams = useSearchParams();
+
+  const name = storedUserInfo.name;
 
   const handleTokenClick = (tokenId: string | number) => {
     router.push(`/blockchain/${tokenId}`);
@@ -36,23 +45,28 @@ export const FilteredResult: React.FC = () => {
 
     const fetchData = async () => {
       const data = await searchToken(lowerTerm);
+      console.log(data);
       if (data) {
+        // Remove duplicates based on the 'name' property
+        const uniqueData = Array.from(
+          new Map(data.map((item) => [item.name.toLowerCase(), item])).values(),
+        );
+
         // If the user is signed in, show all data without opacity or limit
-        const adjustedData = isSignedIn
-          ? data // @ts-ignore
-          : data.slice(0, 2).length < 2
-            ? // @ts-ignore
-              [...data, ...data]
-            : // @ts-ignore
-              data.slice(0, 2);
+        const adjustedData = name
+          ? uniqueData
+          : uniqueData.slice(0, 2).length < 2
+            ? [...uniqueData, ...uniqueData]
+            : uniqueData.slice(0, 2);
+
         setFilteredData(adjustedData);
       }
     };
 
     fetchData();
-  }, [searchTerm, isSignedIn, searchToken]);
+  }, [searchTerm, searchToken, name]);
 
-  //to capitalize the first letter
+  // Function to capitalize the first letter
   const capitalizeFirstLetter = (string: string) => {
     if (!string) return "";
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -94,7 +108,7 @@ export const FilteredResult: React.FC = () => {
                   cursor: "pointer",
                   border: (theme) => `1px solid ${theme.dashboard.blockchain.border}`,
                   marginBottom: "20px",
-                  opacity: isSignedIn ? 1 : index === 1 ? 0.3 : index === 2 ? 0.1 : 1,
+                  opacity: name ? 1 : index === 1 ? 0.3 : index === 2 ? 0.1 : 1,
                   transition: "opacity 0.3s ease",
                 }}
               >
@@ -182,7 +196,7 @@ export const FilteredResult: React.FC = () => {
         )}
       </Box>
 
-      {!isSignedIn && filteredData.length > 0 && <LinkSignIn />}
+      {!name && filteredData.length > 0 && <LinkSignIn />}
     </Box>
   );
 };

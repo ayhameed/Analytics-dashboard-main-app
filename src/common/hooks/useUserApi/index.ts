@@ -199,6 +199,7 @@ export const useUserApi = () => {
               path: "/",
             },
           );
+          toast.success("Login successfully");
         } else {
           toast.error("Invalid Email or password");
         }
@@ -260,46 +261,52 @@ export const useUserApi = () => {
     return loginSuccess;
   };
 
-  const getUserSearchHistory = async (id: string) => {
+  const getUserSearchHistory = async (
+    id: string,
+  ): Promise<{ success: boolean; data: UserSearchHistory[] | null }> => {
     let success = false;
     let data: UserSearchHistory[] | null = null;
 
     await tryExecute(
       () => api.get<ApiResponse<SearchHistoryResponse>>(`/admin/users/${id}/search-history`),
       async (response) => {
-        if (response.status === 200) {
+        if (response.status === 200 && response.data.data) {
           data = response.data.data.user_search_history;
-          console.log(data);
           success = true;
         } else {
           toast.error("Failed to get search history");
         }
       },
       async () => {
-        toast.error("An error occurred");
+        toast.error("An error occurred while fetching search history");
       },
     );
 
     return { success, data };
   };
 
-  /**
-   * Fetch user search insights from the API
-   */
-  const getUserSearchInsights = async (): Promise<Array<{
+  interface UserSearchInsight {
     user_data: { id: number; name: string; created_at: string };
     search_count: number;
-  }> | null> => {
-    let searchData: Array<{
-      user_data: { id: number; name: string; created_at: string };
-      search_count: number;
-    }> | null = null;
+  }
+
+  const getUserSearchInsights = async (): Promise<UserSearchInsight[] | null> => {
+    let searchData: UserSearchInsight[] | null = null;
 
     await tryExecute(
-      () => api.get<ApiResponse<{ search_data: typeof searchData }>>("admin/users/search-insights"),
+      () =>
+        api.get<ApiResponse<{ search_data: UserSearchInsight[] }>>("admin/users/search-insights"),
       async (response) => {
-        if (response.status === 200) {
-          searchData = response.data.data.search_data;
+        if (response.status === 200 && response.data.data) {
+          // Ensure no duplicates by name
+          searchData = Array.from(
+            new Map(
+              response.data.data.search_data.map((item) => [
+                item.user_data.name.toLowerCase(),
+                item,
+              ]),
+            ).values(),
+          );
         } else {
           toast.error("Failed to fetch user search insights");
         }

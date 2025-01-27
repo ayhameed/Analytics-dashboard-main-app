@@ -1,4 +1,11 @@
-import { ApiResponse, ApiTopTokenData, getAccessToken, tryExecute, useApi } from "@/common";
+import {
+  ApiBlockchainData,
+  ApiResponse,
+  ApiTopTokenData,
+  getAccessToken,
+  tryExecute,
+  useApi,
+} from "@/common";
 import { toast } from "react-toastify";
 
 interface TokenDetailsData {
@@ -73,16 +80,22 @@ export const useCryptoApi = () => {
     );
   };
 
-  const searchToken = async (searchTerm: string): Promise<ApiTopTokenData | null> => {
+  /**
+   * Searches for tokens and ensures proper typing
+   * @param searchTerm - The term to search for tokens
+   * @returns Promise<ApiBlockchainData[]> | null
+   */
+  const searchToken = async (searchTerm: string): Promise<ApiBlockchainData[] | null> => {
     const token = getAccessToken();
     return tryExecute(
       () =>
-        api.get<ApiResponse<ApiTopTokenData>>(`tokens/search?name=${searchTerm}`, {
+        api.get<ApiResponse<ApiBlockchainData[]>>(`tokens/search?name=${searchTerm}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       async (response) => {
         if (response.data.status_code === 200) {
-          return response.data.data;
+          // Ensure response is cast to the correct type
+          return response.data.data as ApiBlockchainData[];
         }
         toast.error(response.data.message);
         return null;

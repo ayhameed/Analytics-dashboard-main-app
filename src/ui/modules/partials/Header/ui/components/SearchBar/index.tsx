@@ -33,12 +33,12 @@ export const SearchBar = () => {
         }
       }}
       sx={{
-        position: {xs:"absolute", md: "static"},
-        top: {xs:"90px", md: "auto"},
-        left: {xs:"50%", md: "auto"},
-        transform:{xs: "translate(-50%, 0)", md: "translate(0, 0)"},
-        width: {xs:"50%", md: "100%"},
-        flex: {xs: 0 ,md: "0 0 45%"},
+        position: { xs: "absolute", md: "static" },
+        top: { xs: "90px", md: "auto" },
+        left: { xs: "50%", md: "auto" },
+        transform: { xs: "translate(-50%, 0)", md: "translate(0, 0)" },
+        width: { xs: "50%", md: "100%" },
+        flex: { xs: 0, md: "0 0 45%" },
         padding: "8px 12px 11px 16px",
         borderRadius: "12px",
         border: (theme) => `1px solid ${theme.navBar.search.border}`,
